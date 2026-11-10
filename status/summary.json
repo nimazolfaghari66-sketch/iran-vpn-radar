@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-10T11:43:11Z",
+  "generated_at": "2026-11-10T12:35:39Z",
   "repository": "nimazolfaghari66-sketch/iran-vpn-radar",
   "protocols": [
     "vless",
@@ -13,7 +13,7 @@
   ],
   "sources_total": 335,
   "configs": {
-    "total": 32667,
+    "total": 32717,
     "working": 0,
     "degraded": 0,
     "pending_iran_test": 60,
@@ -23,7 +23,7 @@
         "publishable": 0
       },
       "vmess": {
-        "total": 6336,
+        "total": 6367,
         "publishable": 0
       },
       "trojan": {
@@ -31,19 +31,19 @@
         "publishable": 0
       },
       "vless": {
-        "total": 14301,
+        "total": 14200,
         "publishable": 0
       },
       "shadowsocks": {
-        "total": 5490,
+        "total": 5611,
         "publishable": 0
       },
       "hysteria2": {
-        "total": 537,
+        "total": 538,
         "publishable": 0
       },
       "socks": {
-        "total": 10,
+        "total": 8,
         "publishable": 0
       },
       "tuic": {
@@ -54,13 +54,13 @@
   },
   "candidates": {
     "available": true,
-    "total": 61,
-    "iran_reachable": 2,
+    "total": 159,
+    "iran_reachable": 81,
     "by_protocol": {
-      "shadowsocks": 11,
-      "vmess": 1,
-      "trojan": 47,
-      "socks": 1,
+      "shadowsocks": 14,
+      "trojan": 72,
+      "vless": 70,
+      "socks": 2,
       "hysteria2": 1
     },
     "note": "Configurations whose tunnel was verified from this engine host (NOT Iran). Ranked by Iranian reachability evidence; published only to the candidate pool, never to the Iran-verified files."
@@ -70,59 +70,60 @@
     "verified_configs": 0,
     "last_verified_test": null
   },
-  "last_publish_ok": null,
+  "last_publish_ok": true,
   "cycle": {
-    "configs_added": 806,
+    "configs_added": 155,
     "configs_removed": 0
   },
   "checkhost": {
     "available": true,
     "configs_tested": 12,
     "by_summary": {
-      "IRAN_TCP_REACHABLE": 5,
+      "IRAN_TCP_REACHABLE": 4,
       "IRAN_UNREACHABLE": 6,
-      "IRAN_DNS_OK": 1
+      "IRAN_DNS_OK": 2
     },
     "by_city": {
       "Isfahan": {
-        "reachable": 5,
-        "unreachable": 7
+        "reachable": 4,
+        "unreachable": 4
       },
       "Qom": {
         "reachable": 6,
-        "unreachable": 6
+        "unreachable": 2
       },
       "Shiraz": {
-        "reachable": 5,
-        "unreachable": 7
+        "reachable": 4,
+        "unreachable": 4
       },
       "Tehran": {
-        "reachable": 5,
-        "unreachable": 7
+        "reachable": 4,
+        "unreachable": 4
       }
     },
     "note": "Iranian Check-Host nodes measure reachability from Iran only. These results are diagnostic and never used to publish a configuration."
   },
   "globalping": {
     "available": true,
-    "probes": 7,
-    "configs_tested": 13,
-    "tls_verified": 2,
+    "probes": 9,
+    "configs_tested": 90,
+    "tls_verified": 67,
     "by_summary": {
-      "IRAN_HTTP_REACHABLE": 3,
+      "IRAN_HTTP_REACHABLE": 58,
       "IRAN_UNREACHABLE": 1,
-      "IRAN_DNS_OK": 4,
+      "IRAN_DNS_OK": 10,
+      "IRAN_TCP_REACHABLE": 9,
       "IRAN_ICMP_REACHABLE": 2,
-      "IRAN_TCP_REACHABLE": 3
+      "IRAN_TLS_OK": 10
     },
     "by_city": {
       "Tabriz": {
-        "reachable": 11,
-        "unreachable": 0
+        "reachable": 84,
+        "unreachable": 1
       },
       "Tehran": {
-        "reachable": 11,
-        "unreachable": 1
+        "reachable": 89,
+        "unreachable": 0
       }
     },
     "note": "Iranian Globalping probes observe DNS/TCP/TLS reachability from Iran. Diagnostic only; never used to publish a configuration."
