@@ -88,8 +88,12 @@ jobs:
           IRAN_RADAR_GLOBALPING_LIMIT: ${{ vars.IRAN_RADAR_GLOBALPING_LIMIT || '2' }}
           # Global real-tunnel verification (NOT Iranian). Runs sing-box on the
           # runner and publishes passing configs to the candidate pool only.
+          # At least 200 real tunnel tests per cycle; extra batches accumulate
+          # until each protocol reaches its healthy target.
           IRAN_RADAR_TUNNEL_VERIFY: ${{ vars.IRAN_RADAR_TUNNEL_VERIFY || '1' }}
-          IRAN_RADAR_TUNNEL_BATCH: ${{ vars.IRAN_RADAR_TUNNEL_BATCH || '800' }}
+          IRAN_RADAR_TUNNEL_BATCH: ${{ vars.IRAN_RADAR_TUNNEL_BATCH || '200' }}
+          IRAN_RADAR_TUNNEL_MAX_BATCH: ${{ vars.IRAN_RADAR_TUNNEL_MAX_BATCH || '800' }}
+          IRAN_RADAR_TUNNEL_TIME_BUDGET_S: ${{ vars.IRAN_RADAR_TUNNEL_TIME_BUDGET_S || '2400' }}
           IRAN_RADAR_TUNNEL_WORKERS: ${{ vars.IRAN_RADAR_TUNNEL_WORKERS || '16' }}
         run: |
           if [ "${{ github.event.inputs.no_publish }}" = "true" ]; then

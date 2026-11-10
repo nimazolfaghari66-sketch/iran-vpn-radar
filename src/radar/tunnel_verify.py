@@ -22,6 +22,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
+import time
 from typing import Any
 
 from . import config as cfg
@@ -140,10 +141,10 @@ def select_candidates(configs: dict[str, Config], max_batch: int, iran_index: di
     and already published in the Iran-verified files.
     """
     iran_index = iran_index or {}
+    shortage = _protocols_below_target(configs)
     iran_reachable: list[Config] = []
     fresh: list[Config] = []
     retest: list[Config] = []
-    seen_proto: set[str] = set()
 
     for conf in configs.values():
         if conf.status == cfg.DUPLICATE or not conf.port or conf.status == cfg.WORKING:
@@ -158,33 +159,53 @@ def select_candidates(configs: dict[str, Config], max_batch: int, iran_index: di
             fresh.append(conf)
 
     def _rank(conf: Config) -> tuple:
-        # IPv4/domain first; keep deterministic ordering so cycles are stable.
-        return (conf.host_kind, conf.protocol, conf.host, conf.port or 0, conf.fingerprint)
+        # Deterministic order so cycles are stable.
+        return (conf.host_kind, conf.host, conf.port or 0, conf.fingerprint)
 
     iran_reachable.sort(key=_rank)
     fresh.sort(key=_rank)
     retest.sort(key=lambda c: getattr(c, "tunnel_verified_at", None) or c.last_tunnel_test_at or c.discovered_at or "")
 
+    def _interleave(pool: list[Config], cap: int) -> list[Config]:
+        """Round-robin across protocols, most-short protocol first.
+
+        This guarantees a single batch samples every protocol still below
+        target instead of exhausting one protocol's list.
+        """
+        buckets: dict[str, list[Config]] = {}
+        for conf in pool:
+            buckets.setdefault(conf.protocol, []).append(conf)
+        # Biggest shortage first, then protocol name for determinism.
+        order = sorted(buckets, key=lambda p: (-shortage.get(p, 0), p))
+        out: list[Config] = []
+        idx = {p: 0 for p in order}
+        while len(out) < cap:
+            progressed = False
+            for p in order:
+                if len(out) >= cap:
+                    break
+                i = idx[p]
+                if i < len(buckets[p]):
+                    out.append(buckets[p][i])
+                    idx[p] = i + 1
+                    progressed = True
+            if not progressed:
+                break
+        return out
+
     selected: list[Config] = []
-    # 1. Iran-reachable first.
-    selected.extend(iran_reachable[:max_batch])
-    # 2. Then protocol-diverse fresh configs.
+    # 1. Iran-reachable first (highest hit rate), interleaved across protocols.
+    selected.extend(_interleave(iran_reachable, max_batch))
+    # 2. Then other fresh configs, interleaved across protocols.
     if len(selected) < max_batch:
-        for conf in fresh:
-            if len(selected) >= max_batch:
-                break
-            if conf.protocol in seen_proto and len(selected) < max_batch // 2:
-                continue
-            selected.append(conf)
-            seen_proto.add(conf.protocol)
-        for conf in fresh:
-            if len(selected) >= max_batch:
-                break
-            if conf not in selected:
-                selected.append(conf)
+        chosen = {c.fingerprint for c in selected}
+        rest = [c for c in _interleave(fresh, max_batch * 2) if c.fingerprint not in chosen]
+        selected.extend(rest[: max_batch - len(selected)])
     # 3. Then re-validation of previously tested configs.
     if len(selected) < max_batch:
-        selected.extend(retest[: max_batch - len(selected)])
+        chosen = {c.fingerprint for c in selected}
+        rest = [c for c in retest if c.fingerprint not in chosen]
+        selected.extend(rest[: max_batch - len(selected)])
     return selected
 
 
@@ -206,6 +227,177 @@ def _apply_tunnel_result(conf: Config, success: bool, record: TunnelRecord) -> N
         # consecutive failures do (mirrors the Iran failure policy).
         if conf.tunnel_consecutive_failures >= 2 or conf.tunnel_status != TUNNEL_VERIFIED:
             conf.tunnel_status = TUNNEL_FAILED
+
+
+def run_tunnel_rounds(
+    configs: dict[str, Config],
+    settings,
+    store,
+    min_batch: int | None = None,
+    max_batch: int | None = None,
+    time_budget_s: float | None = None,
+) -> dict[str, Any]:
+    """Run real tunnel tests, accumulating successes across rounds.
+
+    The 200-test batch is a **minimum**, not a maximum. Each round:
+
+    1. selects fresh (never-tunnel-tested) configurations, prioritising the
+       protocols still below ``cfg.TARGET_PER_PROTOCOL``;
+    2. runs real sing-box tunnel tests;
+    3. **accumulates** every success into the healthy pool (never replaces a
+       previously verified configuration with a new batch).
+
+    Additional rounds keep running until every protocol has reached the target,
+    or no untested configurations remain, or the time budget is exhausted —
+    whichever comes first. Partial progress is always persisted, so the next
+    cycle continues where this one stopped.
+
+    Returns an aggregate summary (safe for the public status file).
+    """
+    min_batch = int(min_batch if min_batch is not None else getattr(settings, "tunnel_batch", 40))
+    min_batch = max(min_batch, cfg.MIN_TUNNEL_BATCH)
+    max_batch = int(max_batch if max_batch is not None else getattr(settings, "tunnel_max_batch", min_batch))
+    max_batch = max(max_batch, min_batch)
+    if time_budget_s is None:
+        time_budget_s = float(getattr(settings, "tunnel_time_budget_s", 1800.0))
+
+    started = time.monotonic()
+    result: dict[str, Any] = {
+        "enabled": bool(getattr(settings, "tunnel_enabled", False)),
+        "available": False,
+        "client": None,
+        "rounds": 0,
+        "tested": 0,
+        "passed": 0,
+        "failed": 0,
+        "batch_min": min_batch,
+        "time_budget_s": time_budget_s,
+        "stop_reason": None,
+        "error": None,
+        "note": None,
+    }
+    if not result["enabled"]:
+        result["note"] = "global tunnel verification disabled"
+        return result
+
+    from .local_probe import find_client
+
+    client = find_client()
+    if client is None:
+        result["note"] = (
+            "no VPN client binary installed (sing-box/xray/v2ray); "
+            "global tunnel verification cannot run"
+        )
+        log.warning("tunnel verification skipped: no client binary")
+        return result
+    result["available"] = True
+    result["client"] = client[0]
+
+    while True:
+        remaining = max_batch - result["tested"]
+        if remaining <= 0:
+            result["stop_reason"] = "max_batch_reached"
+            break
+        # Always allow at least the minimum batch, then respect the time budget.
+        need_min = result["tested"] < min_batch
+        if not need_min and (time.monotonic() - started) >= time_budget_s:
+            result["stop_reason"] = "time_budget_reached"
+            break
+
+        round_batch = min(remaining, max(min_batch - result["tested"], 1) if need_min else remaining)
+        round_batch = min(round_batch, remaining)
+        round_result = run_tunnel_round(configs, settings, store, max_batch=round_batch)
+        result["rounds"] += 1
+        result["tested"] += round_result.get("tested", 0)
+        result["passed"] += round_result.get("passed", 0)
+        result["failed"] += round_result.get("failed", 0)
+
+        if round_result.get("tested", 0) == 0:
+            result["stop_reason"] = "no_untested_configs_left"
+            break
+
+        # Stop early only when every protocol has reached the target.
+        if not _protocols_below_target(configs):
+            result["stop_reason"] = "targets_reached"
+            break
+
+    if result["stop_reason"] is None:
+        result["stop_reason"] = "completed"
+    result["healthy_by_protocol"] = healthy_counts(configs)
+    result["dashboard"] = build_dashboard(configs)
+    log.info(
+        "tunnel rounds complete",
+        extra={"context": {"rounds": result["rounds"], "tested": result["tested"], "passed": result["passed"], "stop": result["stop_reason"]}},
+    )
+    return result
+
+
+def healthy_counts(configs: dict[str, Config]) -> dict[str, int]:
+    """Count genuinely working (tunnel-verified) configs per protocol."""
+    counts = {proto: 0 for proto in cfg.PROTOCOLS}
+    for conf in configs.values():
+        if getattr(conf, "tunnel_status", None) == TUNNEL_VERIFIED and conf.status != cfg.DUPLICATE:
+            counts[conf.protocol] = counts.get(conf.protocol, 0) + 1
+    return counts
+
+
+def _protocols_below_target(configs: dict[str, Config]) -> dict[str, int]:
+    """Protocols with fewer healthy configs than the target (shortage > 0)."""
+    counts = healthy_counts(configs)
+    return {p: cfg.TARGET_PER_PROTOCOL - counts.get(p, 0) for p in cfg.PROTOCOLS if counts.get(p, 0) < cfg.TARGET_PER_PROTOCOL}
+
+
+def build_dashboard(configs: dict[str, Config]) -> list[dict[str, Any]]:
+    """Per-protocol dashboard: discovered, tested, successful, healthy, target,
+    shortage, iran-priority count and the public subscription URL."""
+    healthy = healthy_counts(configs)
+    priority = {proto: 0 for proto in cfg.PROTOCOLS}
+    for conf in iran_priority_configs(configs):
+        priority[conf.protocol] = priority.get(conf.protocol, 0) + 1
+
+    per_proto_total: dict[str, int] = {p: 0 for p in cfg.PROTOCOLS}
+    per_proto_tested: dict[str, int] = {p: 0 for p in cfg.PROTOCOLS}
+    per_proto_passed: dict[str, int] = {p: 0 for p in cfg.PROTOCOLS}
+    for conf in configs.values():
+        p = conf.protocol
+        per_proto_total[p] = per_proto_total.get(p, 0) + 1
+        if getattr(conf, "tunnel_test_count", 0):
+            per_proto_tested[p] = per_proto_tested.get(p, 0) + 1
+        if getattr(conf, "tunnel_status", None) == TUNNEL_VERIFIED:
+            per_proto_passed[p] = per_proto_passed.get(p, 0) + 1
+
+    rows: list[dict[str, Any]] = []
+    for proto in cfg.PROTOCOLS:
+        h = healthy.get(proto, 0)
+        rows.append(
+            {
+                "protocol": proto,
+                "discovered": per_proto_total.get(proto, 0),
+                "tested": per_proto_tested.get(proto, 0),
+                "successful": per_proto_passed.get(proto, 0),
+                "healthy": h,
+                "target": cfg.TARGET_PER_PROTOCOL,
+                "shortage": max(0, cfg.TARGET_PER_PROTOCOL - h),
+                "iran_priority": priority.get(proto, 0),
+                "subscription": f"subscriptions/candidates/{proto}",
+                "iran_priority_subscription": f"subscriptions/iran-priority/{proto}",
+            }
+        )
+    return rows
+
+
+def dashboard_maps(configs: dict[str, Config]) -> dict[str, dict[str, int]]:
+    """Flat per-protocol maps (directly addressable from the public summary).
+
+    These feed the README's dynamic badges, so every number shown there is the
+    latest published value rather than a hand-copied figure.
+    """
+    rows = build_dashboard(configs)
+    keys = ("discovered", "tested", "successful", "healthy", "target", "shortage", "iran_priority")
+    return {
+        key: {row["protocol"]: row[key] for row in rows}
+        for key in keys
+    }
 
 
 def run_tunnel_round(configs: dict[str, Config], settings, store, max_batch: int = 40) -> dict[str, Any]:

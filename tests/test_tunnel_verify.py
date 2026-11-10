@@ -177,5 +177,95 @@ class TestIranPriorityTier(unittest.TestCase):
         self.assertEqual(base64.b64decode(gen.b64_content).decode(), gen.content)
 
 
+class TestHealthyPoolTargets(unittest.TestCase):
+    def _verified(self, uri, proto_port=443):
+        conf = _conf(uri)
+        conf.port = conf.port or proto_port
+        rec = tunnel_verify.TunnelRecord(conf.fingerprint, conf.protocol, conf.endpoint, True, grade="A")
+        tunnel_verify._apply_tunnel_result(conf, True, rec)
+        return conf
+
+    def test_targets_are_per_protocol_not_combined(self):
+        configs = {}
+        for i in range(3):
+            c = self._verified(f"vless://u{i}@v{i}.com:443?security=tls#a")
+            configs[c.fingerprint] = c
+        for i in range(2):
+            c = self._verified(f"trojan://p{i}@t{i}.com:443?security=tls#b")
+            configs[c.fingerprint] = c
+        healthy = tunnel_verify.healthy_counts(configs)
+        self.assertEqual(healthy["vless"], 3)
+        self.assertEqual(healthy["trojan"], 2)
+        # vmess is untouched by the combined 5 — never counted as progress.
+        self.assertEqual(healthy["vmess"], 0)
+        self.assertEqual(healthy["vmess"], 0)
+
+    def test_shortage_lists_only_below_target_protocols(self):
+        configs = {}
+        for i in range(cfg.TARGET_PER_PROTOCOL):
+            c = self._verified(f"vless://u{i}@v{i}.com:443?security=tls#a")
+            configs[c.fingerprint] = c
+        shortage = tunnel_verify._protocols_below_target(configs)
+        self.assertNotIn("vless", shortage)
+        self.assertEqual(shortage["vmess"], cfg.TARGET_PER_PROTOCOL)
+
+    def test_dashboard_reports_all_required_fields(self):
+        configs = {}
+        c = self._verified("vless://u1@a.com:443?security=tls#a")
+        c.iran_reachability = "IRAN_TLS_OK"
+        configs[c.fingerprint] = c
+        rows = {r["protocol"]: r for r in tunnel_verify.build_dashboard(configs)}
+        self.assertEqual(set(rows), set(cfg.PROTOCOLS))
+        row = rows["vless"]
+        for key in ("discovered", "tested", "successful", "healthy", "target", "shortage", "iran_priority", "subscription"):
+            self.assertIn(key, row)
+        self.assertEqual(row["target"], cfg.TARGET_PER_PROTOCOL)
+        self.assertEqual(row["healthy"], 1)
+        self.assertEqual(row["shortage"], cfg.TARGET_PER_PROTOCOL - 1)
+        self.assertEqual(row["iran_priority"], 1)
+        self.assertEqual(row["subscription"], "subscriptions/candidates/vless")
+
+    def test_rounds_accumulate_and_never_replace(self):
+        """Successes accumulate across rounds; a later batch never drops an
+        earlier success."""
+        from radar import storage
+
+        settings = cfg.load_settings(None, tunnel_enabled=True, tunnel_batch=cfg.MIN_TUNNEL_BATCH, tunnel_max_batch=4, dry_run=True)
+        with tempfile.TemporaryDirectory() as td:
+            store = storage.Store(Path(td))
+            configs = {}
+            for i in range(3):
+                c = _conf(f"vless://u{i}@v{i}.com:443?security=tls#a")
+                c.port = 443
+                configs[c.fingerprint] = c
+            # Patch the low-level round to mark every selected config verified.
+            def fake_round(cfgs, st, st_, max_batch=40):
+                n = 0
+                for conf in tunnel_verify.select_candidates(cfgs, max_batch):
+                    rec = tunnel_verify.TunnelRecord(conf.fingerprint, conf.protocol, conf.endpoint, True, grade="A")
+                    tunnel_verify._apply_tunnel_result(conf, True, rec)
+                    n += 1
+                return {"tested": n, "passed": n, "failed": 0}
+            orig = tunnel_verify.run_tunnel_round
+            tunnel_verify.run_tunnel_round = fake_round
+            try:
+                res = tunnel_verify.run_tunnel_rounds(configs, settings, store, min_batch=cfg.MIN_TUNNEL_BATCH, max_batch=4)
+            finally:
+                tunnel_verify.run_tunnel_round = orig
+            self.assertGreaterEqual(res["tested"], 1)
+            self.assertEqual(res["passed"], res["tested"])
+            self.assertEqual(res["healthy_by_protocol"]["vless"], 3)
+
+    def test_min_batch_is_never_below_200(self):
+        settings = cfg.load_settings(None, tunnel_enabled=True, dry_run=True)
+        with tempfile.TemporaryDirectory() as td:
+            from radar import storage
+
+            store = storage.Store(Path(td))
+            # No client binary -> unavailable, but the requested minimum must be recorded.
+            res = tunnel_verify.run_tunnel_rounds({}, settings, store, min_batch=5)
+            self.assertGreaterEqual(res["batch_min"], cfg.MIN_TUNNEL_BATCH)
+
+
 if __name__ == "__main__":
     unittest.main()

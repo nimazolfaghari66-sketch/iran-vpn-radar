@@ -76,6 +76,9 @@ def _tunnel_aggregate(settings, configs: dict) -> dict[str, Any]:
         cand = tunnel_verify.summarize_candidates(configs)
         priority = tunnel_verify.summarize_priority(configs)
         evidence = tunnel_verify.evidence_distribution(configs)
+        dashboard = tunnel_verify.build_dashboard(configs)
+        healthy = tunnel_verify.healthy_counts(configs)
+        maps = tunnel_verify.dashboard_maps(configs)
     except Exception:
         return {"available": False}
     return {
@@ -86,6 +89,18 @@ def _tunnel_aggregate(settings, configs: dict) -> dict[str, Any]:
         "priority": priority.get("total", 0),
         "priority_by_protocol": priority.get("by_protocol", {}),
         "evidence": evidence,
+        "target_per_protocol": cfg.TARGET_PER_PROTOCOL,
+        "healthy_by_protocol": healthy,
+        "dashboard": dashboard,
+        "healthy": maps["healthy"],
+        "discovered_by_protocol": maps["discovered"],
+        "tested_by_protocol": maps["tested"],
+        "successful_by_protocol": maps["successful"],
+        "shortage_by_protocol": maps["shortage"],
+        "priority_by_protocol_map": maps["iran_priority"],
+        "protocols_below_target": sorted(
+            p for p in cfg.PROTOCOLS if healthy.get(p, 0) < cfg.TARGET_PER_PROTOCOL
+        ),
         "note": (
             "Configurations whose tunnel was verified from this engine host (NOT Iran). "
             "Ranked by Iranian reachability evidence; published only to the candidate pool, "
@@ -210,6 +225,16 @@ def _public_tunnel(t: dict[str, Any]) -> dict[str, Any]:
         "priority": t.get("priority", 0),
         "priority_by_protocol": t.get("priority_by_protocol", {}),
         "evidence": t.get("evidence", {}),
+        "target_per_protocol": t.get("target_per_protocol", cfg.TARGET_PER_PROTOCOL),
+        "healthy_by_protocol": t.get("healthy_by_protocol", {}),
+        "dashboard": t.get("dashboard", []),
+        "healthy": t.get("healthy", {}),
+        "discovered_by_protocol": t.get("discovered_by_protocol", {}),
+        "tested_by_protocol": t.get("tested_by_protocol", {}),
+        "successful_by_protocol": t.get("successful_by_protocol", {}),
+        "shortage_by_protocol": t.get("shortage_by_protocol", {}),
+        "priority_by_protocol_map": t.get("priority_by_protocol_map", {}),
+        "protocols_below_target": t.get("protocols_below_target", []),
         "note": t.get("note"),
     }
 

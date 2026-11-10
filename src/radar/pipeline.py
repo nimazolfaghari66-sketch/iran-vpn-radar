@@ -251,9 +251,15 @@ def run_cycle(settings, store: Store | None = None, max_probe_batch: int = 60) -
         # --------------------------------------- 6c. Global tunnel verification
         # Real tunnel tests (sing-box) run from this host — which is NOT inside
         # Iran. Passing configurations go to the *candidate* pool only and are
-        # never promoted to the Iran-verified files.
-        stats.tunnel = tunnel_verify.run_tunnel_round(
-            configs, settings, store, max_batch=int(getattr(settings, "tunnel_batch", 40))
+        # never promoted to the Iran-verified files. Rounds accumulate until the
+        # per-protocol target is reached, no untested configs remain, or the time
+        # budget is exhausted.
+        stats.tunnel = tunnel_verify.run_tunnel_rounds(
+            configs,
+            settings,
+            store,
+            min_batch=int(getattr(settings, "tunnel_batch", cfg.MIN_TUNNEL_BATCH)),
+            max_batch=int(getattr(settings, "tunnel_max_batch", 800)),
         )
 
         # ------------------------------------------------ 6/7. Iran testing

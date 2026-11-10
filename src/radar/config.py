@@ -158,6 +158,15 @@ IRAN_PRIORITY_REACHABLE = (
     IRAN_UDP_REACHABLE,
 )
 
+# ------------------------------------------------------- healthy-pool targets
+# The project targets at least this many genuinely working (real-tunnel-verified)
+# configurations for EACH protocol, tracked separately. Protocol counts are
+# never summed to claim a target has been met.
+TARGET_PER_PROTOCOL = 100
+
+# A batch must run at least this many real tunnel tests before it may stop.
+MIN_TUNNEL_BATCH = 200
+
 # ---------------------------------------------------------------- Globalping
 # Globalping (globalping.io) is a free, public, volunteer-run measurement
 # network. It exposes probes on real Iranian ISP networks (Tehran, Tabriz —
@@ -256,6 +265,8 @@ class Settings:
 
     tunnel_enabled: bool
     tunnel_batch: int
+    tunnel_max_batch: int
+    tunnel_time_budget_s: float
     tunnel_download_bytes: int
     tunnel_stability_seconds: float
     tunnel_workers: int
@@ -381,7 +392,13 @@ def load_settings(root: Path | None = None, **overrides) -> Settings:
             "tunnel_enabled", _env_bool("IRAN_RADAR_TUNNEL_VERIFY", True)
         ),
         tunnel_batch=overrides.get(
-            "tunnel_batch", _env_int("IRAN_RADAR_TUNNEL_BATCH", 40)
+            "tunnel_batch", _env_int("IRAN_RADAR_TUNNEL_BATCH", 200)
+        ),
+        tunnel_max_batch=overrides.get(
+            "tunnel_max_batch", _env_int("IRAN_RADAR_TUNNEL_MAX_BATCH", 800)
+        ),
+        tunnel_time_budget_s=overrides.get(
+            "tunnel_time_budget_s", _env_float("IRAN_RADAR_TUNNEL_TIME_BUDGET_S", 2400.0)
         ),
         tunnel_download_bytes=overrides.get(
             "tunnel_download_bytes", _env_int("IRAN_RADAR_TUNNEL_DOWNLOAD_BYTES", 500_000)
