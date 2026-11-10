@@ -23,8 +23,8 @@
 
 | پروتکل | لینک اشتراک | تعداد فعال |
 |---|---|---|
-| **VLESS** | [https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vless](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vless) | 83 |
-| **VMess** | [https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vmess](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vmess) | 1 |
+| **VLESS** | [https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vless](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vless) | 89 |
+| **VMess** | [https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vmess](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vmess) | 2 |
 | **Trojan** | [https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/trojan](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/trojan) | 72 |
 | **Shadowsocks** | [https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/shadowsocks](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/shadowsocks) | 20 |
 | **Hysteria2** | [https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/hysteria2](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/hysteria2) | 0 |
@@ -34,7 +34,7 @@
 
 > نسخهٔ Base64 هر فایل با پسوند `.b64` در دسترس است. اگر کلاینت شما لینک Base64 می‌خواهد، از این نسخه استفاده کنید.
 
-> این لینک‌ها از ردهٔ «اولویت ایران» هستند: تونل واقعی برقرار شده و شواهد دسترسی از شبکهٔ ایران وجود دارد؛ از اینترنت ایران هم تایید شده اند
+> این لینک‌ها از ردهٔ «اولویت ایران» هستند: تونل واقعی برقرار شده و شواهد دسترسی از شبکهٔ ایران وجود دارد؛ اما از داخل ایران تأیید نشده‌اند.
 <!-- radar:subscriptions:end -->
 
 ### نحوهٔ استفاده
