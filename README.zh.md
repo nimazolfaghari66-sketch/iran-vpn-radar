@@ -42,6 +42,19 @@
 
 > ⚠️ **注意：** 只有通过伊朗境内真实测试的配置才会发布。在配置通过该测试之前，文件保持为空。我们绝不把未测试的配置标为「可用」。
 
+## 🧪 候选池（非伊朗验证）
+
+另有一个明确分开的候选池，其中的配置隧道由真实客户端（sing-box）实际建立——
+但来自我们的引擎主机，该主机**不在伊朗境内**。这些配置按顺序排列，
+伊朗探测点已观测到可访问的条目排在最前。
+
+* 全部候选： [`subscriptions/candidates/all`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/all)
+* 按协议： `subscriptions/candidates/vless`、`.../vmess`、`.../trojan`、
+  `.../shadowsocks`、`.../hysteria2`、`.../tuic`、`.../socks`、`.../http`
+
+> 这些**并非**伊朗验证。它们在伊朗境内可能被封锁。仅作为备用或起点使用。
+> 上面的文件（不带 `/candidates/`）才是伊朗验证文件。
+
 ## 📱 支持的客户端
 
 v2rayNG · v2rayN · sing-box · Hiddify / NekoBox · Clash / Clash.Meta

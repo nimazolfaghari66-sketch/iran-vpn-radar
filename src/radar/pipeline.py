@@ -39,6 +39,7 @@ from . import (
     publish as publish_mod,
     quality,
     report as report_mod,
+    tunnel_verify,
     validate,
 )
 from .iran_probe import IranTestReport, probe_health, run_iran_tests
@@ -65,6 +66,7 @@ class CycleStats:
     configs_publishable: int = 0
     checkhost: dict = field(default_factory=dict)
     globalping: dict = field(default_factory=dict)
+    tunnel: dict = field(default_factory=dict)
     iran: dict = field(default_factory=dict)
     generated: dict[str, int] = field(default_factory=dict)
     validation: dict = field(default_factory=dict)
@@ -91,6 +93,7 @@ class CycleStats:
             },
             "checkhost": self.checkhost,
             "globalping": self.globalping,
+            "tunnel": self.tunnel,
             "iran": self.iran,
             "generated": self.generated,
             "validation": self.validation,
@@ -245,6 +248,14 @@ def run_cycle(settings, store: Store | None = None, max_probe_batch: int = 60) -
         # TCP check, but still not a tunnel. It likewise never touches status.
         stats.globalping = globalping.run_globalping_round(configs, settings, store)
 
+        # --------------------------------------- 6c. Global tunnel verification
+        # Real tunnel tests (sing-box) run from this host — which is NOT inside
+        # Iran. Passing configurations go to the *candidate* pool only and are
+        # never promoted to the Iran-verified files.
+        stats.tunnel = tunnel_verify.run_tunnel_round(
+            configs, settings, store, max_batch=int(getattr(settings, "tunnel_batch", 40))
+        )
+
         # ------------------------------------------------ 6/7. Iran testing
         iran_report: IranTestReport = run_iran_tests(configs, settings, max_batch=max_probe_batch)
         stats.iran = iran_report.to_dict()
@@ -257,7 +268,9 @@ def run_cycle(settings, store: Store | None = None, max_probe_batch: int = 60) -
 
         # ------------------------------------------------- 10. generation
         generated_files = generate.build_files(configs, settings.sub_dir)
+        candidate_files = generate.build_candidate_files(configs, settings.sub_dir)
         stats.generated = {gen.name: gen.count for gen in generated_files}
+        stats.generated.update({gen.name: gen.count for gen in candidate_files})
         stats.configs_publishable = sum(1 for c in configs.values() if quality.is_publishable(c))
 
         # --------------------------------------------------- 11. validation
@@ -269,14 +282,24 @@ def run_cycle(settings, store: Store | None = None, max_probe_batch: int = 60) -
             _finalize(stats, started, store, settings, configs, sources, iran_report, None)
             return stats
 
+        # Candidate files are validated structurally only: they may legitimately
+        # start empty, and they must never block publication of the Iran files.
+        candidate_validation = validate.validate_files(candidate_files)
+        if not candidate_validation.ok:
+            stats.errors.append("candidate subscription files failed validation; dropping candidates this cycle")
+            log.error("candidate validation failed", extra={"context": candidate_validation.to_dict()})
+            candidate_files = []
+
         generate.write_files(generated_files)
+        if candidate_files:
+            generate.write_files(candidate_files)
         index_path = settings.status_dir / "subscriptions.json"
-        generate.write_index(generated_files, index_path, settings)
+        generate.write_index(generated_files + candidate_files, index_path, settings)
 
         # --------------------------------------------------- 12. publishing
         publish_result_dict = {"ok": None, "note": "publishing disabled"}
         if settings.publish_enabled and not settings.dry_run:
-            publish_result = _publish(settings, generated_files, index_path, stats, token)
+            publish_result = _publish(settings, generated_files, candidate_files, index_path, stats, token)
             publish_result_dict = publish_result.to_dict()
             publish_result_dict["published_at"] = iso(utcnow())
         elif settings.dry_run:
@@ -288,7 +311,7 @@ def run_cycle(settings, store: Store | None = None, max_probe_batch: int = 60) -
         return stats
 
 
-def _publish(settings, generated_files, index_path, stats: CycleStats, token: str | None):
+def _publish(settings, generated_files, candidate_files, index_path, stats: CycleStats, token: str | None):
     if not token:
         from .publish import PublishResult
 
@@ -299,6 +322,9 @@ def _publish(settings, generated_files, index_path, stats: CycleStats, token: st
     publisher = publish_mod.publisher_from_settings(settings, token=token)
     files: dict[str, str] = {}
     for gen in generated_files:
+        files[f"subscriptions/{gen.name}"] = gen.content
+        files[f"subscriptions/{gen.name}.b64"] = gen.b64_content + "\n"
+    for gen in candidate_files:
         files[f"subscriptions/{gen.name}"] = gen.content
         files[f"subscriptions/{gen.name}.b64"] = gen.b64_content + "\n"
 
@@ -322,14 +348,16 @@ def _publish(settings, generated_files, index_path, stats: CycleStats, token: st
 
     message = (
         f"chore(cycle): update subscriptions "
-        f"({stats.configs_publishable} active, +{stats.configs_added}/-{stats.configs_removed})"
+        f"({stats.configs_publishable} iran-verified, "
+        f"{stats.generated.get('candidates/all', 0)} candidates, "
+        f"+{stats.configs_added}/-{stats.configs_removed})"
     )
     result = publisher.publish_files(files, message=message, dry_run=False)
 
     if result.ok and result.changed:
         # Verify the raw URLs now serve the expected content.
-        for gen in generated_files:
-            if gen.name in ("all",):
+        for gen in list(generated_files) + list(candidate_files):
+            if gen.name in ("all", "candidates/all"):
                 continue
             result.verified_urls[gen.name] = publisher.verify_raw(gen.name, gen.content)
     return result

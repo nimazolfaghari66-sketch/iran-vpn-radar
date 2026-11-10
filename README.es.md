@@ -45,6 +45,21 @@ Copia un enlace y añádelo a tu cliente VPN. Eso es todo.
 > archivos permanecen vacíos. Nunca marcamos como funcional una configuración
 > sin probar.
 
+## 🧪 Grupo de candidatas (no verificado desde Irán)
+
+Un segundo grupo, claramente separado, contiene configuraciones cuyo túnel fue
+establecido realmente por un cliente real (sing-box) — pero desde nuestro host
+del motor, que **no está dentro de Irán**. Se ordenan de modo que las entradas
+que una sonda iraní ya observó como accesibles aparecen primero.
+
+* Todas las candidatas: [`subscriptions/candidates/all`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/all)
+* Por protocolo: `subscriptions/candidates/vless`, `.../vmess`, `.../trojan`,
+  `.../shadowsocks`, `.../hysteria2`, `.../tuic`, `.../socks`, `.../http`
+
+> Estas **no** están verificadas desde Irán y pueden estar bloqueadas dentro de
+> Irán. Úsalas solo como alternativa o punto de partida. Los archivos de arriba
+> (sin `/candidates/`) son los verificados desde Irán.
+
 ## 📱 Clientes compatibles
 
 v2rayNG · v2rayN · sing-box · Hiddify / NekoBox · Clash / Clash.Meta

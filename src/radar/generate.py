@@ -104,6 +104,42 @@ def _atomic_write_text(path: Path, content: str) -> None:
     tmp.replace(path)
 
 
+def build_candidate_files(configs: dict[str, Config], sub_dir: Path) -> list[GeneratedFile]:
+    """Build the *candidate* pool files (tunnel-verified, not Iran-verified).
+
+    These live under ``subscriptions/candidates/`` and are clearly separated
+    from the Iran-verified files. They are ranked best-first (Iranian
+    reachability, then tunnel quality) so the most plausible entries come first.
+    """
+    from . import tunnel_verify
+
+    sub_dir = Path(sub_dir) / "candidates"
+    ranked = tunnel_verify.candidate_configs(configs)
+    files: list[GeneratedFile] = []
+
+    files.append(
+        GeneratedFile(
+            name="candidates/all",
+            path=sub_dir / "all",
+            content=_render(ranked),
+            count=len(ranked),
+            protocol=None,
+        )
+    )
+    for proto in cfg.PROTOCOLS:
+        subset = [c for c in ranked if c.protocol == proto]
+        files.append(
+            GeneratedFile(
+                name=f"candidates/{proto}",
+                path=sub_dir / proto,
+                content=_render(subset),
+                count=len(subset),
+                protocol=proto,
+            )
+        )
+    return files
+
+
 def write_index(files: list[GeneratedFile], path: Path, settings) -> Path:
     """Write a machine-readable index of subscription files (public, safe)."""
     import json

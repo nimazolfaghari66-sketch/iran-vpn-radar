@@ -41,3 +41,6 @@ venv/
 # Local scheduler / probe runtime files
 *.pid
 *.lock
+
+# Locally downloaded VPN client binaries (fetched on demand, never committed)
+.bin/

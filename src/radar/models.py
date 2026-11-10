@@ -90,6 +90,21 @@ class Config:
     last_grade: str | None = None
     last_error: str | None = None
 
+    # Global real-tunnel verification (non-Iranian). Kept separate from the Iran
+    # state machine so this tier can never promote a configuration to WORKING.
+    tunnel_status: str | None = None
+    tunnel_verified_at: str | None = None
+    last_tunnel_test_at: str | None = None
+    tunnel_test_count: int = 0
+    tunnel_consecutive_failures: int = 0
+    tunnel_latency_ms: float | None = None
+    tunnel_download_kbps: float | None = None
+    tunnel_grade: str | None = None
+    tunnel_last_error: str | None = None
+    # Best Iranian reachability classification observed (Globalping), ranking only.
+    iran_reachability: str | None = None
+    iran_reachability_at: str | None = None
+
     def __post_init__(self) -> None:
         if not self.fingerprint:
             self.fingerprint = self.compute_fingerprint()

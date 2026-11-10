@@ -68,6 +68,27 @@ def _globalping_aggregate(settings) -> dict[str, Any]:
     }
 
 
+def _tunnel_aggregate(settings, configs: dict) -> dict[str, Any]:
+    """Safe aggregate of the global (non-Iranian) tunnel-verification tier."""
+    try:
+        from . import tunnel_verify
+
+        cand = tunnel_verify.summarize_candidates(configs)
+    except Exception:
+        return {"available": False}
+    return {
+        "available": True,
+        "candidates": cand.get("total", 0),
+        "iran_reachable": cand.get("iran_reachable", 0),
+        "by_protocol": cand.get("by_protocol", {}),
+        "note": (
+            "Configurations whose tunnel was verified from this engine host (NOT Iran). "
+            "Ranked by Iranian reachability evidence; published only to the candidate pool, "
+            "never to the Iran-verified files."
+        ),
+    }
+
+
 def store_probes(settings) -> list:
     """Load the cached Globalping probe list (best-effort)."""
     raw = read_json(settings.state_dir / "globalping_probes.json", {})
@@ -116,6 +137,7 @@ def build_summary(
         "probe": probe_health,
         "checkhost": _checkhost_aggregate(settings),
         "globalping": _globalping_aggregate(settings),
+        "tunnel": _tunnel_aggregate(settings, configs),
         "publish": publish_result or {"ok": None, "note": "not run"},
     }
 
@@ -137,6 +159,7 @@ def public_summary(summary: dict[str, Any]) -> dict[str, Any]:
             "pending_iran_test": configs.get("pending_iran_test", 0),
             "by_protocol": configs.get("by_protocol", {}),
         },
+        "candidates": _public_tunnel(summary.get("tunnel", {})),
         "iran_testing": {
             "available": bool(probe.get("is_iran")),
             "verified_configs": probe.get("verified_configs", 0),
@@ -167,6 +190,19 @@ def _public_globalping(gp: dict[str, Any]) -> dict[str, Any]:
             "Iranian Globalping probes observe DNS/TCP/TLS reachability from Iran. "
             "Diagnostic only; never used to publish a configuration."
         ),
+    }
+
+
+def _public_tunnel(t: dict[str, Any]) -> dict[str, Any]:
+    """Aggregate-only view of the global tunnel-verified candidate pool."""
+    if not t or not t.get("available"):
+        return {"available": False, "total": 0, "by_protocol": {}}
+    return {
+        "available": True,
+        "total": t.get("candidates", 0),
+        "iran_reachable": t.get("iran_reachable", 0),
+        "by_protocol": t.get("by_protocol", {}),
+        "note": t.get("note"),
     }
 
 

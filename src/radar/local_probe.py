@@ -64,16 +64,24 @@ def detect_country(timeout: float = 8.0) -> str:
 
 
 def find_client() -> tuple[str, str] | None:
-    """Return ``(kind, path)`` for an available client, or ``None``."""
+    """Return ``(kind, path)`` for an available client, or ``None``.
+
+    Lookup order: an explicit ``IRAN_RADAR_<KIND>_BIN`` override, then the
+    repo-local ``.bin/`` directory (where ``scripts/install_client.py`` installs
+    the client), then ``PATH``.
+    """
     for kind, names in (("sing-box", ("sing-box",)), ("xray", ("xray",)), ("v2ray", ("v2ray",))):
-        for name in names:
-            path = shutil.which(name)
-            if path:
-                return kind, path
         # Allow explicit override via env pointing at a binary.
         override = os.environ.get(f"IRAN_RADAR_{kind.upper().replace('-', '_')}_BIN")
         if override and Path(override).exists():
             return kind, override
+        local = Path(__file__).resolve().parents[2] / ".bin" / kind
+        if local.exists():
+            return kind, str(local)
+        for name in names:
+            path = shutil.which(name)
+            if path:
+                return kind, path
     return None
 
 
@@ -436,28 +444,25 @@ def _curl_through_proxy(socks_port: int, url: str, timeout: float = 15.0, max_by
     return ok, elapsed, size
 
 
-def test_config(conf: Config, probe: ProbeInfo, options: dict[str, Any] | None = None) -> TestOutcome:
-    """Run the full staged test for a single configuration."""
+def run_tunnel_test(
+    conf: Config,
+    options: dict[str, Any] | None = None,
+) -> tuple[StageResult, dict[str, Any], str | None]:
+    """Run a real tunnel test with no location gate.
+
+    This is the location-agnostic core: it launches an actual protocol client,
+    establishes a tunnel and pushes real traffic through it. It deliberately
+    does **not** decide whether the result may be labelled "Iranian" — callers
+    own that decision. :func:`test_config` uses it for the Iran probe path, and
+    :mod:`radar.tunnel_verify` uses it for the (explicitly non-Iranian)
+    global verification tier.
+
+    Returns ``(stages, result, error)`` where ``error`` is ``None`` on a passing
+    tunnel and a short reason string otherwise.
+    """
     options = options or {}
     stages = StageResult()
-    result: dict[str, Any] = {
-        "fingerprint": conf.fingerprint,
-        "protocol": conf.protocol,
-        "success": False,
-        "probe_is_iran": probe.is_iran,
-        "country": probe.country,
-        "stages": {},
-    }
-    if not probe.is_iran:
-        result["error"] = "probe is not located in Iran; refusing to produce an Iranian result"
-        return TestOutcome(
-            fingerprint=conf.fingerprint,
-            success=False,
-            probe_is_iran=False,
-            error=result["error"],
-            stages=stages.to_dict(),
-            raw=result,
-        )
+    result: dict[str, Any] = {"stages": {}, "success": False}
 
     # Stage 1: DNS
     stages.dns = _resolve(conf.host)
@@ -465,20 +470,21 @@ def test_config(conf: Config, probe: ProbeInfo, options: dict[str, Any] | None =
     stages.reachability = _tcp_reachable(conf.host, conf.port)
     if not stages.reachability:
         result["stages"] = stages.to_dict()
-        result["error"] = "server unreachable (tcp)"
-        return TestOutcome(conf.fingerprint, False, True, error=result["error"], stages=stages.to_dict(), raw=result)
+        return stages, result, "server unreachable (tcp)"
 
     client = find_client()
     if client is None:
         result["stages"] = stages.to_dict()
-        result["error"] = (
+        return (
+            stages,
+            result,
             "no VPN protocol client installed (sing-box/xray/v2ray). "
-            "Tunnel tests cannot be performed; configuration not verified."
+            "Tunnel tests cannot be performed; configuration not verified.",
         )
-        return TestOutcome(conf.fingerprint, False, True, error=result["error"], stages=stages.to_dict(), raw=result)
 
     kind, binary = client
     socks_port = _free_port()
+    error: str | None = None
     with tempfile.TemporaryDirectory(prefix="radar-probe-") as tmp:
         workdir = Path(tmp)
         cfg_path = _write_config(kind, conf, socks_port, workdir)
@@ -496,8 +502,7 @@ def test_config(conf: Config, probe: ProbeInfo, options: dict[str, Any] | None =
                     except Exception:
                         err = ""
                 result["stages"] = stages.to_dict()
-                result["error"] = f"tunnel client did not start ({kind}): {err.strip()[:200]}"
-                return TestOutcome(conf.fingerprint, False, True, error=result["error"], stages=stages.to_dict(), raw=result)
+                return stages, result, f"tunnel client did not start ({kind}): {err.strip()[:200]}"
 
             stages.handshake = True
             # Stage 4/5: tunnel + internet through the tunnel.
@@ -527,7 +532,7 @@ def test_config(conf: Config, probe: ProbeInfo, options: dict[str, Any] | None =
                 result["stability_successes"] = successes
                 result["stability_attempts"] = attempts
             else:
-                result["error"] = "tunnel established but no internet through the tunnel"
+                error = "tunnel established but no internet through the tunnel"
         finally:
             try:
                 proc.terminate()
@@ -543,8 +548,41 @@ def test_config(conf: Config, probe: ProbeInfo, options: dict[str, Any] | None =
     result["stages"] = stages.to_dict()
     if success:
         result["grade"] = _grade(stages, result.get("latency_ms"), result.get("download_kbps"))
-    elif "error" not in result:
-        result["error"] = "tunnel test failed"
+    elif error is None:
+        error = "tunnel test failed"
+    return stages, result, error
+
+
+def test_config(conf: Config, probe: ProbeInfo, options: dict[str, Any] | None = None) -> TestOutcome:
+    """Run the full staged test for a single configuration."""
+    stages = StageResult()
+    result: dict[str, Any] = {
+        "fingerprint": conf.fingerprint,
+        "protocol": conf.protocol,
+        "success": False,
+        "probe_is_iran": probe.is_iran,
+        "country": probe.country,
+        "stages": {},
+    }
+    if not probe.is_iran:
+        result["error"] = "probe is not located in Iran; refusing to produce an Iranian result"
+        return TestOutcome(
+            fingerprint=conf.fingerprint,
+            success=False,
+            probe_is_iran=False,
+            error=result["error"],
+            stages=stages.to_dict(),
+            raw=result,
+        )
+
+    stages, result, error = run_tunnel_test(conf, options)
+    result["fingerprint"] = conf.fingerprint
+    result["protocol"] = conf.protocol
+    result["probe_is_iran"] = True
+    result["country"] = probe.country
+    if error:
+        result["error"] = error
+    success = bool(result.get("success"))
     return TestOutcome(
         fingerprint=conf.fingerprint,
         success=success,
@@ -552,7 +590,7 @@ def test_config(conf: Config, probe: ProbeInfo, options: dict[str, Any] | None =
         latency_ms=result.get("latency_ms"),
         download_kbps=result.get("download_kbps"),
         grade=result.get("grade"),
-        error=result.get("error"),
+        error=None if success else result.get("error"),
         stages=stages.to_dict(),
         raw=result,
     )

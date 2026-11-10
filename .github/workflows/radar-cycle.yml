@@ -5,10 +5,11 @@ name: radar-cycle
 # IMPORTANT — Iranian testing:
 # This workflow runs on GitHub-hosted runners, which are NOT inside Iran. It can
 # therefore discover, normalise, de-duplicate, generate and validate
-# subscriptions, but it CANNOT produce Iran-verified results. Unless an Iran
-# based probe is configured (IRAN_PROBE_URL + IRAN_PROBE_TOKEN secrets), every
-# configuration stays PENDING_IRAN_TEST and the subscription files remain empty
-# by design. Never configure a foreign host as the "Iran probe".
+# subscriptions, and it performs real *global* tunnel verification (sing-box) to
+# build the candidate pool. It CANNOT produce Iran-verified results. Unless an
+# Iran based probe is configured (IRAN_PROBE_URL + IRAN_PROBE_TOKEN secrets),
+# every configuration stays PENDING_IRAN_TEST and the Iran-verified subscription
+# files remain empty by design. Never configure a foreign host as the "Iran probe".
 
 on:
   schedule:
@@ -45,6 +46,12 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # Real tunnel verification needs an actual protocol client. This is NOT
+      # an Iranian test: it runs on the GitHub runner (outside Iran) and only
+      # feeds the clearly-separated candidate pool. Never labelled as Iranian.
+      - name: Install VPN client (sing-box)
+        run: python scripts/install_client.py --dir .bin
+
       # Internal state (config history, failure counts, source registry) is kept
       # out of the public repo, so it is persisted via the Actions cache instead.
       # This is what lets the consecutive-failure policy work across cycles.
@@ -79,6 +86,11 @@ jobs:
           IRAN_RADAR_GLOBALPING: ${{ vars.IRAN_RADAR_GLOBALPING || '1' }}
           IRAN_RADAR_GLOBALPING_BATCH: ${{ vars.IRAN_RADAR_GLOBALPING_BATCH || '10' }}
           IRAN_RADAR_GLOBALPING_LIMIT: ${{ vars.IRAN_RADAR_GLOBALPING_LIMIT || '2' }}
+          # Global real-tunnel verification (NOT Iranian). Runs sing-box on the
+          # runner and publishes passing configs to the candidate pool only.
+          IRAN_RADAR_TUNNEL_VERIFY: ${{ vars.IRAN_RADAR_TUNNEL_VERIFY || '1' }}
+          IRAN_RADAR_TUNNEL_BATCH: ${{ vars.IRAN_RADAR_TUNNEL_BATCH || '800' }}
+          IRAN_RADAR_TUNNEL_WORKERS: ${{ vars.IRAN_RADAR_TUNNEL_WORKERS || '16' }}
         run: |
           if [ "${{ github.event.inputs.no_publish }}" = "true" ]; then
             python scripts/run_cycle.py --no-publish

@@ -48,6 +48,21 @@ Copy a link below and add it to your VPN client. That's it.
 > published. Until a configuration passes that test, the files stay empty. We
 > never label an untested configuration as working.
 
+## 🧪 Candidate pool (not Iran-verified)
+
+A second, clearly separated pool holds configurations whose tunnel was actually
+established by a real client (sing-box) — but from our engine host, which is
+**not** inside Iran. They are ranked so that entries an Iranian probe already
+saw reachable come first.
+
+* All candidates: [`subscriptions/candidates/all`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/all)
+* Per protocol: `subscriptions/candidates/vless`, `.../vmess`, `.../trojan`,
+  `.../shadowsocks`, `.../hysteria2`, `.../tuic`, `.../socks`, `.../http`
+
+> These are **not** Iran-verified. They may be blocked inside Iran. Use them only
+> as a fallback or starting point. The files above (without `/candidates/`) are
+> the Iran-verified ones.
+
 ## 📱 Supported clients
 
 | Client | Platform | Recommended format |

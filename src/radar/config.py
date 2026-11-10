@@ -226,6 +226,12 @@ class Settings:
     globalping_min_interval: float
     globalping_timeout: float
 
+    tunnel_enabled: bool
+    tunnel_batch: int
+    tunnel_download_bytes: int
+    tunnel_stability_seconds: float
+    tunnel_workers: int
+
     publish_enabled: bool
     dry_run: bool
     extra: dict = field(default_factory=dict)
@@ -342,6 +348,21 @@ def load_settings(root: Path | None = None, **overrides) -> Settings:
         ),
         globalping_timeout=overrides.get(
             "globalping_timeout", _env_float("IRAN_RADAR_GLOBALPING_TIMEOUT", 60.0)
+        ),
+        tunnel_enabled=overrides.get(
+            "tunnel_enabled", _env_bool("IRAN_RADAR_TUNNEL_VERIFY", True)
+        ),
+        tunnel_batch=overrides.get(
+            "tunnel_batch", _env_int("IRAN_RADAR_TUNNEL_BATCH", 40)
+        ),
+        tunnel_download_bytes=overrides.get(
+            "tunnel_download_bytes", _env_int("IRAN_RADAR_TUNNEL_DOWNLOAD_BYTES", 500_000)
+        ),
+        tunnel_stability_seconds=overrides.get(
+            "tunnel_stability_seconds", _env_float("IRAN_RADAR_TUNNEL_STABILITY_SECONDS", 4.0)
+        ),
+        tunnel_workers=overrides.get(
+            "tunnel_workers", _env_int("IRAN_RADAR_TUNNEL_WORKERS", 8)
         ),
         publish_enabled=overrides.get("publish_enabled", _env_bool("IRAN_RADAR_PUBLISH", False)),
         dry_run=overrides.get("dry_run", _env_bool("IRAN_RADAR_DRY_RUN", False)),
