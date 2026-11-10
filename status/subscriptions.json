@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-10T12:05:01Z",
+  "updated_at": "2026-11-10T12:18:55Z",
   "repository": "nimazolfaghari66-sketch/iran-vpn-radar",
   "branch": "main",
   "subscriptions": [
@@ -69,14 +69,14 @@
     {
       "name": "candidates/all",
       "protocol": "all",
-      "count": 103,
+      "count": 135,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/all",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/all.b64"
     },
     {
       "name": "candidates/vless",
       "protocol": "vless",
-      "count": 18,
+      "count": 48,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/vless",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/vless.b64"
     },
@@ -97,7 +97,7 @@
     {
       "name": "candidates/shadowsocks",
       "protocol": "shadowsocks",
-      "count": 11,
+      "count": 12,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/shadowsocks",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/shadowsocks.b64"
     },
@@ -118,7 +118,7 @@
     {
       "name": "candidates/socks",
       "protocol": "socks",
-      "count": 1,
+      "count": 2,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/socks",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/socks.b64"
     },
