@@ -296,6 +296,15 @@ def run_cycle(settings, store: Store | None = None, max_probe_batch: int = 60) -
         index_path = settings.status_dir / "subscriptions.json"
         generate.write_index(generated_files + candidate_files, index_path, settings)
 
+        # ---------------------------------------------------- 13. reporting
+        # Build and write reports *before* publishing so status/summary.json
+        # reflects this cycle (publish reads it from disk to include it in the
+        # commit). The summary is rewritten afterwards with the publish outcome.
+        summary = _build_summary(
+            stats, started, store, settings, configs, sources, iran_report, None
+        )
+        report_mod.write_reports(settings, summary, stats.to_dict())
+
         # --------------------------------------------------- 12. publishing
         publish_result_dict = {"ok": None, "note": "publishing disabled"}
         if settings.publish_enabled and not settings.dry_run:
@@ -306,8 +315,11 @@ def run_cycle(settings, store: Store | None = None, max_probe_batch: int = 60) -
             publish_result_dict = {"ok": None, "note": "dry run"}
         stats.publish = publish_result_dict
 
-        # ---------------------------------------------------- 13. reporting
-        _finalize(stats, started, store, settings, configs, sources, iran_report, publish_result_dict)
+        # Rewrite the summary with the publish outcome, then record the run.
+        summary["publish"] = publish_result_dict
+        report_mod.write_reports(settings, summary, stats.to_dict())
+        store.append_run(stats.to_dict())
+        log.info("cycle complete", extra={"context": stats.to_dict()})
         return stats
 
 
@@ -363,7 +375,7 @@ def _publish(settings, generated_files, candidate_files, index_path, stats: Cycl
     return result
 
 
-def _finalize(
+def _build_summary(
     stats: CycleStats,
     started: float,
     store: Store,
@@ -372,7 +384,7 @@ def _finalize(
     sources: dict,
     iran_report: IranTestReport,
     publish_result: dict | None,
-) -> None:
+) -> dict:
     stats.finished_at = iso(utcnow())
     stats.duration_s = time.time() - started
 
@@ -382,7 +394,7 @@ def _finalize(
     health = probe_health(configs, settings)
     store.save_probe_health({"checked_at": stats.finished_at, **health})
 
-    summary = report_mod.build_summary(
+    return report_mod.build_summary(
         settings,
         configs,
         sources,
@@ -395,7 +407,21 @@ def _finalize(
         },
         runs=store.load_runs(),
     )
-    report_mod.write_reports(settings, summary, stats.to_dict())
 
+
+def _finalize(
+    stats: CycleStats,
+    started: float,
+    store: Store,
+    settings,
+    configs: dict,
+    sources: dict,
+    iran_report: IranTestReport,
+    publish_result: dict | None,
+) -> None:
+    summary = _build_summary(
+        stats, started, store, settings, configs, sources, iran_report, publish_result
+    )
+    report_mod.write_reports(settings, summary, stats.to_dict())
     store.append_run(stats.to_dict())
     log.info("cycle complete", extra={"context": stats.to_dict()})

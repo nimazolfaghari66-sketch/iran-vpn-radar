@@ -138,7 +138,7 @@ def build_summary(
         "checkhost": _checkhost_aggregate(settings),
         "globalping": _globalping_aggregate(settings),
         "tunnel": _tunnel_aggregate(settings, configs),
-        "publish": publish_result or {"ok": None, "note": "not run"},
+        "publish": publish_result or last_run.get("publish") or {"ok": None, "note": "not run"},
     }
 
 
