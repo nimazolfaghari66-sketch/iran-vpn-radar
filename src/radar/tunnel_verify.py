@@ -345,3 +345,63 @@ def summarize_candidates(configs: dict[str, Config]) -> dict[str, Any]:
         "iran_reachable": iran_reachable,
         "by_protocol": by_protocol,
     }
+
+
+def has_positive_iran_reachability(conf: Config) -> bool:
+    """True when an Iranian vantage point actually connected to this endpoint.
+
+    Requires a TCP-handshake-or-better observation (see
+    ``cfg.IRAN_PRIORITY_REACHABLE``). DNS-only or ICMP-only evidence does not
+    qualify: neither proves the proxy port answers.
+    """
+    return getattr(conf, "iran_reachability", None) in cfg.IRAN_PRIORITY_REACHABLE
+
+
+def evidence_level(conf: Config) -> str | None:
+    """Strongest honest evidence label for a configuration, or ``None``."""
+    if conf.status == cfg.WORKING and getattr(conf, "last_success_at", None):
+        # Only the Iran probe sets WORKING; that is a real tunnel from Iran.
+        return cfg.IRAN_FULL_TUNNEL_VERIFIED
+    if getattr(conf, "tunnel_status", None) == TUNNEL_VERIFIED:
+        if has_positive_iran_reachability(conf):
+            return cfg.IRAN_PRIORITY_CANDIDATE
+        return cfg.GLOBAL_TUNNEL_TESTED
+    if has_positive_iran_reachability(conf):
+        return cfg.IRAN_NETWORK_REACHABLE
+    return None
+
+
+def iran_priority_configs(configs: dict[str, Config]) -> list[Config]:
+    """Category B: real global tunnel test **and** positive Iranian reachability.
+
+    These are the strongest candidates obtainable without a probe inside Iran.
+    They are ranked best-first and published to ``subscriptions/iran-priority/*``.
+    They are explicitly **not** ``IRAN_FULL_TUNNEL_VERIFIED``.
+    """
+    chosen = [
+        c
+        for c in configs.values()
+        if getattr(c, "tunnel_status", None) == TUNNEL_VERIFIED
+        and c.status != cfg.DUPLICATE
+        and has_positive_iran_reachability(c)
+    ]
+    return sorted(chosen, key=rank_key)
+
+
+def summarize_priority(configs: dict[str, Config]) -> dict[str, Any]:
+    """Aggregate-only summary of the Iran-priority pool (safe for publication)."""
+    priority = iran_priority_configs(configs)
+    by_protocol: dict[str, int] = {}
+    for conf in priority:
+        by_protocol[conf.protocol] = by_protocol.get(conf.protocol, 0) + 1
+    return {"total": len(priority), "by_protocol": by_protocol}
+
+
+def evidence_distribution(configs: dict[str, Config]) -> dict[str, int]:
+    """Count configurations by their strongest evidence level (public-safe)."""
+    counts = {level: 0 for level in cfg.EVIDENCE_LEVELS}
+    for conf in configs.values():
+        level = evidence_level(conf)
+        if level:
+            counts[level] += 1
+    return counts

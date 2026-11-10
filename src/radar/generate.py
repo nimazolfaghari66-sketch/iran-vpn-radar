@@ -113,25 +113,49 @@ def build_candidate_files(configs: dict[str, Config], sub_dir: Path) -> list[Gen
     """
     from . import tunnel_verify
 
-    sub_dir = Path(sub_dir) / "candidates"
-    ranked = tunnel_verify.candidate_configs(configs)
-    files: list[GeneratedFile] = []
+    return _build_tiered_files(
+        name_prefix="candidates",
+        ranked=tunnel_verify.candidate_configs(configs),
+        sub_dir=sub_dir,
+    )
 
-    files.append(
+
+def build_priority_files(configs: dict[str, Config], sub_dir: Path) -> list[GeneratedFile]:
+    """Build the *Iran-priority* files (category B).
+
+    A configuration lands here only when it passed a **real global tunnel test**
+    and has **positive Iranian reachability evidence** (a TCP-handshake-or-better
+    observation from an Iranian vantage point). This is the strongest tier the
+    system can publish without a probe inside Iran; it is *not*
+    ``IRAN_FULL_TUNNEL_VERIFIED``.
+    """
+    from . import tunnel_verify
+
+    return _build_tiered_files(
+        name_prefix="iran-priority",
+        ranked=tunnel_verify.iran_priority_configs(configs),
+        sub_dir=sub_dir,
+    )
+
+
+def _build_tiered_files(name_prefix: str, ranked: list[Config], sub_dir: Path) -> list[GeneratedFile]:
+    """Render one ``<prefix>/all`` file plus a per-protocol file for each."""
+    tier_dir = Path(sub_dir) / name_prefix
+    files: list[GeneratedFile] = [
         GeneratedFile(
-            name="candidates/all",
-            path=sub_dir / "all",
+            name=f"{name_prefix}/all",
+            path=tier_dir / "all",
             content=_render(ranked),
             count=len(ranked),
             protocol=None,
         )
-    )
+    ]
     for proto in cfg.PROTOCOLS:
         subset = [c for c in ranked if c.protocol == proto]
         files.append(
             GeneratedFile(
-                name=f"candidates/{proto}",
-                path=sub_dir / proto,
+                name=f"{name_prefix}/{proto}",
+                path=tier_dir / proto,
                 content=_render(subset),
                 count=len(subset),
                 protocol=proto,

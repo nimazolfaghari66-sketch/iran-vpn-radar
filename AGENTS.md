@@ -89,7 +89,21 @@ PYTHONPATH=src python -m radar --root . validate       # validate subscriptions
 |------|-----------|--------------|-------------------|
 | Check-Host / Globalping | Iranian nodes/probes (reachability only) | No | diagnostics only |
 | Global tunnel verification (`tunnel_verify.py`) | engine host / CI runner (NOT Iran) | No | `subscriptions/candidates/*` |
-| Iran probe (`iran_probe.py`) | a real host inside Iran | Yes | `subscriptions/*` |
+| Iran-priority candidates (`tunnel_verify.py`) | engine host tunnel + Iranian reachability | Yes (weaker label) | `subscriptions/iran-priority/*` |
+| Iran probe (`iran_probe.py`) | a real host inside Iran | Yes (strongest label) | `subscriptions/*` |
+
+Evidence levels, weakest to strongest (`cfg.EVIDENCE_LEVELS`):
+
+* `GLOBAL_TUNNEL_TESTED` — a real tunnel was established from the engine host
+  (NOT Iran). Published to `subscriptions/candidates/*`.
+* `IRAN_NETWORK_REACHABLE` — reached from ≥1 Iranian vantage point.
+* `IRAN_PRIORITY_CANDIDATE` — global tunnel **and** positive Iranian
+  reachability (a TCP-handshake-or-better observation, `cfg.IRAN_PRIORITY_REACHABLE`).
+  Published to `subscriptions/iran-priority/*`. This is the strongest tier the
+  system can publish without a probe inside Iran, and it is explicitly **not**
+  `IRAN_FULL_TUNNEL_VERIFIED`.
+* `IRAN_FULL_TUNNEL_VERIFIED` — a real tunnel from inside Iran. The only level
+  allowed in `subscriptions/*`, and only the Iran probe can produce it.
 
 The Iran gate is the only path to `subscriptions/*`. The global tunnel tier
 stores its result in `Config.tunnel_status` (separate from `Config.status`) and

@@ -45,6 +45,16 @@
     { "url": "https://raw.githubusercontent.com/DukeMehdi/FreeList-V2ray-Configs/main/Configs/TROJAN-DukeMehdi-Configs.txt", "kind": "github_raw", "protocol_hint": "trojan" },
     { "url": "https://raw.githubusercontent.com/R3ZARAHIMI/tg-v2ray-configs-every2h/main/Original-Configs.txt", "kind": "github_raw", "protocol_hint": "mixed" },
     { "url": "https://raw.githubusercontent.com/nyeinkokoaung404/V2ray-Configs/main/All_Configs_Sub.txt", "kind": "github_raw", "protocol_hint": "mixed" },
-    { "url": "https://raw.githubusercontent.com/mohamadfg-dev/telegram-v2ray-configs-collector/main/BadChannels.txt", "kind": "github_raw", "protocol_hint": "mixed" }
+    { "url": "https://raw.githubusercontent.com/mohamadfg-dev/telegram-v2ray-configs-collector/main/BadChannels.txt", "kind": "github_raw", "protocol_hint": "mixed" },
+    { "url": "https://raw.githubusercontent.com/mahdibland/V2RayAggregator/master/Eternity.yml", "kind": "github_raw", "protocol_hint": "mixed" },
+    { "url": "https://raw.githubusercontent.com/mahdibland/V2RayAggregator/master/sub/sub_merge_base64.txt", "kind": "github_raw", "protocol_hint": "mixed" },
+    { "url": "https://raw.githubusercontent.com/Leon406/SubCrawler/main/sub/share/v2", "kind": "github_raw", "protocol_hint": "mixed" },
+    { "url": "https://raw.githubusercontent.com/Leon406/SubCrawler/main/sub/share/vless", "kind": "github_raw", "protocol_hint": "vless" },
+    { "url": "https://raw.githubusercontent.com/Leon406/SubCrawler/main/sub/share/ss", "kind": "github_raw", "protocol_hint": "shadowsocks" },
+    { "url": "https://raw.githubusercontent.com/barry-far/V2ray-Config/main/Sub1.txt", "kind": "github_raw", "protocol_hint": "mixed" },
+    { "url": "https://raw.githubusercontent.com/barry-far/V2ray-Config/main/Splitted-By-Protocol/vless.txt", "kind": "github_raw", "protocol_hint": "vless" },
+    { "url": "https://raw.githubusercontent.com/barry-far/V2ray-Config/main/Splitted-By-Protocol/trojan.txt", "kind": "github_raw", "protocol_hint": "trojan" },
+    { "url": "https://raw.githubusercontent.com/MatinGhanbari/v2ray-configs/main/subscriptions/v2ray/super-sub.txt", "kind": "github_raw", "protocol_hint": "mixed" },
+    { "url": "https://raw.githubusercontent.com/roosterkid/openproxylist/main/V2RAY_BASE64.txt", "kind": "github_raw", "protocol_hint": "mixed" }
   ]
 }

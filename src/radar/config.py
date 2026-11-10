@@ -130,6 +130,34 @@ CHECKHOST_REACHABLE = (
 )
 CHECKHOST_UNREACHABLE = (IRAN_TIMEOUT, IRAN_UNREACHABLE)
 
+# ---------------------------------------------------------- evidence levels
+# Honest, cumulative evidence labels. A configuration may hold several; the
+# strongest one that applies is what it is published under. Never claim a
+# stronger level than the evidence supports.
+GLOBAL_TUNNEL_TESTED = "GLOBAL_TUNNEL_TESTED"       # real tunnel from the engine host (NOT Iran)
+IRAN_NETWORK_REACHABLE = "IRAN_NETWORK_REACHABLE"   # reached from >=1 Iranian vantage point
+IRAN_PRIORITY_CANDIDATE = "IRAN_PRIORITY_CANDIDATE"  # global tunnel + Iranian reachability
+IRAN_FULL_TUNNEL_VERIFIED = IRAN_FULL_TUNNEL_VERIFIED  # real tunnel from inside Iran only
+
+EVIDENCE_LEVELS = (
+    GLOBAL_TUNNEL_TESTED,
+    IRAN_NETWORK_REACHABLE,
+    IRAN_PRIORITY_CANDIDATE,
+    IRAN_FULL_TUNNEL_VERIFIED,
+)
+
+# Reachability classifications strong enough to count as *positive Iranian
+# reachability*: an actual connection attempt from an Iranian vantage point
+# succeeded (TCP handshake or better). DNS_OK alone only proves the name
+# resolved, and ICMP alone proves neither TCP nor the proxy port, so neither
+# qualifies on its own.
+IRAN_PRIORITY_REACHABLE = (
+    IRAN_TCP_REACHABLE,
+    IRAN_TLS_OK,
+    IRAN_HTTP_REACHABLE,
+    IRAN_UDP_REACHABLE,
+)
+
 # ---------------------------------------------------------------- Globalping
 # Globalping (globalping.io) is a free, public, volunteer-run measurement
 # network. It exposes probes on real Iranian ISP networks (Tehran, Tabriz —

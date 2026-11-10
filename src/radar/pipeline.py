@@ -269,8 +269,10 @@ def run_cycle(settings, store: Store | None = None, max_probe_batch: int = 60) -
         # ------------------------------------------------- 10. generation
         generated_files = generate.build_files(configs, settings.sub_dir)
         candidate_files = generate.build_candidate_files(configs, settings.sub_dir)
+        priority_files = generate.build_priority_files(configs, settings.sub_dir)
         stats.generated = {gen.name: gen.count for gen in generated_files}
         stats.generated.update({gen.name: gen.count for gen in candidate_files})
+        stats.generated.update({gen.name: gen.count for gen in priority_files})
         stats.configs_publishable = sum(1 for c in configs.values() if quality.is_publishable(c))
 
         # --------------------------------------------------- 11. validation
@@ -290,11 +292,24 @@ def run_cycle(settings, store: Store | None = None, max_probe_batch: int = 60) -
             log.error("candidate validation failed", extra={"context": candidate_validation.to_dict()})
             candidate_files = []
 
+        # Iran-priority files: same structural-only rule. A regression guard is
+        # still applied against the previously published copy so a healthy
+        # priority file is never replaced by an empty one.
+        priority_validation = validate.validate_files(
+            priority_files, previous_dir=settings.sub_dir / "iran-priority"
+        )
+        if not priority_validation.ok:
+            stats.errors.append("iran-priority files failed validation; dropping priority tier this cycle")
+            log.error("priority validation failed", extra={"context": priority_validation.to_dict()})
+            priority_files = []
+
         generate.write_files(generated_files)
         if candidate_files:
             generate.write_files(candidate_files)
+        if priority_files:
+            generate.write_files(priority_files)
         index_path = settings.status_dir / "subscriptions.json"
-        generate.write_index(generated_files + candidate_files, index_path, settings)
+        generate.write_index(generated_files + candidate_files + priority_files, index_path, settings)
 
         # ---------------------------------------------------- 13. reporting
         # Build and write reports *before* publishing so status/summary.json
@@ -308,7 +323,9 @@ def run_cycle(settings, store: Store | None = None, max_probe_batch: int = 60) -
         # --------------------------------------------------- 12. publishing
         publish_result_dict = {"ok": None, "note": "publishing disabled"}
         if settings.publish_enabled and not settings.dry_run:
-            publish_result = _publish(settings, generated_files, candidate_files, index_path, stats, token)
+            publish_result = _publish(
+                settings, generated_files, candidate_files, priority_files, index_path, stats, token
+            )
             publish_result_dict = publish_result.to_dict()
             publish_result_dict["published_at"] = iso(utcnow())
         elif settings.dry_run:
@@ -323,7 +340,15 @@ def run_cycle(settings, store: Store | None = None, max_probe_batch: int = 60) -
         return stats
 
 
-def _publish(settings, generated_files, candidate_files, index_path, stats: CycleStats, token: str | None):
+def _publish(
+    settings,
+    generated_files,
+    candidate_files,
+    priority_files,
+    index_path,
+    stats: CycleStats,
+    token: str | None,
+):
     if not token:
         from .publish import PublishResult
 
@@ -333,10 +358,7 @@ def _publish(settings, generated_files, candidate_files, index_path, stats: Cycl
 
     publisher = publish_mod.publisher_from_settings(settings, token=token)
     files: dict[str, str] = {}
-    for gen in generated_files:
-        files[f"subscriptions/{gen.name}"] = gen.content
-        files[f"subscriptions/{gen.name}.b64"] = gen.b64_content + "\n"
-    for gen in candidate_files:
+    for gen in list(generated_files) + list(candidate_files) + list(priority_files):
         files[f"subscriptions/{gen.name}"] = gen.content
         files[f"subscriptions/{gen.name}.b64"] = gen.b64_content + "\n"
 
@@ -362,14 +384,16 @@ def _publish(settings, generated_files, candidate_files, index_path, stats: Cycl
         f"chore(cycle): update subscriptions "
         f"({stats.configs_publishable} iran-verified, "
         f"{stats.generated.get('candidates/all', 0)} candidates, "
+        f"{stats.generated.get('iran-priority/all', 0)} iran-priority, "
         f"+{stats.configs_added}/-{stats.configs_removed})"
     )
     result = publisher.publish_files(files, message=message, dry_run=False)
 
     if result.ok and result.changed:
-        # Verify the raw URLs now serve the expected content.
-        for gen in list(generated_files) + list(candidate_files):
-            if gen.name in ("all", "candidates/all"):
+        # Verify the raw URLs now serve the expected content. The ``all`` files
+        # are large and are covered by their per-protocol files, so skip them.
+        for gen in list(generated_files) + list(candidate_files) + list(priority_files):
+            if gen.name in ("all", "candidates/all", "iran-priority/all"):
                 continue
             result.verified_urls[gen.name] = publisher.verify_raw(gen.name, gen.content)
     return result

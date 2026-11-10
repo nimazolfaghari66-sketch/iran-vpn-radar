@@ -14,8 +14,4 @@
 
 **🌐 زبان‌ها:** **فارسی** · [English](README.en.md) · [العربية](README.ar.md) · [中文](README.zh.md) · [Русский](README.ru.md) · [Español](README.es.md)
 
-## 📚 مستندات فنی
-
-در پوشهٔ [`docs/`](docs/) قرار دارد.
-
 </div>

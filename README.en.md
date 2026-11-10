@@ -48,6 +48,24 @@ Copy a link below and add it to your VPN client. That's it.
 > published. Until a configuration passes that test, the files stay empty. We
 > never label an untested configuration as working.
 
+## ⭐ Iran-priority candidates
+
+Configurations whose **real tunnel** was established **and** that were reachable from an Iranian network vantage point. These are the best available options until a full tunnel test from inside Iran is performed.
+
+| | |
+|---|---|
+| **All protocols** | [`subscriptions/iran-priority/all`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/all) |
+| VLESS | [`subscriptions/iran-priority/vless`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vless) |
+| VMess | [`subscriptions/iran-priority/vmess`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vmess) |
+| Trojan | [`subscriptions/iran-priority/trojan`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/trojan) |
+| Shadowsocks | [`subscriptions/iran-priority/shadowsocks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/shadowsocks) |
+| Hysteria2 | [`subscriptions/iran-priority/hysteria2`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/hysteria2) |
+| TUIC | [`subscriptions/iran-priority/tuic`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/tuic) |
+| SOCKS | [`subscriptions/iran-priority/socks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/socks) |
+| HTTP | [`subscriptions/iran-priority/http`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/http) |
+
+> These are **not verified from inside Iran** (the tunnel was established from our engine host), but they carry Iranian network reachability evidence and rank highest among candidates.
+
 ## 🧪 Candidate pool (not Iran-verified)
 
 A second, clearly separated pool holds configurations whose tunnel was actually
@@ -89,20 +107,3 @@ Please **never** post passwords, personal links or private information.
 **Are these configurations safe?**
 Configurations are **public** and may be unstable or owned by someone else.
 Use them at your own risk. See [SECURITY.md](SECURITY.md).
-
-## 🤝 Contributing
-
-Suggest a new public source, report a broken configuration, improve the code, or
-translate the docs. Guide: [CONTRIBUTING.md](CONTRIBUTING.md)
-
-## 📚 Technical documentation
-
-Technical detail lives in [`docs/`](docs/), separate from this page:
-
-* [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — system architecture
-* [docs/IRAN_PROBE.md](docs/IRAN_PROBE.md) — Iran probe setup
-* [docs/IRAN_VANTAGE_POINTS.md](docs/IRAN_VANTAGE_POINTS.md) — testing from Iran
-
-## 📜 License
-
-[MIT](LICENSE)

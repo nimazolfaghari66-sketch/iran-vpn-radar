@@ -74,6 +74,8 @@ def _tunnel_aggregate(settings, configs: dict) -> dict[str, Any]:
         from . import tunnel_verify
 
         cand = tunnel_verify.summarize_candidates(configs)
+        priority = tunnel_verify.summarize_priority(configs)
+        evidence = tunnel_verify.evidence_distribution(configs)
     except Exception:
         return {"available": False}
     return {
@@ -81,6 +83,9 @@ def _tunnel_aggregate(settings, configs: dict) -> dict[str, Any]:
         "candidates": cand.get("total", 0),
         "iran_reachable": cand.get("iran_reachable", 0),
         "by_protocol": cand.get("by_protocol", {}),
+        "priority": priority.get("total", 0),
+        "priority_by_protocol": priority.get("by_protocol", {}),
+        "evidence": evidence,
         "note": (
             "Configurations whose tunnel was verified from this engine host (NOT Iran). "
             "Ranked by Iranian reachability evidence; published only to the candidate pool, "
@@ -202,6 +207,9 @@ def _public_tunnel(t: dict[str, Any]) -> dict[str, Any]:
         "total": t.get("candidates", 0),
         "iran_reachable": t.get("iran_reachable", 0),
         "by_protocol": t.get("by_protocol", {}),
+        "priority": t.get("priority", 0),
+        "priority_by_protocol": t.get("priority_by_protocol", {}),
+        "evidence": t.get("evidence", {}),
         "note": t.get("note"),
     }
 

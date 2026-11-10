@@ -48,6 +48,24 @@
 
 > ⚠️ **توجه:** فقط کانفیگ‌هایی منتشر می‌شوند که با آزمایش واقعی از داخل ایران سالم تشخیص داده شده باشند. تا زمانی که هیچ کانفیگی این شرط را نگذراند، فایل‌ها خالی می‌مانند. ما هرگز کانفیگ آزمایش‌نشده را «سالم» اعلام نمی‌کنیم.
 
+## ⭐ نامزدهای اولویت‌دار ایران
+
+کانفیگ‌هایی که **تونل واقعی** آن‌ها برقرار شده **و** از یک نقطهٔ شبکهٔ ایران قابل‌دسترس بوده‌اند. این‌ها بهترین گزینه‌های در دسترس‌اند تا زمانی که آزمایش کامل تونل از داخل ایران انجام شود.
+
+| | |
+|---|---|
+| **همه پروتکل‌ها** | [`subscriptions/iran-priority/all`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/all) |
+| VLESS | [`subscriptions/iran-priority/vless`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vless) |
+| VMess | [`subscriptions/iran-priority/vmess`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vmess) |
+| Trojan | [`subscriptions/iran-priority/trojan`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/trojan) |
+| Shadowsocks | [`subscriptions/iran-priority/shadowsocks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/shadowsocks) |
+| Hysteria2 | [`subscriptions/iran-priority/hysteria2`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/hysteria2) |
+| TUIC | [`subscriptions/iran-priority/tuic`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/tuic) |
+| SOCKS | [`subscriptions/iran-priority/socks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/socks) |
+| HTTP | [`subscriptions/iran-priority/http`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/http) |
+
+> این‌ها **تأییدشده از داخل ایران نیستند** (تونل از میزبان موتور برقرار شده)، اما شواهد دسترسی از شبکهٔ ایران دارند و بالاترین اولویت را میان نامزدها دارند.
+
 ## 🧪 استخر نامزدها (تأییدشده از ایران نیست)
 
 یک استخر جداگانه شامل کانفیگ‌هایی است که تونل آن‌ها با یک کلاینت واقعی
@@ -86,22 +104,5 @@
 
 **آیا این کانفیگ‌ها امن هستند؟**
 کانفیگ‌ها **عمومی** هستند و ممکن است ناپایدار یا متعلق به شخص دیگری باشند. با مسئولیت خودتان استفاده کنید. اطلاعات بیشتر: [SECURITY.md](SECURITY.md).
-
-## 🤝 مشارکت
-
-پیشنهاد منبع عمومی جدید، گزارش کانفیگ خراب، بهبود کد، یا ترجمهٔ مستندات — همه خوش‌آمدند.
-راهنما: [CONTRIBUTING.md](CONTRIBUTING.md)
-
-## 📚 مستندات فنی
-
-جزئیات فنی از این صفحه جدا و در پوشهٔ [`docs/`](docs/) قرار دارد:
-
-* [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — معماری سیستم
-* [docs/IRAN_PROBE.md](docs/IRAN_PROBE.md) — راه‌اندازی کاوشگر ایران
-* [docs/IRAN_VANTAGE_POINTS.md](docs/IRAN_VANTAGE_POINTS.md) — روش‌های آزمایش از ایران
-
-## 📜 مجوز
-
-[MIT](LICENSE)
 
 </div>

@@ -45,6 +45,24 @@ Copia un enlace y añádelo a tu cliente VPN. Eso es todo.
 > archivos permanecen vacíos. Nunca marcamos como funcional una configuración
 > sin probar.
 
+## ⭐ Candidatas prioritarias para Irán
+
+Configuraciones cuyo **túnel real** se estableció **y** que fueron alcanzables desde un punto de red iraní. Son las mejores opciones disponibles hasta que se realice una prueba de túnel completa desde dentro de Irán.
+
+| | |
+|---|---|
+| **Todos los protocolos** | [`subscriptions/iran-priority/all`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/all) |
+| VLESS | [`subscriptions/iran-priority/vless`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vless) |
+| VMess | [`subscriptions/iran-priority/vmess`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vmess) |
+| Trojan | [`subscriptions/iran-priority/trojan`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/trojan) |
+| Shadowsocks | [`subscriptions/iran-priority/shadowsocks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/shadowsocks) |
+| Hysteria2 | [`subscriptions/iran-priority/hysteria2`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/hysteria2) |
+| TUIC | [`subscriptions/iran-priority/tuic`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/tuic) |
+| SOCKS | [`subscriptions/iran-priority/socks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/socks) |
+| HTTP | [`subscriptions/iran-priority/http`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/http) |
+
+> No están **verificadas desde dentro de Irán** (el túnel se estableció desde nuestro host), pero tienen evidencia de alcanzabilidad desde la red iraní y se priorizan entre las candidatas.
+
 ## 🧪 Grupo de candidatas (no verificado desde Irán)
 
 Un segundo grupo, claramente separado, contiene configuraciones cuyo túnel fue
@@ -79,16 +97,3 @@ Nunca publiques contraseñas, enlaces personales ni información privada.
 **¿Son seguras estas configuraciones?** Las configuraciones son **públicas** y
 pueden ser inestables o pertenecer a otra persona. Úsalas bajo tu propio riesgo.
 Ver [SECURITY.md](SECURITY.md).
-
-## 🤝 Contribuir
-
-[CONTRIBUTING.md](CONTRIBUTING.md) — sugiere una fuente pública, reporta una
-configuración rota, mejora el código o traduce la documentación.
-
-## 📚 Documentación técnica
-
-Está en el directorio [`docs/`](docs/), separada de esta página.
-
-## 📜 Licencia
-
-[MIT](LICENSE)

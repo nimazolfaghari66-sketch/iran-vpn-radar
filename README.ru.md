@@ -44,6 +44,24 @@
 > изнутри Ирана. Пока конфигурация не прошла этот тест, файлы остаются пустыми.
 > Мы никогда не помечаем непроверенную конфигурацию как рабочую.
 
+## ⭐ Кандидаты с приоритетом Ирана
+
+Конфигурации, для которых установлен **реальный туннель** **и** которые были доступны с иранской сетевой точки. Это лучшие доступные варианты, пока не выполнен полный тест туннеля изнутри Ирана.
+
+| | |
+|---|---|
+| **Все протоколы** | [`subscriptions/iran-priority/all`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/all) |
+| VLESS | [`subscriptions/iran-priority/vless`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vless) |
+| VMess | [`subscriptions/iran-priority/vmess`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vmess) |
+| Trojan | [`subscriptions/iran-priority/trojan`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/trojan) |
+| Shadowsocks | [`subscriptions/iran-priority/shadowsocks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/shadowsocks) |
+| Hysteria2 | [`subscriptions/iran-priority/hysteria2`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/hysteria2) |
+| TUIC | [`subscriptions/iran-priority/tuic`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/tuic) |
+| SOCKS | [`subscriptions/iran-priority/socks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/socks) |
+| HTTP | [`subscriptions/iran-priority/http`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/http) |
+
+> Они **не проверены изнутри Ирана** (туннель установлен с нашего хоста), но имеют доказательства доступности из иранской сети и имеют наивысший приоритет среди кандидатов.
+
 ## 🧪 Пул кандидатов (не проверено из Ирана)
 
 Отдельный пул содержит конфигурации, туннель которых реально установлен
@@ -78,16 +96,3 @@ v2rayNG · v2rayN · sing-box · Hiddify / NekoBox · Clash / Clash.Meta
 **Эти конфигурации безопасны?** Конфигурации **публичны** и могут быть
 нестабильны или принадлежать другим людям. Используйте на свой риск.
 См. [SECURITY.md](SECURITY.md).
-
-## 🤝 Участие
-
-[CONTRIBUTING.md](CONTRIBUTING.md) — предложить публичный источник, сообщить о
-нерабочей конфигурации, улучшить код или перевести документацию.
-
-## 📚 Техническая документация
-
-Находится в каталоге [`docs/`](docs/), отдельно от этой страницы.
-
-## 📜 Лицензия
-
-[MIT](LICENSE)

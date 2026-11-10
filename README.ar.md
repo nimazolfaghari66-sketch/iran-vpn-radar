@@ -44,6 +44,24 @@
 
 > ⚠️ **ملاحظة:** لا تُنشَر إلا الإعدادات التي تجتاز اختباراً حقيقياً من داخل إيران. وإلى أن تجتاز إعداد ما هذا الاختبار، تبقى الملفات فارغة. نحن لا نُعلن أبداً أن إعداداً غير مختبر «يعمل».
 
+## ⭐ مرشّحون بأولوية إيرانية
+
+تهيئات تم إنشاء **نفق حقيقي** لها **و** كانت قابلة للوصول من نقطة شبكة إيرانية. هذه أفضل الخيارات المتاحة حتى إجراء اختبار نفق كامل من داخل إيران.
+
+| | |
+|---|---|
+| **كل البروتوكولات** | [`subscriptions/iran-priority/all`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/all) |
+| VLESS | [`subscriptions/iran-priority/vless`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vless) |
+| VMess | [`subscriptions/iran-priority/vmess`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vmess) |
+| Trojan | [`subscriptions/iran-priority/trojan`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/trojan) |
+| Shadowsocks | [`subscriptions/iran-priority/shadowsocks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/shadowsocks) |
+| Hysteria2 | [`subscriptions/iran-priority/hysteria2`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/hysteria2) |
+| TUIC | [`subscriptions/iran-priority/tuic`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/tuic) |
+| SOCKS | [`subscriptions/iran-priority/socks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/socks) |
+| HTTP | [`subscriptions/iran-priority/http`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/http) |
+
+> هذه **غير مُتحقَّق منها من داخل إيران** (أُنشئ النفق من مضيف المحرّك)، لكن لديها أدلة وصول من الشبكة الإيرانية وتحتلّ الأولوية بين المرشّحين.
+
 ## 🧪 مجموعة المرشّحين (غير مُتحقَّق منها من إيران)
 
 هناك مجموعة ثانية منفصلة تضم إعدادات أُنشئ نفقها فعلياً بواسطة عميل حقيقي
@@ -71,17 +89,5 @@ v2rayNG · v2rayN · sing-box · Hiddify / NekoBox · Clash / Clash.Meta
 **كيف أبلّغ عن إعداد معطوب؟** عبر [Issues](https://github.com/nimazolfaghari66-sketch/iran-vpn-radar/issues). لا تنشر أبداً كلمات مرور أو روابط شخصية أو معلومات خاصة.
 
 **هل هذه الإعدادات آمنة؟** الإعدادات **عامة** وقد تكون غير مستقرة أو مملوكة لشخص آخر. استخدمها على مسؤوليتك. راجع [SECURITY.md](SECURITY.md).
-
-## 🤝 المساهمة
-
-[CONTRIBUTING.md](CONTRIBUTING.md) — اقترح مصدراً عاماً جديداً، أبلغ عن إعداد معطوب، حسّن الكود، أو ترجم الوثائق.
-
-## 📚 الوثائق التقنية
-
-في مجلد [`docs/`](docs/)، منفصلة عن هذه الصفحة.
-
-## 📜 الترخيص
-
-[MIT](LICENSE)
 
 </div>
