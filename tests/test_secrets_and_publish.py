@@ -67,6 +67,11 @@ class TestPublishAllowList(unittest.TestCase):
         self.assertTrue(self.pub._allowed("status/summary.json"))
         self.assertTrue(self.pub._allowed("sources/seed_sources.json"))
 
+    def test_allows_landing_readmes(self):
+        self.assertTrue(self.pub._allowed("README.md"))
+        self.assertTrue(self.pub._allowed("README.en.md"))
+        self.assertTrue(self.pub._allowed("README.fa.md"))
+
     def test_rejects_unrelated_paths(self):
         self.assertFalse(self.pub._allowed("src/radar/publish.py"))
         self.assertFalse(self.pub._allowed(".github/workflows/ci.yml"))

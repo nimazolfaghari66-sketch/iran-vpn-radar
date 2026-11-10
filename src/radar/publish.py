@@ -60,7 +60,7 @@ class GitHubPublisher:
         branch: str,
         token: str,
         user_agent: str = "IranVPNRadar/1.0",
-        allow_prefixes: tuple[str, ...] = ("subscriptions/", "status/", "sources/"),
+        allow_prefixes: tuple[str, ...] = ("subscriptions/", "status/", "sources/", "README"),
     ):
         self.owner = owner
         self.repo = repo

@@ -38,6 +38,11 @@ PYTHONPATH=src python -m radar --root . validate       # validate subscriptions
 * `src/radar/globalping.py` — Iranian Globalping vantage-point diagnostics with
   real HTTP/TLS observations from Iranian ISP probes (see `docs/GLOBALPING.md`).
   Never publishable.
+* `src/radar/readme.py` — keeps the landing READMEs' subscription table in sync.
+  It recounts the `subscriptions/iran-priority/*` files (using the same
+  `parse_uri` de-dup/validity rules as the generator) and rewrites only the
+  marker-delimited block in each README. `python -m radar readme` runs it
+  standalone; the cycle runs it automatically before publishing.
 * `docs/IRAN_VANTAGE_POINTS.md` — record of every Iranian vantage-point method
   investigated and the honest remaining path to a full tunnel test.
 * `probe/probe_agent.py` — the Iran-based probe service (the only tunnel verifier).

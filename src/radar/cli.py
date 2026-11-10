@@ -6,6 +6,7 @@
     python -m radar generate       regenerate subscription files from stored state
     python -m radar status         print the current status report
     python -m radar validate       validate the current subscription files
+    python -m radar readme         recount files and refresh README tables
     python -m radar scan-secrets   scan the repository for secrets
     python -m radar probe-health   print Iran probe health
 """
@@ -81,6 +82,16 @@ def cmd_validate(args) -> int:
     report = validate.validate_files(files, previous_dir=settings.sub_dir)
     print(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
     return 0 if report.ok else 1
+
+
+def cmd_readme(args) -> int:
+    """Recount subscription files and refresh the README tables."""
+    from . import readme as readme_mod
+
+    settings = cfg.load_settings(_root(args))
+    result = readme_mod.update_readmes(settings)
+    print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2))
+    return 0 if result.ok else 1
 
 
 def cmd_status(args) -> int:
@@ -302,6 +313,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("generate", help="regenerate subscription files").set_defaults(func=cmd_generate)
     sub.add_parser("validate", help="validate subscription files").set_defaults(func=cmd_validate)
+    sub.add_parser("readme", help="refresh README subscription tables").set_defaults(func=cmd_readme)
     p = sub.add_parser("foreign-test", help="run a FOREIGN-location diagnostic (never published)")
     p.add_argument("--batch", type=int, default=5)
     p.set_defaults(func=cmd_foreign_test)

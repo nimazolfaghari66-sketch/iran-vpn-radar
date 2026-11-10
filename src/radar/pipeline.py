@@ -38,6 +38,7 @@ from . import (
     globalping,
     publish as publish_mod,
     quality,
+    readme as readme_mod,
     report as report_mod,
     tunnel_verify,
     validate,
@@ -70,6 +71,7 @@ class CycleStats:
     iran: dict = field(default_factory=dict)
     generated: dict[str, int] = field(default_factory=dict)
     validation: dict = field(default_factory=dict)
+    readme: dict = field(default_factory=dict)
     publish: dict = field(default_factory=dict)
     errors: list[str] = field(default_factory=list)
     duration_s: float = 0.0
@@ -97,6 +99,7 @@ class CycleStats:
             "iran": self.iran,
             "generated": self.generated,
             "validation": self.validation,
+            "readme": self.readme,
             "publish": self.publish,
             "errors": self.errors[:20],
         }
@@ -317,6 +320,16 @@ def run_cycle(settings, store: Store | None = None, max_probe_batch: int = 60) -
         index_path = settings.status_dir / "subscriptions.json"
         generate.write_index(generated_files + candidate_files + priority_files, index_path, settings)
 
+        # ------------------------------- 10b. README subscription section
+        # Recount the iran-priority files and refresh the subscription table in
+        # every landing README. Counts are derived from the files just written,
+        # so the numbers always match what clients download.
+        readme_result = readme_mod.update_readmes(settings)
+        stats.readme = readme_result.to_dict()
+        if not readme_result.ok:
+            for problem in readme_result.problems:
+                log.warning("readme update problem", extra={"context": {"problem": problem}})
+
         # ---------------------------------------------------- 13. reporting
         # Build and write reports *before* publishing so status/summary.json
         # reflects this cycle (publish reads it from disk to include it in the
@@ -367,6 +380,15 @@ def _publish(
     for gen in list(generated_files) + list(candidate_files) + list(priority_files):
         files[f"subscriptions/{gen.name}"] = gen.content
         files[f"subscriptions/{gen.name}.b64"] = gen.b64_content + "\n"
+
+    # Landing READMEs carry the auto-generated subscription table. Their content
+    # only changes when a subscription count changes, so including them does not
+    # create commits on idle cycles.
+    for path in readme_mod.readme_files(settings.root):
+        try:
+            files[path.name] = path.read_text(encoding="utf-8")
+        except OSError:
+            continue
 
     # Status reports carry a per-run timestamp, so publishing them on every cycle
     # would create a commit every 2 hours even when nothing changed. Only publish
