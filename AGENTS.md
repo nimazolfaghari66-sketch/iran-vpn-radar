@@ -110,3 +110,26 @@ stores its result in `Config.tunnel_status` (separate from `Config.status`) and
 labels records `GLOBAL`, so it can never promote a config to `WORKING`.
 `scripts/install_client.py` installs a pinned, checksum-verified sing-box into
 `.bin/` (git-ignored).
+
+## Healthy-pool targets and accumulating tunnel rounds
+
+Real tunnel verification works toward a **per-protocol** healthy target, never a
+combined total:
+
+* `cfg.TARGET_PER_PROTOCOL` (default `100`) — healthy configs wanted for *each*
+  protocol. 100 VLESS + 100 Trojan + … = 8 × 100, not 100 overall.
+* `cfg.MIN_TUNNEL_BATCH` (default `200`) — the *minimum* real tunnel tests per
+  cycle, not a maximum. `tunnel_verify.run_tunnel_rounds()` runs at least this
+  many, then keeps adding batches while any protocol is below target, stopping
+  when all targets are met, no untested configs remain, or the time budget
+  (`IRAN_RADAR_TUNNEL_TIME_BUDGET_S`, default 2400s) runs out.
+* `select_candidates()` round-robins across protocols, most-short first, so one
+  batch samples every protocol below target instead of exhausting one.
+* Successes **accumulate**; a later batch never replaces earlier healthy configs.
+  Partial progress is persisted, so a truncated cycle resumes next time.
+
+`tunnel_verify.build_dashboard()` / `dashboard_maps()` expose per-protocol
+discovered / tested / successful / healthy / target / shortage / iran-priority
+counts. `status/summary.json` publishes them as flat maps
+(`candidates.healthy.<proto>`, `candidates.shortage_by_protocol.<proto>`, …),
+which the READMEs read via dynamic badges.
