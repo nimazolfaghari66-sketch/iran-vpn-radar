@@ -2,194 +2,92 @@
 
 # 📡 Iran VPN Radar
 
-**Automatic discovery, testing and publication of free VPN subscriptions for users in Iran**
+**Free VPN subscriptions, tested from inside Iran — refreshed automatically every 2 hours**
 
-[![CI](https://github.com/nimazolfaghari66-sketch/iran-vpn-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/nimazolfaghari66-sketch/iran-vpn-radar/actions/workflows/ci.yml)
+[![Iran-verified](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.working&label=Iran-verified&color=brightgreen)](status/summary.json)
+[![Updated](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.generated_at&label=Updated&color=blue)](status/summary.json)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+**🌐 Languages:** [فارسی (primary)](README.md) · **English** · [العربية](README.ar.md) · [中文](README.zh.md) · [Русский](README.ru.md) · [Español](README.es.md)
 
 </div>
 
-**Languages:** [فارسی (primary)](README.md) · **English** · [العربية](README.ar.md) · [中文](README.zh.md) · [Русский](README.ru.md) · [Español](README.es.md)
+## 📥 Subscription links
 
----
+Copy a link below and add it to your VPN client. That's it.
 
-## ⚠️ Important: Iranian testing status
-
-This project has one non-negotiable rule: **a configuration is never published
-as "Iran-verified" unless it was genuinely tested by a probe physically located
-inside Iran.**
-
-The Iran probe is a separate service that must run on a host inside Iran. Until
-one is connected:
-
-* every configuration stays in the `PENDING_IRAN_TEST` state;
-* the published subscription files are intentionally **empty**;
-* no foreign-location or synthetic result is ever presented as an Iranian test.
-
-See [Iranian testing architecture](#-iranian-testing-architecture).
-
----
-
-## What is Iran VPN Radar?
-
-Iran VPN Radar is an automated, open-source system that:
-
-1. **Discovers** public sources that publish free VPN configurations — automatically.
-2. **Extracts**, normalises and **de-duplicates** configurations.
-3. **Tests** them **from inside Iran** using real protocol clients.
-4. **Removes** broken and duplicate configurations.
-5. **Publishes** protocol-specific subscription files.
-6. **Repeats** this cycle **every 2 hours**.
-
-## Supported protocols
-
-| Protocol | Subscription file | Status |
+| Protocol | Subscription link | Active |
 |----------|-------------------|--------|
-| All | `subscriptions/all` | ✅ |
-| VLESS | `subscriptions/vless` | ✅ |
-| VMess | `subscriptions/vmess` | ✅ |
-| Trojan | `subscriptions/trojan` | ✅ |
-| Shadowsocks | `subscriptions/shadowsocks` | ✅ |
-| Hysteria2 | `subscriptions/hysteria2` | ✅ |
-| TUIC | `subscriptions/tuic` | ✅ |
-| SOCKS | `subscriptions/socks` | ✅ |
-| HTTP/HTTPS | `subscriptions/http` | ✅ |
+| **All protocols** | [`subscriptions/all`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/all) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.working&label=%20&color=brightgreen) |
+| VLESS | [`subscriptions/vless`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vless) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.by_protocol.vless.publishable&label=%20&color=blue) |
+| VMess | [`subscriptions/vmess`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vmess) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.by_protocol.vmess.publishable&label=%20&color=blue) |
+| Trojan | [`subscriptions/trojan`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/trojan) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.by_protocol.trojan.publishable&label=%20&color=blue) |
+| Shadowsocks | [`subscriptions/shadowsocks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/shadowsocks) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.by_protocol.shadowsocks.publishable&label=%20&color=blue) |
+| Hysteria2 | [`subscriptions/hysteria2`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/hysteria2) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.by_protocol.hysteria2.publishable&label=%20&color=blue) |
+| TUIC | [`subscriptions/tuic`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/tuic) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.by_protocol.tuic.publishable&label=%20&color=blue) |
+| SOCKS | [`subscriptions/socks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/socks) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.by_protocol.socks.publishable&label=%20&color=blue) |
+| HTTP | [`subscriptions/http`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/http) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.by_protocol.http.publishable&label=%20&color=blue) |
 
-## Subscription links
+> A Base64 variant of each file is available with a `.b64` suffix. If your client wants a Base64 link, use that one. Example:
+> `https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vless.b64`
 
-```
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/all
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vless
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vmess
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/trojan
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/shadowsocks
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/hysteria2
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/tuic
-```
+### How to use
 
-A Base64-encoded variant of each file is available with a `.b64` suffix, e.g.:
+1. Copy the link for the protocol you want from the table above.
+2. In your client, choose **Add subscription**.
+3. Paste the link and refresh.
+4. Pick a server and connect.
 
-```
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vless.b64
-```
+## 📊 Status
 
-> **Note:** these files are empty until an Iran probe is connected. This is
-> deliberate and matches the project policy.
+* **Updates:** automatic, every 2 hours.
+* **Active configurations:** shown in the "Active" column above.
+* **Latest status:** [status/summary.json](status/summary.json)
 
-## Client compatibility
+> ⚠️ **Note:** only configurations that pass a real test from inside Iran are
+> published. Until a configuration passes that test, the files stay empty. We
+> never label an untested configuration as working.
+
+## 📱 Supported clients
 
 | Client | Platform | Recommended format |
 |--------|----------|--------------------|
 | v2rayNG | Android | Base64 link (`.b64`) |
 | v2rayN | Windows | Base64 link |
 | sing-box | Cross-platform | Plain text |
-| Clash / Clash.Meta | Cross-platform | Use the protocol files |
-| NekoBox / Hiddify | Cross-platform | Base64 link |
+| Hiddify / NekoBox | Cross-platform | Base64 link |
+| Clash / Clash.Meta | Cross-platform | Protocol files |
 
-## How it works
+## ❓ FAQ
 
-```
-discover sources → retrieve → extract → normalise → de-duplicate
-      → test from Iran → quality policy → generate files → validate → publish
-```
+**How often are the subscriptions updated?**
+Every 2 hours, automatically.
 
-A full cycle runs every 2 hours. If nothing changed, no new commit is created.
+**Why are the files empty?**
+Because no configuration has passed the "verified from inside Iran" test yet.
+This is deliberate, to avoid publishing broken configurations.
 
-## Quality and removal policy
+**How do I report a broken configuration?**
+Open an [Issue](https://github.com/nimazolfaghari66-sketch/iran-vpn-radar/issues).
+Please **never** post passwords, personal links or private information.
 
-| State | Meaning |
-|-------|---------|
-| `DISCOVERED` | Found, not yet tested |
-| `PENDING_IRAN_TEST` | Waiting for an Iran-based test |
-| `TESTING` | Test in progress |
-| `WORKING` | Iran-verified |
-| `DEGRADED` | One consecutive failure (still published) |
-| `FAILED` | Two consecutive failures (removed from output) |
-| `EXPIRED` | Expired or invalid (removed from output) |
-| `DUPLICATE` | Duplicate |
+**Are these configurations safe?**
+Configurations are **public** and may be unstable or owned by someone else.
+Use them at your own risk. See [SECURITY.md](SECURITY.md).
 
-## Iranian testing architecture
+## 🤝 Contributing
 
-Iranian testing is performed by a **separate probe agent** that must run inside
-Iran:
+Suggest a new public source, report a broken configuration, improve the code, or
+translate the docs. Guide: [CONTRIBUTING.md](CONTRIBUTING.md)
 
-```bash
-# On a host inside Iran:
-export IRAN_PROBE_TOKEN="a-strong-shared-secret"
-python3 probe/probe_agent.py --port 8787
-```
+## 📚 Technical documentation
 
-Then run the central engine with:
+Technical detail lives in [`docs/`](docs/), separate from this page:
 
-```bash
-export IRAN_RADAR_PROBE_MODE=remote
-export IRAN_PROBE_URL="https://probe.example.ir:8787"
-export IRAN_PROBE_TOKEN="the-same-shared-secret"
-```
+* [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — system architecture
+* [docs/IRAN_PROBE.md](docs/IRAN_PROBE.md) — Iran probe setup
+* [docs/IRAN_VANTAGE_POINTS.md](docs/IRAN_VANTAGE_POINTS.md) — testing from Iran
 
-Real tests cover: DNS resolution, server reachability, protocol handshake,
-tunnel establishment, internet access through the tunnel, latency, a
-size-limited download, and short-term stability.
-
-If no probe is available, no Iranian result is ever fabricated.
-
-### Iranian vantage-point diagnostics (Check-Host)
-
-In addition to the tunnel-verifying probe, the project uses the public
-[Check-Host](https://check-host.net) service to measure **reachability from
-inside Iran** (Tehran, Isfahan, Shiraz, Qom). Check-Host nodes are remote
-diagnostic probes: they can resolve a hostname or open a TCP/UDP socket, but we
-cannot run a VPN client on them.
-
-This means Check-Host can tell us that a server is *reachable* from Iran, but it
-**cannot** tell us that a tunnel *works*. Its results are diagnostic only, are
-never published, and can never move a configuration into the published set.
-Only the Iran probe can do that. See [docs/CHECKHOST.md](docs/CHECKHOST.md).
-
-### Iranian ISP probes via Globalping
-
-The project also uses the free, public [Globalping](https://globalping.io)
-network, which has volunteer probes on real Iranian ISP links — including
-Tehran and a Tabriz probe on the Mobile Communication Company of Iran (MCI)
-mobile network.
-
-Globalping runs a **real HTTP client** on the probe, so we can observe a genuine
-DNS lookup, TCP connect, **TLS handshake** and HTTP response from inside Iran.
-For a TLS-terminating configuration this is stronger evidence than a bare port
-check.
-
-It still cannot run a VLESS/VMess/Trojan/Shadowsocks/Hysteria2/TUIC client, so
-it can never prove the tunnel works, never observes the tunnel exit IP, and its
-results are likewise diagnostic-only and never publishable. See
-[docs/GLOBALPING.md](docs/GLOBALPING.md).
-
-We investigated every avenue for Iranian vantage-point testing, including RIPE
-Atlas, Iranian cloud platforms and volunteer measurement networks. The full
-record — what each can do and the honest remaining path to a full tunnel test —
-is in [docs/IRAN_VANTAGE_POINTS.md](docs/IRAN_VANTAGE_POINTS.md).
-
-## Reporting a broken configuration
-
-Use [Issues](https://github.com/nimazolfaghari66-sketch/iran-vpn-radar/issues).
-Please **never** post private information, passwords or your personal
-subscription link in an Issue.
-
-## Contributing
-
-* Suggest new public sources
-* Report broken configurations
-* Improve the code
-* Translate the documentation
-
-Full guide: [CONTRIBUTING.md](CONTRIBUTING.md)
-
-## Security and privacy
-
-* All configurations are **public** and may be unsafe, unstable, or owned by
-  someone else.
-* This project never stores or publishes passwords, tokens or private keys.
-* See [SECURITY.md](SECURITY.md) for details.
-
-## License
+## 📜 License
 
 [MIT](LICENSE)

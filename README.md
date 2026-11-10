@@ -1,174 +1,89 @@
 <div align="center" dir="rtl">
 
-# 📡 ایران وی‌پی‌ان رادار (Iran VPN Radar)
+# 📡 ایران وی‌پی‌ان رادار
 
-**کشف، آزمایش و انتشار خودکار اشتراک‌های رایگان وی‌پی‌ان برای کاربران ایران**
+**اشتراک‌های رایگان وی‌پی‌ان، آزمایش‌شده از داخل ایران — به‌صورت خودکار هر ۲ ساعت**
 
-[![CI](https://github.com/nimazolfaghari66-sketch/iran-vpn-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/nimazolfaghari66-sketch/iran-vpn-radar/actions/workflows/ci.yml)
+[![Iran-verified](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.working&label=%D8%AA%D8%A3%DB%8C%DB%8C%D8%AF%D8%B4%D8%AF%D9%87%20%D8%A7%D8%B2%20%D8%A7%DB%8C%D8%B1%D8%A7%D9%86&color=brightgreen)](status/summary.json)
+[![Updated](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.generated_at&label=%D8%A2%D8%AE%D8%B1%DB%8C%D9%86%20%D8%A8%D9%87%E2%80%8C%D8%B1%D9%88%D8%B2%D8%B1%D8%B3%D8%A7%D9%86%DB%8C&color=blue)](status/summary.json)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+**🌐 زبان‌ها:** **فارسی (اصلی)** · [English](README.en.md) · [العربية](README.ar.md) · [中文](README.zh.md) · [Русский](README.ru.md) · [Español](README.es.md)
+
 </div>
 
 <div dir="rtl">
 
-## 🌐 زبان‌ها
+## 📥 لینک‌های اشتراک
 
-**فارسی (زبان اصلی)** · [English](README.en.md) · [العربية](README.ar.md) · [中文](README.zh.md) · [Русский](README.ru.md) · [Español](README.es.md)
+لینک زیر را کپی کنید و در کلاینت وی‌پی‌ان خود اضافه کنید. تمام شد.
 
----
+| پروتکل | لینک اشتراک | تعداد فعال |
+|--------|-------------|-----------|
+| **همه پروتکل‌ها** | [`subscriptions/all`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/all) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.working&label=%20&color=brightgreen) |
+| VLESS | [`subscriptions/vless`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vless) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.by_protocol.vless.publishable&label=%20&color=blue) |
+| VMess | [`subscriptions/vmess`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vmess) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.by_protocol.vmess.publishable&label=%20&color=blue) |
+| Trojan | [`subscriptions/trojan`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/trojan) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.by_protocol.trojan.publishable&label=%20&color=blue) |
+| Shadowsocks | [`subscriptions/shadowsocks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/shadowsocks) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.by_protocol.shadowsocks.publishable&label=%20&color=blue) |
+| Hysteria2 | [`subscriptions/hysteria2`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/hysteria2) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.by_protocol.hysteria2.publishable&label=%20&color=blue) |
+| TUIC | [`subscriptions/tuic`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/tuic) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.by_protocol.tuic.publishable&label=%20&color=blue) |
+| SOCKS | [`subscriptions/socks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/socks) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.by_protocol.socks.publishable&label=%20&color=blue) |
+| HTTP | [`subscriptions/http`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/http) | ![](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnimazolfaghari66-sketch%2Firan-vpn-radar%2Fmain%2Fstatus%2Fsummary.json&query=%24.configs.by_protocol.http.publishable&label=%20&color=blue) |
 
-## ⚠️ مهم: وضعیت آزمایش ایرانی
+> نسخهٔ Base64 هر فایل با پسوند `.b64` در دسترس است. اگر کلاینت شما لینک Base64 می‌خواهد، از این نسخه استفاده کنید. مثال:
+> `https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vless.b64`
 
-این پروژه یک اصل سخت‌گیرانه دارد: **هیچ کانفیگی به عنوان «تأییدشده از ایران» منتشر نمی‌شود مگر آنکه واقعاً از یک کاوشگر مستقر در ایران آزمایش شده باشد.**
+### نحوهٔ استفاده
 
-کاوشگر ایران یک سرویس جداگانه است که باید روی میزبان داخل ایران اجرا شود. تا زمانی که چنین کاوشگری متصل نشده باشد:
+1. لینک پروتکلی که می‌خواهید را از جدول بالا کپی کنید.
+2. در کلاینت خود گزینهٔ **افزودن اشتراک (Add Subscription)** را انتخاب کنید.
+3. لینک را بچسبانید و به‌روزرسانی کنید.
+4. یک سرور را انتخاب و وصل شوید.
 
-* همهٔ کانفیگ‌ها در وضعیت `PENDING_IRAN_TEST` باقی می‌مانند.
-* فایل‌های اشتراک منتشرشده خالی خواهند بود.
-* هیچ نتیجهٔ ساختگی یا آزمایش خارج از ایران به‌عنوان آزمایش ایرانی گزارش نمی‌شود.
+## 📊 وضعیت
 
-برای راه‌اندازی کاوشگر ایران به بخش [معماری آزمایش ایرانی](#-معماری-آزمایش-ایرانی) مراجعه کنید.
+* **به‌روزرسانی:** خودکار، هر ۲ ساعت.
+* **تعداد کانفیگ‌های فعال:** در ستون «تعداد فعال» جدول بالا.
+* **آخرین وضعیت:** [status/summary.json](status/summary.json)
 
-</div>
+> ⚠️ **توجه:** فقط کانفیگ‌هایی منتشر می‌شوند که با آزمایش واقعی از داخل ایران سالم تشخیص داده شده باشند. تا زمانی که هیچ کانفیگی این شرط را نگذراند، فایل‌ها خالی می‌مانند. ما هرگز کانفیگ آزمایش‌نشده را «سالم» اعلام نمی‌کنیم.
 
----
-
-## English (summary)
-
-**Iran VPN Radar** automatically discovers publicly available **free** VPN
-subscription links, normalises them, de-duplicates them, tests them **from
-inside Iran** with real protocol clients, and publishes protocol-specific
-subscription files back to this repository.
-
-**Current status:** the discovery, extraction, normalisation, de-duplication,
-generation, validation and publishing pipeline is live and tested against real
-public sources. Iranian testing requires an Iran-based probe agent; until one is
-connected, all configurations stay `PENDING_IRAN_TEST` and the published
-subscription files are intentionally empty. No test result is ever fabricated.
-
-Full English documentation: **[README.en.md](README.en.md)**
-
----
-
-<div dir="rtl">
-
-## 🎯 این پروژه چیست؟
-
-ایران وی‌پی‌ان رادار یک سیستم خودکار و متن‌باز است که:
-
-1. منابع عمومی و رایگان انتشار کانفیگ را **به‌صورت خودکار کشف** می‌کند.
-2. کانفیگ‌ها را استخراج، نرمال‌سازی و **یکتاسازی** می‌کند.
-3. آن‌ها را **از داخل ایران** با کلاینت واقعی پروتکل آزمایش می‌کند.
-4. کانفیگ‌های خراب و تکراری را حذف می‌کند.
-5. فایل‌های اشتراک تفکیک‌شده بر اساس پروتکل را منتشر می‌کند.
-6. این چرخه را **هر ۲ ساعت** تکرار می‌کند.
-
-## 🔌 پروتکل‌های پشتیبانی‌شده
-
-| پروتکل | فایل اشتراک | وضعیت |
-|--------|-------------|-------|
-| همه | `subscriptions/all` | ✅ |
-| VLESS | `subscriptions/vless` | ✅ |
-| VMess | `subscriptions/vmess` | ✅ |
-| Trojan | `subscriptions/trojan` | ✅ |
-| Shadowsocks | `subscriptions/shadowsocks` | ✅ |
-| Hysteria2 | `subscriptions/hysteria2` | ✅ |
-| TUIC | `subscriptions/tuic` | ✅ |
-| SOCKS | `subscriptions/socks` | ✅ |
-| HTTP/HTTPS | `subscriptions/http` | ✅ |
-
-## 🔗 لینک‌های اشتراک
-
-```
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/all
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vless
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vmess
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/trojan
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/shadowsocks
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/hysteria2
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/tuic
-```
-
-نسخهٔ Base64 هر فایل با پسوند `.b64` در دسترس است، مثلاً:
-
-```
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vless.b64
-```
-
-> **توجه:** تا اتصال کاوشگر ایران، این فایل‌ها خالی هستند. این رفتار عمدی و مطابق سیاست پروژه است.
-
-## 📱 سازگاری با کلاینت‌ها
+## 📱 کلاینت‌های پشتیبانی‌شده
 
 | کلاینت | پلتفرم | قالب پیشنهادی |
 |--------|--------|----------------|
-| v2rayNG | Android | لینک Base64 (`.b64`) |
-| v2rayN | Windows | لینک Base64 |
+| v2rayNG | اندروید | لینک Base64 (`.b64`) |
+| v2rayN | ویندوز | لینک Base64 |
 | sing-box | چندسکویی | متن ساده |
-| Clash / Clash.Meta | چندسکویی | از فایل‌های پروتکل استفاده کنید |
-| NekoBox / Hiddify | چندسکویی | لینک Base64 |
+| Hiddify / NekoBox | چندسکویی | لینک Base64 |
+| Clash / Clash.Meta | چندسکویی | فایل‌های پروتکل |
 
-## ⚙️ نحوهٔ کار
+## ❓ پرسش‌های رایج
 
-```
-کشف منابع → دریافت → استخراج → نرمال‌سازی → یکتاسازی
-      → آزمایش از ایران → سیاست کیفیت → تولید فایل → اعتبارسنجی → انتشار
-```
+**اشتراک‌ها هر چند وقت به‌روز می‌شوند؟**
+هر ۲ ساعت، به‌صورت خودکار.
 
-هر ۲ ساعت یک چرخهٔ کامل اجرا می‌شود. اگر چیزی تغییر نکند، هیچ کامیت جدیدی ساخته نمی‌شود.
+**چرا فایل‌ها خالی هستند؟**
+چون هیچ کانفیگی هنوز شرط «تأییدشده از داخل ایران» را نگذرانده است. این عمدی است و برای جلوگیری از انتشار کانفیگ خراب انجام می‌شود.
 
-## 🛡️ سیاست کیفیت و حذف
+**چطور یک کانفیگ خراب را گزارش کنم؟**
+از طریق [Issues](https://github.com/nimazolfaghari66-sketch/iran-vpn-radar/issues). لطفاً **هیچ‌گاه** رمز عبور، لینک شخصی یا اطلاعات خصوصی خود را در Issues قرار ندهید.
 
-| وضعیت | معنی |
-|-------|------|
-| `DISCOVERED` | کشف شد، هنوز آزمایش نشده |
-| `PENDING_IRAN_TEST` | در انتظار آزمایش از ایران |
-| `TESTING` | در حال آزمایش |
-| `WORKING` | تأییدشده از ایران |
-| `DEGRADED` | یک شکست پشت‌سرهم (هنوز منتشر می‌شود) |
-| `FAILED` | دو شکست پشت‌سرهم (حذف از خروجی) |
-| `EXPIRED` | منقضی یا نامعتبر (حذف از خروجی) |
-| `DUPLICATE` | تکراری |
-
-## 🔬 معماری آزمایش ایرانی
-
-آزمایش ایرانی توسط یک **کاوشگر جداگانه** انجام می‌شود که باید داخل ایران اجرا شود:
-
-```bash
-# روی میزبان داخل ایران:
-export IRAN_PROBE_TOKEN="یک-کلید-مشترک-قوی"
-python3 probe/probe_agent.py --port 8787
-```
-
-سپس موتور مرکزی با این متغیرها اجرا می‌شود:
-
-```bash
-export IRAN_RADAR_PROBE_MODE=remote
-export IRAN_PROBE_URL="https://probe.example.ir:8787"
-export IRAN_PROBE_TOKEN="همان-کلید-مشترک"
-```
-
-آزمایش‌های واقعی شامل این مراحل است: DNS، دسترسی به سرور، دست‌دادن پروتکل، برقراری تونل، دسترسی به اینترنت از طریق تونل، تأخیر، سرعت دانلود محدود، و پایداری کوتاه‌مدت.
-
-اگر کاوشگر موجود نباشد، هیچ آزمایش ایرانی جعل نمی‌شود.
-
-## 🚨 گزارش کانفیگ خراب
-
-از طریق [Issues](https://github.com/nimazolfaghari66-sketch/iran-vpn-radar/issues) گزارش دهید. لطفاً **هیچ‌گاه** اطلاعات خصوصی، رمز عبور یا لینک اشتراک شخصی خود را در Issues قرار ندهید.
+**آیا این کانفیگ‌ها امن هستند؟**
+کانفیگ‌ها **عمومی** هستند و ممکن است ناپایدار یا متعلق به شخص دیگری باشند. با مسئولیت خودتان استفاده کنید. اطلاعات بیشتر: [SECURITY.md](SECURITY.md).
 
 ## 🤝 مشارکت
 
-* پیشنهاد منابع عمومی جدید
-* گزارش کانفیگ خراب
-* بهبود کد
-* ترجمهٔ مستندات
+پیشنهاد منبع عمومی جدید، گزارش کانفیگ خراب، بهبود کد، یا ترجمهٔ مستندات — همه خوش‌آمدند.
+راهنما: [CONTRIBUTING.md](CONTRIBUTING.md)
 
-راهنمای کامل: [CONTRIBUTING.md](CONTRIBUTING.md)
+## 📚 مستندات فنی
 
-## 🔒 امنیت و حریم خصوصی
+جزئیات فنی از این صفحه جدا و در پوشهٔ [`docs/`](docs/) قرار دارد:
 
-* تمام کانفیگ‌ها **عمومی** هستند و ممکن است ناامن، ناپایدار یا متعلق به شخص دیگری باشند.
-* این پروژه هیچ‌گاه رمز عبور، توکن یا کلید خصوصی را ذخیره یا منتشر نمی‌کند.
-* برای جزئیات به [SECURITY.md](SECURITY.md) مراجعه کنید.
+* [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — معماری سیستم
+* [docs/IRAN_PROBE.md](docs/IRAN_PROBE.md) — راه‌اندازی کاوشگر ایران
+* [docs/IRAN_VANTAGE_POINTS.md](docs/IRAN_VANTAGE_POINTS.md) — روش‌های آزمایش از ایران
 
 ## 📜 مجوز
 

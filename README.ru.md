@@ -2,98 +2,77 @@
 
 # 📡 Iran VPN Radar
 
-**Автоматический поиск, тестирование и публикация бесплатных VPN-подписок для пользователей в Иране**
+**Бесплатные VPN-подписки, протестированные изнутри Ирана — обновляются автоматически каждые 2 часа**
 
 </div>
 
 **Языки:** [فارسی (основной)](README.md) · [English](README.en.md) · [العربية](README.ar.md) · [中文](README.zh.md) · **Русский** · [Español](README.es.md)
 
-> ⚠️ **Перевод.** Основной язык проекта — персидский ([README.md](README.md)). Этот файл — вычитанный перевод.
+> ⚠️ **Перевод.** Основной язык проекта — персидский ([README.md](README.md)).
 
----
+## 📥 Ссылки на подписки
 
-## ⚠️ Статус иранского тестирования
+Скопируйте ссылку и добавьте её в свой VPN-клиент. Готово.
 
-В проекте есть одно незыблемое правило: **конфигурация публикуется как «проверенная в Иране» только если её действительно протестировал зонд, физически находящийся в Иране.**
+| Протокол | Ссылка на подписку |
+|----------|--------------------|
+| **Все протоколы** | [`subscriptions/all`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/all) |
+| VLESS | [`subscriptions/vless`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vless) |
+| VMess | [`subscriptions/vmess`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vmess) |
+| Trojan | [`subscriptions/trojan`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/trojan) |
+| Shadowsocks | [`subscriptions/shadowsocks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/shadowsocks) |
+| Hysteria2 | [`subscriptions/hysteria2`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/hysteria2) |
+| TUIC | [`subscriptions/tuic`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/tuic) |
+| SOCKS | [`subscriptions/socks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/socks) |
+| HTTP | [`subscriptions/http`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/http) |
 
-Пока зонд не подключён:
+> Версия в Base64 доступна с суффиксом `.b64`.
 
-* все конфигурации остаются в состоянии `PENDING_IRAN_TEST`;
-* опубликованные файлы подписок намеренно **пусты**;
-* результаты из-за рубежа или синтетические результаты никогда не выдаются за иранские.
+### Как использовать
 
-## Что это за проект?
+1. Скопируйте ссылку нужного протокола из таблицы выше.
+2. В клиенте выберите **Добавить подписку (Add subscription)**.
+3. Вставьте ссылку и обновите.
+4. Выберите сервер и подключитесь.
 
-Автоматизированная система с открытым исходным кодом, которая:
+## 📊 Статус
 
-1. **Находит** публичные источники бесплатных конфигураций VPN.
-2. **Извлекает**, нормализует и **удаляет дубликаты**.
-3. **Тестирует их изнутри Ирана** реальными клиентами протоколов.
-4. **Удаляет** нерабочие и дублирующиеся конфигурации.
-5. **Публикует** подписки, разделённые по протоколам.
-6. **Повторяет** цикл **каждые 2 часа**.
+* **Обновление:** автоматически, каждые 2 часа.
+* **Текущий статус:** [status/summary.json](status/summary.json)
 
-## Поддерживаемые протоколы
+> ⚠️ **Внимание:** публикуются только конфигурации, прошедшие реальный тест
+> изнутри Ирана. Пока конфигурация не прошла этот тест, файлы остаются пустыми.
+> Мы никогда не помечаем непроверенную конфигурацию как рабочую.
 
-| Протокол | Файл подписки |
-|----------|---------------|
-| Все | `subscriptions/all` |
-| VLESS | `subscriptions/vless` |
-| VMess | `subscriptions/vmess` |
-| Trojan | `subscriptions/trojan` |
-| Shadowsocks | `subscriptions/shadowsocks` |
-| Hysteria2 | `subscriptions/hysteria2` |
-| TUIC | `subscriptions/tuic` |
-| SOCKS | `subscriptions/socks` |
-| HTTP/HTTPS | `subscriptions/http` |
+## 📱 Поддерживаемые клиенты
 
-## Ссылки на подписки
+v2rayNG · v2rayN · sing-box · Hiddify / NekoBox · Clash / Clash.Meta
 
-```
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/all
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vless
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vmess
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/trojan
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/shadowsocks
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/hysteria2
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/tuic
-```
+## ❓ Частые вопросы
 
-Версия в Base64 доступна с суффиксом `.b64`.
+**Как часто обновляются подписки?** Каждые 2 часа, автоматически.
 
-## Иранское тестирование
+**Почему файлы пусты?** Потому что ни одна конфигурация ещё не прошла тест
+«проверено изнутри Ирана». Это сделано намеренно, чтобы не публиковать
+нерабочие конфигурации.
 
-Зонд должен работать на хосте внутри Ирана:
+**Как сообщить о нерабочей конфигурации?** Через
+[Issues](https://github.com/nimazolfaghari66-sketch/iran-vpn-radar/issues).
+Никогда не публикуйте пароли, личные ссылки или приватную информацию.
 
-```bash
-export IRAN_PROBE_TOKEN="надёжный-общий-секрет"
-python3 probe/probe_agent.py --port 8787
-```
+**Эти конфигурации безопасны?** Конфигурации **публичны** и могут быть
+нестабильны или принадлежать другим людям. Используйте на свой риск.
+См. [SECURITY.md](SECURITY.md).
 
-Затем центральный движок:
+## 🤝 Участие
 
-```bash
-export IRAN_RADAR_PROBE_MODE=remote
-export IRAN_PROBE_URL="https://probe.example.ir:8787"
-export IRAN_PROBE_TOKEN="тот-же-секрет"
-```
+[CONTRIBUTING.md](CONTRIBUTING.md) — предложить публичный источник, сообщить о
+нерабочей конфигурации, улучшить код или перевести документацию.
 
-Этапы теста: DNS, доступность сервера, рукопожатие протокола, установка туннеля, интернет через туннель, задержка, ограниченная загрузка, краткосрочная стабильность.
+## 📚 Техническая документация
 
-## Политика качества
+Находится в каталоге [`docs/`](docs/), отдельно от этой страницы.
 
-`DISCOVERED` → `PENDING_IRAN_TEST` → `TESTING` → `WORKING` / `DEGRADED` / `FAILED` / `EXPIRED` / `DUPLICATE`
-
-Одна ошибка подряд: `DEGRADED` (публикуется). Две подряд: удаляется из вывода.
-
-## Безопасность и приватность
-
-Все конфигурации **публичны** и могут быть небезопасны или нестабильны. Проект никогда не хранит и не публикует пароли, токены или закрытые ключи. См. [SECURITY.md](SECURITY.md).
-
-## Участие
-
-[CONTRIBUTING.md](CONTRIBUTING.md) — предложить публичный источник, сообщить о нерабочей конфигурации, улучшить код, перевести документацию.
-
-## Лицензия
+## 📜 Лицензия
 
 [MIT](LICENSE)

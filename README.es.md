@@ -2,98 +2,78 @@
 
 # 📡 Iran VPN Radar
 
-**Descubrimiento, prueba y publicación automáticos de suscripciones VPN gratuitas para usuarios en Irán**
+**Suscripciones VPN gratuitas, probadas desde dentro de Irán — se actualizan automáticamente cada 2 horas**
 
 </div>
 
 **Idiomas:** [فارسی (principal)](README.md) · [English](README.en.md) · [العربية](README.ar.md) · [中文](README.zh.md) · [Русский](README.ru.md) · **Español**
 
-> ⚠️ **Traducción.** El idioma principal del proyecto es el persa ([README.md](README.md)). Este archivo es una traducción revisada.
+> ⚠️ **Traducción.** El idioma principal del proyecto es el persa ([README.md](README.md)).
 
----
+## 📥 Enlaces de suscripción
 
-## ⚠️ Estado de las pruebas en Irán
+Copia un enlace y añádelo a tu cliente VPN. Eso es todo.
 
-El proyecto tiene una regla inquebrantable: **una configuración solo se publica como «verificada en Irán» si fue probada realmente por una sonda situada físicamente en Irán.**
-
-Hasta que haya una sonda conectada:
-
-* todas las configuraciones permanecen en estado `PENDING_IRAN_TEST`;
-* los archivos de suscripción publicados están **vacíos** a propósito;
-* nunca se presenta un resultado extranjero o sintético como prueba iraní.
-
-## ¿Qué es este proyecto?
-
-Un sistema automatizado de código abierto que:
-
-1. **Descubre** fuentes públicas de configuraciones VPN gratuitas.
-2. **Extrae**, normaliza y **elimina duplicados**.
-3. **Las prueba desde dentro de Irán** con clientes de protocolo reales.
-4. **Elimina** las configuraciones rotas y duplicadas.
-5. **Publica** archivos de suscripción por protocolo.
-6. **Repite** el ciclo **cada 2 horas**.
-
-## Protocolos compatibles
-
-| Protocolo | Archivo de suscripción |
+| Protocolo | Enlace de suscripción |
 |-----------|------------------------|
-| Todos | `subscriptions/all` |
-| VLESS | `subscriptions/vless` |
-| VMess | `subscriptions/vmess` |
-| Trojan | `subscriptions/trojan` |
-| Shadowsocks | `subscriptions/shadowsocks` |
-| Hysteria2 | `subscriptions/hysteria2` |
-| TUIC | `subscriptions/tuic` |
-| SOCKS | `subscriptions/socks` |
-| HTTP/HTTPS | `subscriptions/http` |
+| **Todos los protocolos** | [`subscriptions/all`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/all) |
+| VLESS | [`subscriptions/vless`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vless) |
+| VMess | [`subscriptions/vmess`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vmess) |
+| Trojan | [`subscriptions/trojan`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/trojan) |
+| Shadowsocks | [`subscriptions/shadowsocks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/shadowsocks) |
+| Hysteria2 | [`subscriptions/hysteria2`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/hysteria2) |
+| TUIC | [`subscriptions/tuic`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/tuic) |
+| SOCKS | [`subscriptions/socks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/socks) |
+| HTTP | [`subscriptions/http`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/http) |
 
-## Enlaces de suscripción
+> Cada archivo tiene una variante Base64 con el sufijo `.b64`.
 
-```
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/all
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vless
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vmess
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/trojan
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/shadowsocks
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/hysteria2
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/tuic
-```
+### Cómo usar
 
-Cada archivo tiene una variante Base64 con el sufijo `.b64`.
+1. Copia el enlace del protocolo que quieras de la tabla de arriba.
+2. En tu cliente, elige **Añadir suscripción (Add subscription)**.
+3. Pega el enlace y actualiza.
+4. Elige un servidor y conéctate.
 
-## Pruebas en Irán
+## 📊 Estado
 
-La sonda debe ejecutarse en un host dentro de Irán:
+* **Actualización:** automática, cada 2 horas.
+* **Último estado:** [status/summary.json](status/summary.json)
 
-```bash
-export IRAN_PROBE_TOKEN="secreto-compartido-fuerte"
-python3 probe/probe_agent.py --port 8787
-```
+> ⚠️ **Nota:** solo se publican las configuraciones que superan una prueba real
+> desde dentro de Irán. Hasta que una configuración supere esa prueba, los
+> archivos permanecen vacíos. Nunca marcamos como funcional una configuración
+> sin probar.
 
-Luego el motor central:
+## 📱 Clientes compatibles
 
-```bash
-export IRAN_RADAR_PROBE_MODE=remote
-export IRAN_PROBE_URL="https://probe.example.ir:8787"
-export IRAN_PROBE_TOKEN="el-mismo-secreto"
-```
+v2rayNG · v2rayN · sing-box · Hiddify / NekoBox · Clash / Clash.Meta
 
-Fases de la prueba: DNS, accesibilidad del servidor, handshake, túnel, internet a través del túnel, latencia, descarga limitada y estabilidad a corto plazo.
+## ❓ Preguntas frecuentes
 
-## Política de calidad
+**¿Con qué frecuencia se actualizan las suscripciones?** Cada 2 horas, automáticamente.
 
-`DISCOVERED` → `PENDING_IRAN_TEST` → `TESTING` → `WORKING` / `DEGRADED` / `FAILED` / `EXPIRED` / `DUPLICATE`
+**¿Por qué los archivos están vacíos?** Porque ninguna configuración ha superado
+aún la prueba «verificada desde dentro de Irán». Es deliberado, para no publicar
+configuraciones rotas.
 
-Un fallo consecutivo: `DEGRADED` (se publica). Dos fallos: se elimina de la salida.
+**¿Cómo reporto una configuración rota?** Abre un
+[Issue](https://github.com/nimazolfaghari66-sketch/iran-vpn-radar/issues).
+Nunca publiques contraseñas, enlaces personales ni información privada.
 
-## Seguridad y privacidad
+**¿Son seguras estas configuraciones?** Las configuraciones son **públicas** y
+pueden ser inestables o pertenecer a otra persona. Úsalas bajo tu propio riesgo.
+Ver [SECURITY.md](SECURITY.md).
 
-Todas las configuraciones son **públicas** y pueden ser inseguras o inestables. El proyecto nunca almacena ni publica contraseñas, tokens ni claves privadas. Ver [SECURITY.md](SECURITY.md).
+## 🤝 Contribuir
 
-## Contribuir
+[CONTRIBUTING.md](CONTRIBUTING.md) — sugiere una fuente pública, reporta una
+configuración rota, mejora el código o traduce la documentación.
 
-[CONTRIBUTING.md](CONTRIBUTING.md) — sugiere fuentes públicas, informa de configuraciones rotas, mejora el código, traduce la documentación.
+## 📚 Documentación técnica
 
-## Licencia
+Está en el directorio [`docs/`](docs/), separada de esta página.
+
+## 📜 Licencia
 
 [MIT](LICENSE)

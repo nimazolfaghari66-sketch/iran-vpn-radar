@@ -2,7 +2,7 @@
 
 # 📡 رادار VPN إيران
 
-**الاكتشاف والاختبار والنشر التلقائي لاشتراكات VPN المجانية لمستخدمي إيران**
+**اشتراكات VPN مجانية، مختبرة من داخل إيران — تُحدَّث تلقائياً كل ساعتين**
 
 </div>
 
@@ -10,89 +10,63 @@
 
 **اللغات:** [فارسی (الأساسية)](README.md) · [English](README.en.md) · **العربية** · [中文](README.zh.md) · [Русский](README.ru.md) · [Español](README.es.md)
 
-> ⚠️ **ترجمة.** اللغة الأساسية للمشروع هي الفارسية ([README.md](README.md)). هذا الملف ترجمة موثّقة.
+> ⚠️ **ترجمة.** اللغة الأساسية للمشروع هي الفارسية ([README.md](README.md)).
 
-## ⚠️ حالة الاختبار الإيراني
+## 📥 روابط الاشتراك
 
-لا يُنشَر أي إعداد على أنه «موثَّق من إيران» إلا إذا اختُبِر فعلياً بواسطة مجسّ موجود داخل إيران. وإلى أن يتم ربط المجسّ:
+انسخ الرابط وأضفه إلى عميل VPN الخاص بك. هذا كل شيء.
 
-* تبقى جميع الإعدادات في حالة `PENDING_IRAN_TEST`.
-* تبقى ملفات الاشتراك المنشورة **فارغة**.
-* لا يتم أبداً تقديم نتيجة أجنبية أو مصطنعة كاختبار إيراني.
-
-## ما هذا المشروع؟
-
-نظام مفتوح المصدر وآلي يقوم بما يلي:
-
-1. **يكتشف** المصادر العامة التي تنشر إعدادات VPN مجانية.
-2. **يستخرج** الإعدادات ويوحّدها و**يزيل التكرار**.
-3. **يختبرها من داخل إيران** باستخدام عملاء بروتوكول حقيقيين.
-4. **يحذف** الإعدادات المعطوبة والمكررة.
-5. **ينشر** ملفات اشتراك منفصلة لكل بروتوكول.
-6. **يكرر** هذه الدورة **كل ساعتين**.
-
-## البروتوكولات المدعومة
-
-| البروتوكول | ملف الاشتراك |
+| البروتوكول | رابط الاشتراك |
 |-----------|--------------|
-| الكل | `subscriptions/all` |
-| VLESS | `subscriptions/vless` |
-| VMess | `subscriptions/vmess` |
-| Trojan | `subscriptions/trojan` |
-| Shadowsocks | `subscriptions/shadowsocks` |
-| Hysteria2 | `subscriptions/hysteria2` |
-| TUIC | `subscriptions/tuic` |
-| SOCKS | `subscriptions/socks` |
-| HTTP/HTTPS | `subscriptions/http` |
+| **كل البروتوكولات** | [`subscriptions/all`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/all) |
+| VLESS | [`subscriptions/vless`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vless) |
+| VMess | [`subscriptions/vmess`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vmess) |
+| Trojan | [`subscriptions/trojan`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/trojan) |
+| Shadowsocks | [`subscriptions/shadowsocks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/shadowsocks) |
+| Hysteria2 | [`subscriptions/hysteria2`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/hysteria2) |
+| TUIC | [`subscriptions/tuic`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/tuic) |
+| SOCKS | [`subscriptions/socks`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/socks) |
+| HTTP | [`subscriptions/http`](https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/http) |
 
-## روابط الاشتراك
+> يتوفر إصدار Base64 من كل ملف باللاحقة `.b64`.
 
-```
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/all
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vless
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vmess
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/trojan
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/shadowsocks
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/hysteria2
-https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/tuic
-```
+### طريقة الاستخدام
 
-يتوفر إصدار Base64 من كل ملف باللاحقة `.b64`.
+1. انسخ رابط البروتوكول الذي تريده من الجدول أعلاه.
+2. في عميلك، اختر **إضافة اشتراك (Add subscription)**.
+3. الصق الرابط ثم حدّث.
+4. اختر خادماً واتصل.
 
-## الاختبار الإيراني
+## 📊 الحالة
 
-يجب تشغيل المجسّ على مضيف داخل إيران:
+* **التحديث:** تلقائي، كل ساعتين.
+* **أحدث حالة:** [status/summary.json](status/summary.json)
 
-```bash
-export IRAN_PROBE_TOKEN="سر-مشترك-قوي"
-python3 probe/probe_agent.py --port 8787
-```
+> ⚠️ **ملاحظة:** لا تُنشَر إلا الإعدادات التي تجتاز اختباراً حقيقياً من داخل إيران. وإلى أن تجتاز إعداد ما هذا الاختبار، تبقى الملفات فارغة. نحن لا نُعلن أبداً أن إعداداً غير مختبر «يعمل».
 
-ثم المحرك المركزي:
+## 📱 العملاء المدعومون
 
-```bash
-export IRAN_RADAR_PROBE_MODE=remote
-export IRAN_PROBE_URL="https://probe.example.ir:8787"
-export IRAN_PROBE_TOKEN="نفس-السر"
-```
+v2rayNG · v2rayN · sing-box · Hiddify / NekoBox · Clash / Clash.Meta
 
-مراحل الاختبار: DNS، الوصول إلى الخادم، المصافحة، النفق، الإنترنت عبر النفق، زمن الاستجابة، تنزيل محدود، الاستقرار.
+## ❓ الأسئلة الشائعة
 
-## سياسة الجودة
+**كم مرة تُحدَّث الاشتراكات؟** كل ساعتين تلقائياً.
 
-`DISCOVERED` → `PENDING_IRAN_TEST` → `TESTING` → `WORKING` / `DEGRADED` / `FAILED` / `EXPIRED` / `DUPLICATE`
+**لماذا الملفات فارغة؟** لأنه لم يجتز أي إعداد بعد اختبار «التحقق من داخل إيران». هذا مقصود لتجنّب نشر إعدادات معطوبة.
 
-فشل واحد: `DEGRADED` (يُبقى). فشلان متتاليان: يُحذف من الناتج.
+**كيف أبلّغ عن إعداد معطوب؟** عبر [Issues](https://github.com/nimazolfaghari66-sketch/iran-vpn-radar/issues). لا تنشر أبداً كلمات مرور أو روابط شخصية أو معلومات خاصة.
 
-## الأمن والخصوصية
+**هل هذه الإعدادات آمنة؟** الإعدادات **عامة** وقد تكون غير مستقرة أو مملوكة لشخص آخر. استخدمها على مسؤوليتك. راجع [SECURITY.md](SECURITY.md).
 
-جميع الإعدادات **عامة** وقد تكون غير آمنة أو غير مستقرة. لا يخزّن هذا المشروع أو ينشر كلمات مرور أو رموزاً أو مفاتيح خاصة. راجع [SECURITY.md](SECURITY.md).
+## 🤝 المساهمة
 
-## المساهمة
+[CONTRIBUTING.md](CONTRIBUTING.md) — اقترح مصدراً عاماً جديداً، أبلغ عن إعداد معطوب، حسّن الكود، أو ترجم الوثائق.
 
-[CONTRIBUTING.md](CONTRIBUTING.md) — اقترح مصادر عامة جديدة، أبلغ عن إعداد معطوب، حسّن الكود، ترجم الوثائق.
+## 📚 الوثائق التقنية
 
-## الترخيص
+في مجلد [`docs/`](docs/)، منفصلة عن هذه الصفحة.
+
+## 📜 الترخيص
 
 [MIT](LICENSE)
 
