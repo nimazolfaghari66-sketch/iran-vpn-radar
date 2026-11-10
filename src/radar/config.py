@@ -87,6 +87,38 @@ ALL_STATES = (
 # States that may appear in the published "active" subscription files.
 PUBLISHABLE_STATES = (WORKING, DEGRADED)
 
+# ---------------------------------------------------------------- Check-Host
+# Check-Host (check-host.net) is a public, third-party network diagnostic
+# service. Its Iranian nodes are remote *diagnostic probes*: we may ask them to
+# resolve a hostname or open a TCP/UDP socket, but we cannot install or run a
+# VPN client on them. A reachable port therefore proves reachability only, not
+# that a tunnel works.
+#
+# These classifications are recorded for diagnostics and reporting. NONE of
+# them is publishable. Only the dedicated Iran probe agent (iran_probe.py),
+# which runs a real VPN client inside Iran, may produce IRAN_FULL_TUNNEL_VERIFIED
+# and move a configuration to WORKING.
+IRAN_DNS_OK = "IRAN_DNS_OK"
+IRAN_TCP_REACHABLE = "IRAN_TCP_REACHABLE"
+IRAN_HTTP_REACHABLE = "IRAN_HTTP_REACHABLE"
+IRAN_UDP_REACHABLE = "IRAN_UDP_REACHABLE"
+IRAN_TIMEOUT = "IRAN_TIMEOUT"
+IRAN_UNREACHABLE = "IRAN_UNREACHABLE"
+IRAN_FULL_TUNNEL_VERIFIED = "IRAN_FULL_TUNNEL_VERIFIED"
+
+CHECKHOST_CLASSIFICATIONS = (
+    IRAN_DNS_OK,
+    IRAN_TCP_REACHABLE,
+    IRAN_HTTP_REACHABLE,
+    IRAN_UDP_REACHABLE,
+    IRAN_TIMEOUT,
+    IRAN_UNREACHABLE,
+)
+
+# Reachability seen from an Iranian diagnostic node. Informational only.
+CHECKHOST_REACHABLE = (IRAN_DNS_OK, IRAN_TCP_REACHABLE, IRAN_HTTP_REACHABLE, IRAN_UDP_REACHABLE)
+CHECKHOST_UNREACHABLE = (IRAN_TIMEOUT, IRAN_UNREACHABLE)
+
 DEFAULT_USER_AGENT = (
     "IranVPNRadar/1.0 (+https://github.com/{owner}/{repo}; public free-config aggregator)"
 )
@@ -152,6 +184,11 @@ class Settings:
     probe_timeout: float
     local_is_iran: bool
     allow_foreign_tests: bool
+
+    checkhost_enabled: bool
+    checkhost_batch: int
+    checkhost_checks: tuple[str, ...]
+    checkhost_min_interval: float
 
     publish_enabled: bool
     dry_run: bool
@@ -241,6 +278,19 @@ def load_settings(root: Path | None = None, **overrides) -> Settings:
         local_is_iran=overrides.get("local_is_iran", _env_bool("IRAN_RADAR_LOCAL_IS_IRAN", False)),
         allow_foreign_tests=overrides.get(
             "allow_foreign_tests", _env_bool("IRAN_RADAR_ALLOW_FOREIGN_TESTS", False)
+        ),
+        checkhost_enabled=overrides.get(
+            "checkhost_enabled", _env_bool("IRAN_RADAR_CHECKHOST", True)
+        ),
+        checkhost_batch=overrides.get(
+            "checkhost_batch", _env_int("IRAN_RADAR_CHECKHOST_BATCH", 12)
+        ),
+        checkhost_checks=tuple(
+            overrides.get("checkhost_checks")
+            or (_env("IRAN_RADAR_CHECKHOST_CHECKS") or "dns,tcp").split(",")
+        ),
+        checkhost_min_interval=overrides.get(
+            "checkhost_min_interval", _env_float("IRAN_RADAR_CHECKHOST_MIN_INTERVAL", 2.5)
         ),
         publish_enabled=overrides.get("publish_enabled", _env_bool("IRAN_RADAR_PUBLISH", False)),
         dry_run=overrides.get("dry_run", _env_bool("IRAN_RADAR_DRY_RUN", False)),

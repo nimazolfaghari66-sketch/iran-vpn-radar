@@ -20,6 +20,28 @@ from .storage import read_json
 SAFE_STATES = cfg.ALL_STATES
 
 
+def _checkhost_aggregate(settings) -> dict[str, Any]:
+    """Safe Check-Host aggregate: counts and cities only, no per-config data."""
+    try:
+        from . import checkhost
+
+        records = checkhost.load_results(settings.state_dir)
+    except Exception:
+        return {"available": False}
+    summary = checkhost.summarize_records(records)
+    return {
+        "available": True,
+        "configs_tested": summary.get("configs_tested", 0),
+        "by_summary": summary.get("by_summary", {}),
+        "by_city": summary.get("by_city", {}),
+        "by_protocol": summary.get("by_protocol", {}),
+        "note": (
+            "Check-Host Iranian nodes report reachability only; results are "
+            "diagnostic and never publishable. Only the Iran probe can verify a tunnel."
+        ),
+    }
+
+
 def build_summary(
     settings,
     configs: dict,
@@ -60,6 +82,7 @@ def build_summary(
         },
         "cycle": cycle_stats,
         "probe": probe_health,
+        "checkhost": _checkhost_aggregate(settings),
         "publish": publish_result or {"ok": None, "note": "not run"},
     }
 
@@ -91,6 +114,23 @@ def public_summary(summary: dict[str, Any]) -> dict[str, Any]:
             "configs_added": summary.get("cycle", {}).get("added", 0),
             "configs_removed": summary.get("cycle", {}).get("removed", 0),
         },
+        "checkhost": _public_checkhost(summary.get("checkhost", {})),
+    }
+
+
+def _public_checkhost(ch: dict[str, Any]) -> dict[str, Any]:
+    """Aggregate-only Check-Host view: no hostnames, IPs or per-config rows."""
+    if not ch or not ch.get("available"):
+        return {"available": False}
+    return {
+        "available": True,
+        "configs_tested": ch.get("configs_tested", 0),
+        "by_summary": ch.get("by_summary", {}),
+        "by_city": ch.get("by_city", {}),
+        "note": (
+            "Iranian Check-Host nodes measure reachability from Iran only. "
+            "These results are diagnostic and never used to publish a configuration."
+        ),
     }
 
 

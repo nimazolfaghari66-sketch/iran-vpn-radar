@@ -37,6 +37,7 @@ Iran VPN Radar is a modular pipeline. Each stage is an independent module under
 | `retrieval.py` | Polite, robots-aware, conditional, size-capped HTTP retrieval |
 | `quality.py` | Failure policy state machine and test selection |
 | `probe_protocol.py` | Wire protocol + result validation shared with the probe |
+| `checkhost.py` | Iranian Check-Host vantage-point diagnostics (reachability only; never publishable) |
 | `iran_probe.py` | Iran test orchestration; the only path to `WORKING` |
 | `local_probe.py` | Real tunnel testing with sing-box/xray (used by the probe) |
 | `foreign_probe.py` | Clearly-labelled foreign diagnostic (never published) |

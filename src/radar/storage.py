@@ -129,3 +129,14 @@ class Store:
 
     def save_probe_health(self, payload: dict) -> None:
         _atomic_write_json(self.probe_health_path, payload)
+
+    # ----------------------------------------------------- check-host nodes
+    @property
+    def checkhost_nodes_path(self) -> Path:
+        return self.state_dir / "checkhost_nodes.json"
+
+    def load_checkhost_nodes(self) -> dict:
+        return read_json(self.checkhost_nodes_path, {"nodes": [], "history": []})
+
+    def save_checkhost_nodes(self, payload: dict) -> None:
+        _atomic_write_json(self.checkhost_nodes_path, payload)

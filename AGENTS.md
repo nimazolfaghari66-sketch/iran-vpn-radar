@@ -33,7 +33,9 @@ PYTHONPATH=src python -m radar --root . validate       # validate subscriptions
 ## Layout
 
 * `src/radar/` — the engine (see `docs/ARCHITECTURE.md`).
-* `probe/probe_agent.py` — the Iran-based probe service.
+* `src/radar/checkhost.py` — Iranian Check-Host vantage-point diagnostics
+  (reachability only; see `docs/CHECKHOST.md`). Never publishable.
+* `probe/probe_agent.py` — the Iran-based probe service (the only tunnel verifier).
 * `sources/seed_sources.json` — bootstrap list of public sources.
 * `subscriptions/` — generated output (published).
 * `status/` — safe public aggregate reports (published).
@@ -59,5 +61,9 @@ PYTHONPATH=src python -m radar --root . validate       # validate subscriptions
 | `IRAN_PROBE_URL` | Iran probe base URL |
 | `IRAN_PROBE_TOKEN` | Iran probe shared secret |
 | `IRAN_RADAR_LOCAL_IS_IRAN` | `1` only when the runner really is inside Iran |
+| `IRAN_RADAR_CHECKHOST` | `1` to run Iranian Check-Host diagnostics |
+| `IRAN_RADAR_CHECKHOST_BATCH` | max configs per Check-Host round (default 12) |
+| `IRAN_RADAR_CHECKHOST_CHECKS` | `dns,tcp` (also `http`, `udp`, `ping`) |
+| `IRAN_RADAR_CHECKHOST_MIN_INTERVAL` | min seconds between Check-Host submissions |
 | `IRAN_RADAR_PUBLISH` | `1` to enable GitHub publishing |
 | `IRAN_RADAR_DRY_RUN` | `1` for a no-write run |

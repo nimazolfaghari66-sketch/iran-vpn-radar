@@ -68,6 +68,11 @@ jobs:
           IRAN_RADAR_PROBE_MODE: ${{ vars.IRAN_RADAR_PROBE_MODE || 'unavailable' }}
           IRAN_PROBE_URL: ${{ secrets.IRAN_PROBE_URL }}
           IRAN_PROBE_TOKEN: ${{ secrets.IRAN_PROBE_TOKEN }}
+          # Iranian Check-Host diagnostics: reachability from inside Iran only.
+          # These results are never publishable (see docs/CHECKHOST.md).
+          IRAN_RADAR_CHECKHOST: ${{ vars.IRAN_RADAR_CHECKHOST || '1' }}
+          IRAN_RADAR_CHECKHOST_BATCH: ${{ vars.IRAN_RADAR_CHECKHOST_BATCH || '12' }}
+          IRAN_RADAR_CHECKHOST_CHECKS: ${{ vars.IRAN_RADAR_CHECKHOST_CHECKS || 'dns,tcp' }}
         run: |
           if [ "${{ github.event.inputs.no_publish }}" = "true" ]; then
             python scripts/run_cycle.py --no-publish

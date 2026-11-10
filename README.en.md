@@ -133,6 +133,19 @@ size-limited download, and short-term stability.
 
 If no probe is available, no Iranian result is ever fabricated.
 
+### Iranian vantage-point diagnostics (Check-Host)
+
+In addition to the tunnel-verifying probe, the project uses the public
+[Check-Host](https://check-host.net) service to measure **reachability from
+inside Iran** (Tehran, Isfahan, Shiraz, Qom). Check-Host nodes are remote
+diagnostic probes: they can resolve a hostname or open a TCP/UDP socket, but we
+cannot run a VPN client on them.
+
+This means Check-Host can tell us that a server is *reachable* from Iran, but it
+**cannot** tell us that a tunnel *works*. Its results are diagnostic only, are
+never published, and can never move a configuration into the published set.
+Only the Iran probe can do that. See [docs/CHECKHOST.md](docs/CHECKHOST.md).
+
 ## Reporting a broken configuration
 
 Use [Issues](https://github.com/nimazolfaghari66-sketch/iran-vpn-radar/issues).

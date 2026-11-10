@@ -124,6 +124,86 @@ def cmd_foreign_test(args) -> int:
     return 0
 
 
+def cmd_checkhost_nodes(args) -> int:
+    """Discover current Iranian Check-Host nodes and compare with history."""
+    from . import checkhost
+
+    settings = cfg.load_settings(_root(args))
+    store = Store(settings.state_dir)
+    nodes = checkhost.discover_nodes()
+    comparison = checkhost.compare_with_historical(nodes)
+
+    # Persist the registry plus a bounded discovery history (timestamped).
+    payload = store.load_checkhost_nodes()
+    history = list(payload.get("history", []))
+    history.append({"discovered_at": comparison["checked_at"], "nodes": [n.to_dict() for n in nodes]})
+    store.save_checkhost_nodes({"updated_at": comparison["checked_at"], "nodes": [n.to_dict() for n in nodes], "history": history[-50:]})
+
+    print(json.dumps({"nodes": [n.to_dict() for n in nodes], "comparison": comparison}, ensure_ascii=False, indent=2))
+    return 0
+
+
+def cmd_checkhost_test(args) -> int:
+    """Test configurations from Iranian Check-Host nodes (diagnostic only)."""
+    from . import checkhost
+
+    settings = cfg.load_settings(_root(args))
+    store = Store(settings.state_dir)
+    configs = store.load_configs()
+
+    nodes = checkhost.discover_nodes()
+    if args.city:
+        wanted = {c.lower() for c in args.city}
+        nodes = [n for n in nodes if (n.city or "").lower() in wanted]
+    if not nodes:
+        print(json.dumps({"error": "no Iranian Check-Host nodes available", "tested": 0}, ensure_ascii=False, indent=2))
+        return 1
+
+    # Choose a representative sample: prefer protocol diversity.
+    chosen: list = []
+    seen_proto: set[str] = set()
+    for conf in configs.values():
+        if conf.status == cfg.DUPLICATE:
+            continue
+        if conf.protocol not in seen_proto:
+            chosen.append(conf)
+            seen_proto.add(conf.protocol)
+        if len(chosen) >= args.batch:
+            break
+    if len(chosen) < args.batch:
+        for conf in configs.values():
+            if conf in chosen or conf.status == cfg.DUPLICATE:
+                continue
+            chosen.append(conf)
+            if len(chosen) >= args.batch:
+                break
+
+    client = checkhost.CheckHostClient(min_interval=args.min_interval)
+    records = []
+    for conf in chosen:
+        records.append(checkhost.test_config(conf, nodes, client, checks=tuple(args.checks)))
+    path = checkhost.save_results(settings.state_dir, records)
+
+    summary = checkhost.summarize_records(checkhost.load_results(settings.state_dir))
+    print(json.dumps({
+        "nodes_used": [{"identifier": n.identifier, "city": n.city, "ip": n.ip, "asn": n.asn} for n in nodes],
+        "tested": len(records),
+        "results_file": str(path),
+        "summary": summary,
+    }, ensure_ascii=False, indent=2))
+    return 0
+
+
+def cmd_checkhost_status(args) -> int:
+    """Print aggregated Check-Host results (diagnostic; never publishable)."""
+    from . import checkhost
+
+    settings = cfg.load_settings(_root(args))
+    records = checkhost.load_results(settings.state_dir)
+    print(json.dumps(checkhost.summarize_records(records), ensure_ascii=False, indent=2))
+    return 0
+
+
 def cmd_probe_health(args) -> int:
     settings = cfg.load_settings(_root(args))
     store = Store(settings.state_dir)
@@ -166,6 +246,19 @@ def build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("status", help="print status report").set_defaults(func=cmd_status)
     sub.add_parser("probe-health", help="print Iran probe health").set_defaults(func=cmd_probe_health)
+
+    sub.add_parser("checkhost-nodes", help="discover Iranian Check-Host nodes").set_defaults(
+        func=cmd_checkhost_nodes
+    )
+    p = sub.add_parser("checkhost-test", help="test configs from Iranian Check-Host nodes (diagnostic)")
+    p.add_argument("--batch", type=int, default=12)
+    p.add_argument("--city", action="append", help="restrict to a city (repeatable)")
+    p.add_argument("--checks", nargs="+", default=["dns", "tcp"], help="checks: dns tcp http udp ping")
+    p.add_argument("--min-interval", type=float, default=2.5, help="min seconds between submissions")
+    p.set_defaults(func=cmd_checkhost_test)
+    sub.add_parser("checkhost-status", help="print Check-Host result summary").set_defaults(
+        func=cmd_checkhost_status
+    )
 
     p = sub.add_parser("scan-secrets", help="scan for secrets")
     p.add_argument("--allow-private-ips", action="store_true")
