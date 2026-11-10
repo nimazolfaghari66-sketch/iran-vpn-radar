@@ -195,6 +195,23 @@ class TestSampleSelection(unittest.TestCase):
         sample = gp.select_sample({c1.fingerprint: c1, c2.fingerprint: c2}, 10)
         self.assertEqual(sample, [c1])
 
+    def test_sample_prioritises_unlabelled_tunnel_verified(self):
+        plain = _conf(uri="vless://a@a.com:443", host="a.com")
+        verified = _conf(uri="vless://b@b.com:443", host="b.com")
+        verified.tunnel_status = "TUNNEL_VERIFIED"
+        configs = {plain.fingerprint: plain, verified.fingerprint: verified}
+        sample = gp.select_sample(configs, 1)
+        self.assertEqual(sample[0].fingerprint, verified.fingerprint)
+
+    def test_sample_skips_already_labelled_tunnel_verified(self):
+        plain = _conf(uri="vless://a@a.com:443", host="a.com")
+        verified = _conf(uri="vless://b@b.com:443", host="b.com")
+        verified.tunnel_status = "TUNNEL_VERIFIED"
+        verified.iran_reachability = "IRAN_TLS_OK"
+        configs = {plain.fingerprint: plain, verified.fingerprint: verified}
+        sample = gp.select_sample(configs, 1)
+        self.assertNotEqual(sample[0].fingerprint, verified.fingerprint)
+
 
 if __name__ == "__main__":
     unittest.main()

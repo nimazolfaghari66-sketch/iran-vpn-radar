@@ -534,24 +534,49 @@ def summarize_records(records: list[dict]) -> dict[str, Any]:
 
 
 def select_sample(configs: dict[str, Config], max_batch: int) -> list[Config]:
-    """Pick a protocol-diverse sample of candidate configurations."""
+    """Pick which configurations to measure from Iranian probes.
+
+    Priority: configs already tunnel-verified but without an Iranian
+    reachability label yet (so the candidate ranking gets real evidence), then a
+    protocol-diverse sample of everything else.
+    """
     chosen: list[Config] = []
-    seen: set[str] = set()
+    seen_fp: set[str] = set()
+
+    def _eligible(conf: Config) -> bool:
+        return conf.status not in (cfg.DUPLICATE, cfg.EXPIRED) and conf.fingerprint not in seen_fp
+
+    # 1. Tunnel-verified configs still missing an Iranian reachability label.
     for conf in configs.values():
-        if conf.status in (cfg.DUPLICATE, cfg.EXPIRED):
-            continue
-        if conf.protocol not in seen:
-            chosen.append(conf)
-            seen.add(conf.protocol)
         if len(chosen) >= max_batch:
             return chosen
-    if len(chosen) < max_batch:
-        for conf in configs.values():
-            if conf in chosen or conf.status in (cfg.DUPLICATE, cfg.EXPIRED):
-                continue
+        if not _eligible(conf):
+            continue
+        if getattr(conf, "tunnel_status", None) == "TUNNEL_VERIFIED" and not getattr(
+            conf, "iran_reachability", None
+        ):
             chosen.append(conf)
-            if len(chosen) >= max_batch:
-                break
+            seen_fp.add(conf.fingerprint)
+
+    # 2. Protocol-diverse sample of the rest.
+    seen_proto: set[str] = set()
+    for conf in configs.values():
+        if len(chosen) >= max_batch:
+            return chosen
+        if not _eligible(conf):
+            continue
+        if conf.protocol not in seen_proto:
+            chosen.append(conf)
+            seen_fp.add(conf.fingerprint)
+            seen_proto.add(conf.protocol)
+
+    # 3. Fill remaining slots.
+    for conf in configs.values():
+        if len(chosen) >= max_batch:
+            break
+        if _eligible(conf):
+            chosen.append(conf)
+            seen_fp.add(conf.fingerprint)
     return chosen
 
 

@@ -247,7 +247,9 @@ def run_tunnel_round(configs: dict[str, Config], settings, store, max_batch: int
         result["note"] = "nothing eligible for tunnel verification"
         return result
 
-    for conf in selected:
+    # Attach the latest Iranian reachability label to every config that has one,
+    # not only the ones selected this round — it feeds candidate ranking.
+    for conf in configs.values():
         summary = iran_index.get(conf.fingerprint)
         if summary:
             conf.iran_reachability = summary
