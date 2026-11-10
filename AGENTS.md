@@ -74,5 +74,25 @@ PYTHONPATH=src python -m radar --root . validate       # validate subscriptions
 | `IRAN_RADAR_GLOBALPING_BATCH` | max configs per Globalping round (default 10) |
 | `IRAN_RADAR_GLOBALPING_LIMIT` | probes per measurement (default 2) |
 | `IRAN_RADAR_GLOBALPING_MIN_INTERVAL` | min seconds between Globalping submissions |
+| `IRAN_RADAR_TUNNEL_VERIFY` | `1` to run global real-tunnel verification (default on) |
+| `IRAN_RADAR_TUNNEL_BATCH` | max configs per tunnel round (default 40; CI uses 800) |
+| `IRAN_RADAR_TUNNEL_WORKERS` | parallel sing-box workers (default 8; CI uses 16) |
+| `IRAN_RADAR_TUNNEL_DOWNLOAD_BYTES` | bytes downloaded per tunnel download stage |
+| `IRAN_RADAR_TUNNEL_STABILITY_SECONDS` | seconds of stability sampling per config |
+| `IRAN_RADAR_SING_BOX_BIN` | explicit sing-box path (else `.bin/sing-box`, then `PATH`) |
 | `IRAN_RADAR_PUBLISH` | `1` to enable GitHub publishing |
 | `IRAN_RADAR_DRY_RUN` | `1` for a no-write run |
+
+## Verification tiers (do not conflate)
+
+| Tier | Runs where | Can publish? | Where output goes |
+|------|-----------|--------------|-------------------|
+| Check-Host / Globalping | Iranian nodes/probes (reachability only) | No | diagnostics only |
+| Global tunnel verification (`tunnel_verify.py`) | engine host / CI runner (NOT Iran) | No | `subscriptions/candidates/*` |
+| Iran probe (`iran_probe.py`) | a real host inside Iran | Yes | `subscriptions/*` |
+
+The Iran gate is the only path to `subscriptions/*`. The global tunnel tier
+stores its result in `Config.tunnel_status` (separate from `Config.status`) and
+labels records `GLOBAL`, so it can never promote a config to `WORKING`.
+`scripts/install_client.py` installs a pinned, checksum-verified sing-box into
+`.bin/` (git-ignored).
