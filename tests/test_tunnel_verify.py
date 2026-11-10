@@ -238,7 +238,8 @@ class TestHealthyPoolTargets(unittest.TestCase):
                 c = _conf(f"vless://u{i}@v{i}.com:443?security=tls#a")
                 c.port = 443
                 configs[c.fingerprint] = c
-            # Patch the low-level round to mark every selected config verified.
+            # Patch the low-level round to mark every selected config verified,
+            # and stub client discovery so the test needs no real sing-box binary.
             def fake_round(cfgs, st, st_, max_batch=40):
                 n = 0
                 for conf in tunnel_verify.select_candidates(cfgs, max_batch):
@@ -246,12 +247,16 @@ class TestHealthyPoolTargets(unittest.TestCase):
                     tunnel_verify._apply_tunnel_result(conf, True, rec)
                     n += 1
                 return {"tested": n, "passed": n, "failed": 0}
+            from radar import local_probe
             orig = tunnel_verify.run_tunnel_round
+            orig_find = local_probe.find_client
             tunnel_verify.run_tunnel_round = fake_round
+            local_probe.find_client = lambda: ("sing-box", "/fake/sing-box")
             try:
                 res = tunnel_verify.run_tunnel_rounds(configs, settings, store, min_batch=cfg.MIN_TUNNEL_BATCH, max_batch=4)
             finally:
                 tunnel_verify.run_tunnel_round = orig
+                local_probe.find_client = orig_find
             self.assertGreaterEqual(res["tested"], 1)
             self.assertEqual(res["passed"], res["tested"])
             self.assertEqual(res["healthy_by_protocol"]["vless"], 3)
