@@ -84,7 +84,7 @@ jobs:
           # probes on Iranian ISP networks. Reachability only, never publishable
           # (see docs/GLOBALPING.md).
           IRAN_RADAR_GLOBALPING: ${{ vars.IRAN_RADAR_GLOBALPING || '1' }}
-          IRAN_RADAR_GLOBALPING_BATCH: ${{ vars.IRAN_RADAR_GLOBALPING_BATCH || '10' }}
+          IRAN_RADAR_GLOBALPING_BATCH: ${{ vars.IRAN_RADAR_GLOBALPING_BATCH || '40' }}
           IRAN_RADAR_GLOBALPING_LIMIT: ${{ vars.IRAN_RADAR_GLOBALPING_LIMIT || '2' }}
           # Global real-tunnel verification (NOT Iranian). Runs sing-box on the
           # runner and publishes passing configs to the candidate pool only.
