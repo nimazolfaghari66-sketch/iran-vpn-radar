@@ -1,0 +1,26 @@
+name: Feature request
+description: Suggest an improvement
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirmation
+      options:
+        - label: This request does not involve bypassing authentication, paywalls or access controls.
+          required: true
+        - label: This request does not involve paid APIs, servers or VPN subscriptions.
+          required: true

@@ -1,0 +1,87 @@
+name: radar-cycle
+
+# Runs the Iran VPN Radar update cycle every 2 hours.
+#
+# IMPORTANT — Iranian testing:
+# This workflow runs on GitHub-hosted runners, which are NOT inside Iran. It can
+# therefore discover, normalise, de-duplicate, generate and validate
+# subscriptions, but it CANNOT produce Iran-verified results. Unless an Iran
+# based probe is configured (IRAN_PROBE_URL + IRAN_PROBE_TOKEN secrets), every
+# configuration stays PENDING_IRAN_TEST and the subscription files remain empty
+# by design. Never configure a foreign host as the "Iran probe".
+
+on:
+  schedule:
+    - cron: "0 */2 * * *"   # every 2 hours, on the hour
+  workflow_dispatch:
+    inputs:
+      no_publish:
+        description: "Skip GitHub publishing (dry run)"
+        type: boolean
+        default: false
+
+concurrency:
+  group: radar-cycle
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  cycle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # Internal state (config history, failure counts, source registry) is kept
+      # out of the public repo, so it is persisted via the Actions cache instead.
+      # This is what lets the consecutive-failure policy work across cycles.
+      - name: Restore radar state
+        uses: actions/cache@v4
+        with:
+          path: data
+          key: radar-state-${{ github.run_id }}
+          restore-keys: |
+            radar-state-
+
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Scan for secrets
+        run: python scripts/scan_secrets.py --allow-private-ips
+
+      - name: Run update cycle
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IRAN_RADAR_PROBE_MODE: ${{ vars.IRAN_RADAR_PROBE_MODE || 'unavailable' }}
+          IRAN_PROBE_URL: ${{ secrets.IRAN_PROBE_URL }}
+          IRAN_PROBE_TOKEN: ${{ secrets.IRAN_PROBE_TOKEN }}
+        run: |
+          if [ "${{ github.event.inputs.no_publish }}" = "true" ]; then
+            python scripts/run_cycle.py --no-publish
+          else
+            python scripts/run_cycle.py
+          fi
+
+      - name: Upload cycle artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: radar-status
+          path: |
+            status/
+            data/summary.internal.json
+          if-no-files-found: ignore
+          retention-days: 7

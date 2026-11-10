@@ -1,0 +1,43 @@
+# Secrets and credentials — never commit
+.env
+.env.*
+*.env
+!.env.example
+secrets.json
+credentials.json
+*.pem
+*.key
+*.pfx
+*.p12
+id_rsa
+id_ed25519
+.netrc
+.npmrc
+.pypirc
+
+# Internal runtime state (kept out of the public repo on purpose)
+data/
+*.log
+logs/
+err.log
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~
+
+# Local scheduler / probe runtime files
+*.pid
+*.lock

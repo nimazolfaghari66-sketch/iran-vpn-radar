@@ -1,0 +1,49 @@
+{
+  "started_at": "2026-11-10T04:05:04Z",
+  "finished_at": "2026-11-10T04:05:25Z",
+  "duration_s": 20.84,
+  "sources": {
+    "total": 38,
+    "ok": 38,
+    "error": 0,
+    "new": 41
+  },
+  "configs": {
+    "discovered": 53817,
+    "added": 18622,
+    "removed": 0,
+    "publishable": 0
+  },
+  "iran": {
+    "status": "unavailable",
+    "probe": null,
+    "probe_is_iran": false,
+    "tested": 0,
+    "passed": 0,
+    "failed": 0,
+    "pending": 60,
+    "message": "No Iran based probe configured. Set IRAN_RADAR_PROBE_MODE=remote with IRAN_PROBE_URL and IRAN_PROBE_TOKEN, or run the engine with IRAN_RADAR_PROBE_MODE=local_iran on a host physically inside Iran. Configurations remain PENDING_IRAN_TEST and are not published as verified.",
+    "tested_at": "2026-11-10T04:05:25Z"
+  },
+  "generated": {
+    "all": 0,
+    "vless": 0,
+    "vmess": 0,
+    "trojan": 0,
+    "shadowsocks": 0,
+    "hysteria2": 0,
+    "tuic": 0,
+    "socks": 0,
+    "http": 0
+  },
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": []
+  },
+  "publish": {
+    "ok": null,
+    "note": "publishing disabled"
+  },
+  "errors": []
+}

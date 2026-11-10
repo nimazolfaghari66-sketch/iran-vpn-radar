@@ -1,0 +1,39 @@
+name: New source suggestion
+description: Suggest a public source that publishes free configurations
+title: "[New source] "
+labels: ["new-source"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Suggest a **public** source of free configurations. It must be reachable
+        without authentication, paywall or access-control bypass.
+  - type: input
+    id: url
+    attributes:
+      label: Source URL
+      placeholder: "https://raw.githubusercontent.com/owner/repo/main/all.txt"
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Source type
+      options:
+        - GitHub raw file
+        - GitHub repository
+        - Public website
+        - Other public feed
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirmation
+      options:
+        - label: The source is publicly accessible without authentication or payment.
+          required: true
+        - label: The source does not require bypassing access controls.
+          required: true
+        - label: I am not including any private or personal information.
+          required: true

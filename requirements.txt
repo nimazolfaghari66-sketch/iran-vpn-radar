@@ -1,0 +1,3 @@
+# Iran VPN Radar runtime dependencies.
+# Kept intentionally minimal: the engine is standard-library first.
+PyYAML>=6.0,<7.0

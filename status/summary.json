@@ -1,0 +1,65 @@
+{
+  "generated_at": "2026-11-10T04:05:26Z",
+  "repository": "nimazolfaghari66-sketch/iran-vpn-radar",
+  "protocols": [
+    "vless",
+    "vmess",
+    "trojan",
+    "shadowsocks",
+    "hysteria2",
+    "tuic",
+    "socks",
+    "http"
+  ],
+  "sources_total": 41,
+  "configs": {
+    "total": 18622,
+    "working": 0,
+    "degraded": 0,
+    "pending_iran_test": 60,
+    "by_protocol": {
+      "http": {
+        "total": 215,
+        "publishable": 0
+      },
+      "vmess": {
+        "total": 4276,
+        "publishable": 0
+      },
+      "trojan": {
+        "total": 2593,
+        "publishable": 0
+      },
+      "vless": {
+        "total": 7870,
+        "publishable": 0
+      },
+      "shadowsocks": {
+        "total": 3288,
+        "publishable": 0
+      },
+      "hysteria2": {
+        "total": 373,
+        "publishable": 0
+      },
+      "socks": {
+        "total": 5,
+        "publishable": 0
+      },
+      "tuic": {
+        "total": 2,
+        "publishable": 0
+      }
+    }
+  },
+  "iran_testing": {
+    "available": false,
+    "verified_configs": 0,
+    "last_verified_test": null
+  },
+  "last_publish_ok": null,
+  "cycle": {
+    "configs_added": 18622,
+    "configs_removed": 0
+  }
+}

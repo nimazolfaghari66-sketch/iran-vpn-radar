@@ -1,0 +1,70 @@
+{
+  "updated_at": "2026-11-10T04:05:25Z",
+  "repository": "nimazolfaghari66-sketch/iran-vpn-radar",
+  "branch": "main",
+  "subscriptions": [
+    {
+      "name": "all",
+      "protocol": "all",
+      "count": 0,
+      "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/all",
+      "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/all.b64"
+    },
+    {
+      "name": "vless",
+      "protocol": "vless",
+      "count": 0,
+      "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vless",
+      "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vless.b64"
+    },
+    {
+      "name": "vmess",
+      "protocol": "vmess",
+      "count": 0,
+      "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vmess",
+      "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/vmess.b64"
+    },
+    {
+      "name": "trojan",
+      "protocol": "trojan",
+      "count": 0,
+      "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/trojan",
+      "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/trojan.b64"
+    },
+    {
+      "name": "shadowsocks",
+      "protocol": "shadowsocks",
+      "count": 0,
+      "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/shadowsocks",
+      "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/shadowsocks.b64"
+    },
+    {
+      "name": "hysteria2",
+      "protocol": "hysteria2",
+      "count": 0,
+      "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/hysteria2",
+      "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/hysteria2.b64"
+    },
+    {
+      "name": "tuic",
+      "protocol": "tuic",
+      "count": 0,
+      "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/tuic",
+      "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/tuic.b64"
+    },
+    {
+      "name": "socks",
+      "protocol": "socks",
+      "count": 0,
+      "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/socks",
+      "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/socks.b64"
+    },
+    {
+      "name": "http",
+      "protocol": "http",
+      "count": 0,
+      "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/http",
+      "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/http.b64"
+    }
+  ]
+}

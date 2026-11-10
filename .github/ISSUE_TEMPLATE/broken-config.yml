@@ -1,0 +1,48 @@
+name: Broken configuration
+description: Report a configuration that no longer works
+title: "[Broken config] "
+labels: ["broken-config"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. **Do not paste credentials, tokens, passwords or your personal subscription link.**
+        Report only the protocol and the failing endpoint.
+  - type: dropdown
+    id: protocol
+    attributes:
+      label: Protocol
+      options:
+        - VLESS
+        - VMess
+        - Trojan
+        - Shadowsocks
+        - Hysteria2
+        - TUIC
+        - SOCKS
+        - HTTP/HTTPS
+        - All
+    validations:
+      required: true
+  - type: input
+    id: endpoint
+    attributes:
+      label: Endpoint (host:port only)
+      description: Do not include UUIDs, passwords or full links.
+      placeholder: "example.com:443"
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: What happens?
+      description: Describe the failure you observe.
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have not included any credentials, tokens or personal links.
+          required: true
