@@ -35,6 +35,9 @@ PYTHONPATH=src python -m radar --root . validate       # validate subscriptions
 * `src/radar/` — the engine (see `docs/ARCHITECTURE.md`).
 * `src/radar/checkhost.py` — Iranian Check-Host vantage-point diagnostics
   (reachability only; see `docs/CHECKHOST.md`). Never publishable.
+* `src/radar/globalping.py` — Iranian Globalping vantage-point diagnostics with
+  real HTTP/TLS observations from Iranian ISP probes (see `docs/GLOBALPING.md`).
+  Never publishable.
 * `probe/probe_agent.py` — the Iran-based probe service (the only tunnel verifier).
 * `sources/seed_sources.json` — bootstrap list of public sources.
 * `subscriptions/` — generated output (published).
@@ -65,5 +68,9 @@ PYTHONPATH=src python -m radar --root . validate       # validate subscriptions
 | `IRAN_RADAR_CHECKHOST_BATCH` | max configs per Check-Host round (default 12) |
 | `IRAN_RADAR_CHECKHOST_CHECKS` | `dns,tcp` (also `http`, `udp`, `ping`) |
 | `IRAN_RADAR_CHECKHOST_MIN_INTERVAL` | min seconds between Check-Host submissions |
+| `IRAN_RADAR_GLOBALPING` | `1` to run Iranian Globalping diagnostics |
+| `IRAN_RADAR_GLOBALPING_BATCH` | max configs per Globalping round (default 10) |
+| `IRAN_RADAR_GLOBALPING_LIMIT` | probes per measurement (default 2) |
+| `IRAN_RADAR_GLOBALPING_MIN_INTERVAL` | min seconds between Globalping submissions |
 | `IRAN_RADAR_PUBLISH` | `1` to enable GitHub publishing |
 | `IRAN_RADAR_DRY_RUN` | `1` for a no-write run |

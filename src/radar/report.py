@@ -42,6 +42,38 @@ def _checkhost_aggregate(settings) -> dict[str, Any]:
     }
 
 
+def _globalping_aggregate(settings) -> dict[str, Any]:
+    """Safe Globalping aggregate: counts and cities only, no per-config data."""
+    try:
+        from . import globalping
+
+        records = globalping.load_results(settings.state_dir)
+        probes = globalping.parse_probes(store_probes(settings))
+    except Exception:
+        return {"available": False}
+    summary = globalping.summarize_records(records)
+    return {
+        "available": True,
+        "probes": len([p for p in probes if p.is_iran]),
+        "configs_tested": summary.get("configs_tested", 0),
+        "tls_verified": summary.get("tls_verified", 0),
+        "by_summary": summary.get("by_summary", {}),
+        "by_city": summary.get("by_city", {}),
+        "by_protocol": summary.get("by_protocol", {}),
+        "note": (
+            "Globalping Iranian probes run a real HTTP/TLS client, so a TLS handshake "
+            "from Iran is observed. Results are diagnostic and never publishable; only "
+            "the Iran probe can verify a tunnel."
+        ),
+    }
+
+
+def store_probes(settings) -> list:
+    """Load the cached Globalping probe list (best-effort)."""
+    raw = read_json(settings.state_dir / "globalping_probes.json", {})
+    return list(raw.get("probes", [])) if isinstance(raw, dict) else []
+
+
 def build_summary(
     settings,
     configs: dict,
@@ -83,6 +115,7 @@ def build_summary(
         "cycle": cycle_stats,
         "probe": probe_health,
         "checkhost": _checkhost_aggregate(settings),
+        "globalping": _globalping_aggregate(settings),
         "publish": publish_result or {"ok": None, "note": "not run"},
     }
 
@@ -115,6 +148,25 @@ def public_summary(summary: dict[str, Any]) -> dict[str, Any]:
             "configs_removed": summary.get("cycle", {}).get("removed", 0),
         },
         "checkhost": _public_checkhost(summary.get("checkhost", {})),
+        "globalping": _public_globalping(summary.get("globalping", {})),
+    }
+
+
+def _public_globalping(gp: dict[str, Any]) -> dict[str, Any]:
+    """Aggregate-only Globalping view: no hostnames, IPs or per-config rows."""
+    if not gp or not gp.get("available"):
+        return {"available": False}
+    return {
+        "available": True,
+        "probes": gp.get("probes", 0),
+        "configs_tested": gp.get("configs_tested", 0),
+        "tls_verified": gp.get("tls_verified", 0),
+        "by_summary": gp.get("by_summary", {}),
+        "by_city": gp.get("by_city", {}),
+        "note": (
+            "Iranian Globalping probes observe DNS/TCP/TLS reachability from Iran. "
+            "Diagnostic only; never used to publish a configuration."
+        ),
     }
 
 

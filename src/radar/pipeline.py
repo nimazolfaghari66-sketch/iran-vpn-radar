@@ -35,6 +35,7 @@ from . import (
     discovery,
     extract,
     generate,
+    globalping,
     publish as publish_mod,
     quality,
     report as report_mod,
@@ -63,6 +64,7 @@ class CycleStats:
     configs_removed: int = 0
     configs_publishable: int = 0
     checkhost: dict = field(default_factory=dict)
+    globalping: dict = field(default_factory=dict)
     iran: dict = field(default_factory=dict)
     generated: dict[str, int] = field(default_factory=dict)
     validation: dict = field(default_factory=dict)
@@ -88,6 +90,7 @@ class CycleStats:
                 "publishable": self.configs_publishable,
             },
             "checkhost": self.checkhost,
+            "globalping": self.globalping,
             "iran": self.iran,
             "generated": self.generated,
             "validation": self.validation,
@@ -235,6 +238,12 @@ def run_cycle(settings, store: Store | None = None, max_probe_batch: int = 60) -
         # tunnel. This runs before the real Iran test, records diagnostics, and
         # deliberately does not touch configuration status.
         stats.checkhost = checkhost.run_checkhost_round(configs, settings, store)
+
+        # --------------------------------------- 6b. Globalping diagnostics
+        # Globalping runs a real HTTP/TLS client on Iranian ISP probes, so it
+        # can observe a genuine TLS handshake from Iran — stronger than a bare
+        # TCP check, but still not a tunnel. It likewise never touches status.
+        stats.globalping = globalping.run_globalping_round(configs, settings, store)
 
         # ------------------------------------------------ 6/7. Iran testing
         iran_report: IranTestReport = run_iran_tests(configs, settings, max_batch=max_probe_batch)

@@ -73,6 +73,12 @@ jobs:
           IRAN_RADAR_CHECKHOST: ${{ vars.IRAN_RADAR_CHECKHOST || '1' }}
           IRAN_RADAR_CHECKHOST_BATCH: ${{ vars.IRAN_RADAR_CHECKHOST_BATCH || '12' }}
           IRAN_RADAR_CHECKHOST_CHECKS: ${{ vars.IRAN_RADAR_CHECKHOST_CHECKS || 'dns,tcp' }}
+          # Iranian Globalping diagnostics: real HTTP/TLS observations from
+          # probes on Iranian ISP networks. Reachability only, never publishable
+          # (see docs/GLOBALPING.md).
+          IRAN_RADAR_GLOBALPING: ${{ vars.IRAN_RADAR_GLOBALPING || '1' }}
+          IRAN_RADAR_GLOBALPING_BATCH: ${{ vars.IRAN_RADAR_GLOBALPING_BATCH || '10' }}
+          IRAN_RADAR_GLOBALPING_LIMIT: ${{ vars.IRAN_RADAR_GLOBALPING_LIMIT || '2' }}
         run: |
           if [ "${{ github.event.inputs.no_publish }}" = "true" ]; then
             python scripts/run_cycle.py --no-publish

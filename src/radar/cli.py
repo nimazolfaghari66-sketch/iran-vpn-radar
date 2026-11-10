@@ -204,6 +204,68 @@ def cmd_checkhost_status(args) -> int:
     return 0
 
 
+def cmd_globalping_probes(args) -> int:
+    """Discover current Iranian Globalping probes."""
+    from . import globalping
+
+    settings = cfg.load_settings(_root(args))
+    store = Store(settings.state_dir)
+    probes = globalping.discover_probes(user_agent=settings.user_agent)
+    store.save_globalping_probes({
+        "updated_at": iso(utcnow()),
+        "probes": [p.to_dict() for p in probes],
+        "cities": sorted({p.city for p in probes if p.city}),
+    })
+    print(json.dumps({
+        "count": len(probes),
+        "cities": sorted({p.city for p in probes if p.city}),
+        "probes": [p.to_dict() for p in probes],
+    }, ensure_ascii=False, indent=2))
+    return 0
+
+
+def cmd_globalping_test(args) -> int:
+    """Test configurations from Iranian Globalping probes (diagnostic only)."""
+    from . import globalping
+
+    settings = cfg.load_settings(_root(args))
+    store = Store(settings.state_dir)
+    configs = store.load_configs()
+
+    probes = globalping.discover_probes(user_agent=settings.user_agent)
+    if args.city:
+        wanted = {c.lower() for c in args.city}
+        probes = [p for p in probes if (p.city or "").lower() in wanted]
+    if not probes:
+        print(json.dumps({"error": "no Iranian Globalping probes available", "tested": 0}, ensure_ascii=False, indent=2))
+        return 1
+
+    chosen = globalping.select_sample(configs, args.batch)
+    client = globalping.GlobalpingClient(
+        user_agent=settings.user_agent, min_interval=args.min_interval
+    )
+    records = [globalping.test_config(c, client, limit=args.limit) for c in chosen]
+    path = globalping.save_results(settings.state_dir, records)
+    summary = globalping.summarize_records(globalping.load_results(settings.state_dir))
+    print(json.dumps({
+        "probes_used": [p.to_dict() for p in probes],
+        "tested": len(records),
+        "results_file": str(path),
+        "summary": summary,
+    }, ensure_ascii=False, indent=2))
+    return 0
+
+
+def cmd_globalping_status(args) -> int:
+    """Print aggregated Globalping results (diagnostic; never publishable)."""
+    from . import globalping
+
+    settings = cfg.load_settings(_root(args))
+    records = globalping.load_results(settings.state_dir)
+    print(json.dumps(globalping.summarize_records(records), ensure_ascii=False, indent=2))
+    return 0
+
+
 def cmd_probe_health(args) -> int:
     settings = cfg.load_settings(_root(args))
     store = Store(settings.state_dir)
@@ -258,6 +320,19 @@ def build_parser() -> argparse.ArgumentParser:
     p.set_defaults(func=cmd_checkhost_test)
     sub.add_parser("checkhost-status", help="print Check-Host result summary").set_defaults(
         func=cmd_checkhost_status
+    )
+
+    sub.add_parser("globalping-probes", help="discover Iranian Globalping probes").set_defaults(
+        func=cmd_globalping_probes
+    )
+    p = sub.add_parser("globalping-test", help="test configs from Iranian Globalping probes (diagnostic)")
+    p.add_argument("--batch", type=int, default=10)
+    p.add_argument("--limit", type=int, default=2, help="probes per measurement")
+    p.add_argument("--city", action="append", help="restrict to a city (repeatable)")
+    p.add_argument("--min-interval", type=float, default=1.5, help="min seconds between measurements")
+    p.set_defaults(func=cmd_globalping_test)
+    sub.add_parser("globalping-status", help="print Globalping result summary").set_defaults(
+        func=cmd_globalping_status
     )
 
     p = sub.add_parser("scan-secrets", help="scan for secrets")

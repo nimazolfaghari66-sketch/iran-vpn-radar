@@ -140,3 +140,13 @@ class Store:
 
     def save_checkhost_nodes(self, payload: dict) -> None:
         _atomic_write_json(self.checkhost_nodes_path, payload)
+
+    @property
+    def globalping_probes_path(self) -> Path:
+        return self.state_dir / "globalping_probes.json"
+
+    def load_globalping_probes(self) -> dict:
+        return read_json(self.globalping_probes_path, {"probes": [], "cities": []})
+
+    def save_globalping_probes(self, payload: dict) -> None:
+        _atomic_write_json(self.globalping_probes_path, payload)

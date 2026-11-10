@@ -146,6 +146,23 @@ This means Check-Host can tell us that a server is *reachable* from Iran, but it
 never published, and can never move a configuration into the published set.
 Only the Iran probe can do that. See [docs/CHECKHOST.md](docs/CHECKHOST.md).
 
+### Iranian ISP probes via Globalping
+
+The project also uses the free, public [Globalping](https://globalping.io)
+network, which has volunteer probes on real Iranian ISP links — including
+Tehran and a Tabriz probe on the Mobile Communication Company of Iran (MCI)
+mobile network.
+
+Globalping runs a **real HTTP client** on the probe, so we can observe a genuine
+DNS lookup, TCP connect, **TLS handshake** and HTTP response from inside Iran.
+For a TLS-terminating configuration this is stronger evidence than a bare port
+check.
+
+It still cannot run a VLESS/VMess/Trojan/Shadowsocks/Hysteria2/TUIC client, so
+it can never prove the tunnel works, never observes the tunnel exit IP, and its
+results are likewise diagnostic-only and never publishable. See
+[docs/GLOBALPING.md](docs/GLOBALPING.md).
+
 ## Reporting a broken configuration
 
 Use [Issues](https://github.com/nimazolfaghari66-sketch/iran-vpn-radar/issues).

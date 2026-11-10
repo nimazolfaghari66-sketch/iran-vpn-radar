@@ -102,6 +102,8 @@ IRAN_DNS_OK = "IRAN_DNS_OK"
 IRAN_TCP_REACHABLE = "IRAN_TCP_REACHABLE"
 IRAN_HTTP_REACHABLE = "IRAN_HTTP_REACHABLE"
 IRAN_UDP_REACHABLE = "IRAN_UDP_REACHABLE"
+IRAN_ICMP_REACHABLE = "IRAN_ICMP_REACHABLE"
+IRAN_TLS_OK = "IRAN_TLS_OK"
 IRAN_TIMEOUT = "IRAN_TIMEOUT"
 IRAN_UNREACHABLE = "IRAN_UNREACHABLE"
 IRAN_FULL_TUNNEL_VERIFIED = "IRAN_FULL_TUNNEL_VERIFIED"
@@ -111,13 +113,41 @@ CHECKHOST_CLASSIFICATIONS = (
     IRAN_TCP_REACHABLE,
     IRAN_HTTP_REACHABLE,
     IRAN_UDP_REACHABLE,
+    IRAN_ICMP_REACHABLE,
+    IRAN_TLS_OK,
     IRAN_TIMEOUT,
     IRAN_UNREACHABLE,
 )
 
 # Reachability seen from an Iranian diagnostic node. Informational only.
-CHECKHOST_REACHABLE = (IRAN_DNS_OK, IRAN_TCP_REACHABLE, IRAN_HTTP_REACHABLE, IRAN_UDP_REACHABLE)
+CHECKHOST_REACHABLE = (
+    IRAN_DNS_OK,
+    IRAN_TCP_REACHABLE,
+    IRAN_HTTP_REACHABLE,
+    IRAN_UDP_REACHABLE,
+    IRAN_ICMP_REACHABLE,
+    IRAN_TLS_OK,
+)
 CHECKHOST_UNREACHABLE = (IRAN_TIMEOUT, IRAN_UNREACHABLE)
+
+# ---------------------------------------------------------------- Globalping
+# Globalping (globalping.io) is a free, public, volunteer-run measurement
+# network. It exposes probes on real Iranian ISP networks (Tehran, Tabriz —
+# including Mobile Communication Company of Iran and ArvanCloud eyeball links)
+# and lets anyone run ping / dns / traceroute / mtr / http measurements from
+# them, with no account and no cost.
+#
+# Globalping *does* run a real HTTP/TLS client on the probe, so we can observe a
+# genuine TCP connect and even a full TLS handshake to a configuration's server
+# **from inside Iran**. That is a stronger signal than Check-Host's TCP probe.
+#
+# It still cannot run a VLESS/VMess/Trojan/Shadowsocks/Hysteria2/TUIC client, so
+# it can never prove a *tunnel* works. Its results reuse the same
+# non-publishable classification taxonomy as Check-Host and can never move a
+# configuration to WORKING.
+GLOBALPING_CLASSIFICATIONS = CHECKHOST_CLASSIFICATIONS
+GLOBALPING_REACHABLE = CHECKHOST_REACHABLE
+GLOBALPING_UNREACHABLE = CHECKHOST_UNREACHABLE
 
 DEFAULT_USER_AGENT = (
     "IranVPNRadar/1.0 (+https://github.com/{owner}/{repo}; public free-config aggregator)"
@@ -189,6 +219,12 @@ class Settings:
     checkhost_batch: int
     checkhost_checks: tuple[str, ...]
     checkhost_min_interval: float
+
+    globalping_enabled: bool
+    globalping_batch: int
+    globalping_limit: int
+    globalping_min_interval: float
+    globalping_timeout: float
 
     publish_enabled: bool
     dry_run: bool
@@ -291,6 +327,21 @@ def load_settings(root: Path | None = None, **overrides) -> Settings:
         ),
         checkhost_min_interval=overrides.get(
             "checkhost_min_interval", _env_float("IRAN_RADAR_CHECKHOST_MIN_INTERVAL", 2.5)
+        ),
+        globalping_enabled=overrides.get(
+            "globalping_enabled", _env_bool("IRAN_RADAR_GLOBALPING", True)
+        ),
+        globalping_batch=overrides.get(
+            "globalping_batch", _env_int("IRAN_RADAR_GLOBALPING_BATCH", 10)
+        ),
+        globalping_limit=overrides.get(
+            "globalping_limit", _env_int("IRAN_RADAR_GLOBALPING_LIMIT", 2)
+        ),
+        globalping_min_interval=overrides.get(
+            "globalping_min_interval", _env_float("IRAN_RADAR_GLOBALPING_MIN_INTERVAL", 1.5)
+        ),
+        globalping_timeout=overrides.get(
+            "globalping_timeout", _env_float("IRAN_RADAR_GLOBALPING_TIMEOUT", 60.0)
         ),
         publish_enabled=overrides.get("publish_enabled", _env_bool("IRAN_RADAR_PUBLISH", False)),
         dry_run=overrides.get("dry_run", _env_bool("IRAN_RADAR_DRY_RUN", False)),
