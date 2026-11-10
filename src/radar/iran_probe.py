@@ -126,10 +126,15 @@ def run_iran_tests(
 
     # ---- Local runner that is physically inside Iran.
     if settings.probe_mode == "local_iran":
-        from .local_probe import run_local_tests
+        from .local_probe import detect_country, run_local_tests
 
         probe = _probe_info_local_iran(settings)
-        if not settings.local_is_iran:
+
+        # An environment flag is never sufficient evidence on its own: the host
+        # must positively detect that it is in Iran. This prevents a foreign
+        # host from publishing results as Iranian by setting a variable.
+        detected = detect_country() if settings.local_is_iran else ""
+        if not settings.local_is_iran or detected != "IR":
             for conf in selected:
                 quality.mark_pending(conf)
             return IranTestReport(
@@ -137,8 +142,9 @@ def run_iran_tests(
                 probe=probe,
                 pending=len(selected),
                 message=(
-                    "IRAN_RADAR_PROBE_MODE=local_iran requires IRAN_RADAR_LOCAL_IS_IRAN=1. "
-                    "Refusing to label non-Iranian tests as Iranian."
+                    "IRAN_RADAR_PROBE_MODE=local_iran refused: this host did not "
+                    f"positively detect as Iran (detected country={detected or 'unknown'!r}). "
+                    "Iranian tests are only performed on a host that is actually inside Iran."
                 ),
             )
         outcomes = run_local_tests(selected, probe)

@@ -41,6 +41,28 @@ DOWNLOAD_URL = "https://speed.cloudflare.com/__down?bytes={bytes}"
 DNS_CHECK_HOST = "example.com"
 
 
+def detect_country(timeout: float = 8.0) -> str:
+    """Best-effort 2-letter country code for this host, or "" if unknown.
+
+    Used to keep ``local_iran`` mode honest: a host may only label its tests as
+    Iranian when it positively detects that it is in Iran. An environment flag
+    alone is never sufficient evidence.
+    """
+    import urllib.request
+
+    for url in ("https://ipinfo.io/json", "https://ifconfig.co/json"):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "IranVPNRadar/1.0"})
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                data = json.loads(resp.read().decode("utf-8", "replace"))
+            country = (data.get("country") or data.get("country_iso") or "").upper()
+            if country:
+                return country[:2]
+        except Exception:
+            continue
+    return ""
+
+
 def find_client() -> tuple[str, str] | None:
     """Return ``(kind, path)`` for an available client, or ``None``."""
     for kind, names in (("sing-box", ("sing-box",)), ("xray", ("xray",)), ("v2ray", ("v2ray",))):

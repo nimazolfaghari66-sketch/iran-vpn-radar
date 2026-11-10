@@ -69,6 +69,28 @@ class TestIranGate(unittest.TestCase):
         for conf in configs.values():
             self.assertEqual(conf.status, cfg.PENDING_IRAN_TEST)
 
+    def test_local_iran_flag_without_iran_detection_is_refused(self):
+        """A foreign host that sets the flag must still be refused."""
+
+        class S(FakeSettings):
+            probe_mode = "local_iran"
+            local_is_iran = True
+
+        import radar.iran_probe as ip
+        import radar.local_probe as lp
+
+        original = lp.detect_country
+        lp.detect_country = lambda *a, **k: "US"  # pretend the host is in the US
+        try:
+            configs = self._configs()
+            report = run_iran_tests(configs, S(), max_batch=10)
+        finally:
+            lp.detect_country = original
+
+        self.assertEqual(report.status, "unavailable")
+        for conf in configs.values():
+            self.assertEqual(conf.status, cfg.PENDING_IRAN_TEST)
+
 
 if __name__ == "__main__":
     unittest.main()
