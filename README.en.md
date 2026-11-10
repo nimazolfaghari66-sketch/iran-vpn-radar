@@ -163,6 +163,11 @@ it can never prove the tunnel works, never observes the tunnel exit IP, and its
 results are likewise diagnostic-only and never publishable. See
 [docs/GLOBALPING.md](docs/GLOBALPING.md).
 
+We investigated every avenue for Iranian vantage-point testing, including RIPE
+Atlas, Iranian cloud platforms and volunteer measurement networks. The full
+record — what each can do and the honest remaining path to a full tunnel test —
+is in [docs/IRAN_VANTAGE_POINTS.md](docs/IRAN_VANTAGE_POINTS.md).
+
 ## Reporting a broken configuration
 
 Use [Issues](https://github.com/nimazolfaghari66-sketch/iran-vpn-radar/issues).

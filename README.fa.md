@@ -75,6 +75,8 @@ Globalping یک کلاینت HTTP واقعی روی کاوشگر اجرا می�
 
 با این حال نمی‌تواند کلاینت VLESS/VMess/Trojan/Shadowsocks/Hysteria2/TUIC را اجرا کند، پس هرگز اثبات نمی‌کند تونل کار می‌کند و IP خروجی تونل را نمی‌بیند. نتایج آن نیز تنها تشخیصی و هرگز منتشرشدنی نیستند. جزئیات: [docs/GLOBALPING.md](docs/GLOBALPING.md)
 
+ما همهٔ راه‌های سنجش از دید ایران — از جمله RIPE Atlas، پلتفرم‌های ابری ایرانی و شبکه‌های اندازه‌گیری داوطلبانه — را بررسی کردیم. گزارش کامل و مسیر صادقانه تا آزمون کامل تونل در [docs/IRAN_VANTAGE_POINTS.md](docs/IRAN_VANTAGE_POINTS.md) آمده است.
+
 ## سیاست کیفیت
 
 `DISCOVERED` → `PENDING_IRAN_TEST` → `TESTING` → `WORKING` / `DEGRADED` / `FAILED` / `EXPIRED` / `DUPLICATE`

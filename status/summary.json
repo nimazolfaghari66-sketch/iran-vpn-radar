@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-10T04:05:26Z",
+  "generated_at": "2026-11-10T05:11:05Z",
   "repository": "nimazolfaghari66-sketch/iran-vpn-radar",
   "protocols": [
     "vless",
@@ -11,35 +11,35 @@
     "socks",
     "http"
   ],
-  "sources_total": 41,
+  "sources_total": 246,
   "configs": {
-    "total": 18622,
+    "total": 30991,
     "working": 0,
     "degraded": 0,
     "pending_iran_test": 60,
     "by_protocol": {
       "http": {
-        "total": 215,
+        "total": 231,
         "publishable": 0
       },
       "vmess": {
-        "total": 4276,
+        "total": 6184,
         "publishable": 0
       },
       "trojan": {
-        "total": 2593,
+        "total": 5481,
         "publishable": 0
       },
       "vless": {
-        "total": 7870,
+        "total": 13510,
         "publishable": 0
       },
       "shadowsocks": {
-        "total": 3288,
+        "total": 5110,
         "publishable": 0
       },
       "hysteria2": {
-        "total": 373,
+        "total": 468,
         "publishable": 0
       },
       "socks": {
@@ -59,7 +59,59 @@
   },
   "last_publish_ok": null,
   "cycle": {
-    "configs_added": 18622,
+    "configs_added": 201,
     "configs_removed": 0
+  },
+  "checkhost": {
+    "available": true,
+    "configs_tested": 12,
+    "by_summary": {
+      "IRAN_TCP_REACHABLE": 6,
+      "IRAN_UNREACHABLE": 5,
+      "IRAN_DNS_OK": 1
+    },
+    "by_city": {
+      "Isfahan": {
+        "reachable": 6,
+        "unreachable": 6
+      },
+      "Qom": {
+        "reachable": 7,
+        "unreachable": 5
+      },
+      "Shiraz": {
+        "reachable": 5,
+        "unreachable": 7
+      },
+      "Tehran": {
+        "reachable": 5,
+        "unreachable": 7
+      }
+    },
+    "note": "Iranian Check-Host nodes measure reachability from Iran only. These results are diagnostic and never used to publish a configuration."
+  },
+  "globalping": {
+    "available": true,
+    "probes": 0,
+    "configs_tested": 13,
+    "tls_verified": 2,
+    "by_summary": {
+      "IRAN_TCP_REACHABLE": 4,
+      "IRAN_UNREACHABLE": 1,
+      "IRAN_DNS_OK": 4,
+      "IRAN_ICMP_REACHABLE": 2,
+      "IRAN_HTTP_REACHABLE": 2
+    },
+    "by_city": {
+      "Tehran": {
+        "reachable": 11,
+        "unreachable": 1
+      },
+      "Tabriz": {
+        "reachable": 9,
+        "unreachable": 0
+      }
+    },
+    "note": "Iranian Globalping probes observe DNS/TCP/TLS reachability from Iran. Diagnostic only; never used to publish a configuration."
   }
 }

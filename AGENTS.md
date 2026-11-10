@@ -38,6 +38,8 @@ PYTHONPATH=src python -m radar --root . validate       # validate subscriptions
 * `src/radar/globalping.py` — Iranian Globalping vantage-point diagnostics with
   real HTTP/TLS observations from Iranian ISP probes (see `docs/GLOBALPING.md`).
   Never publishable.
+* `docs/IRAN_VANTAGE_POINTS.md` — record of every Iranian vantage-point method
+  investigated and the honest remaining path to a full tunnel test.
 * `probe/probe_agent.py` — the Iran-based probe service (the only tunnel verifier).
 * `sources/seed_sources.json` — bootstrap list of public sources.
 * `subscriptions/` — generated output (published).

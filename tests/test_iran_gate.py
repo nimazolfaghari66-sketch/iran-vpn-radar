@@ -58,6 +58,18 @@ class TestIranGate(unittest.TestCase):
         ok, reason = validate_result({"success": True}, iran)
         self.assertFalse(ok)
 
+    def test_no_diagnostic_classification_is_publishable(self):
+        # Every remote vantage-point classification (Check-Host and Globalping)
+        # is reachability-only and must never appear in PUBLISHABLE_STATES.
+        for cls in cfg.CHECKHOST_CLASSIFICATIONS + cfg.GLOBALPING_CLASSIFICATIONS:
+            self.assertNotIn(cls, cfg.PUBLISHABLE_STATES, cls)
+
+    def test_only_full_tunnel_verified_is_the_iran_probe_signal(self):
+        # The Iran probe's verification label is deliberately absent from every
+        # remote diagnostic taxonomy, so no diagnostic can impersonate it.
+        self.assertNotIn(cfg.IRAN_FULL_TUNNEL_VERIFIED, cfg.CHECKHOST_CLASSIFICATIONS)
+        self.assertNotIn(cfg.IRAN_FULL_TUNNEL_VERIFIED, cfg.GLOBALPING_CLASSIFICATIONS)
+
     def test_local_iran_requires_explicit_flag(self):
         class S(FakeSettings):
             probe_mode = "local_iran"
