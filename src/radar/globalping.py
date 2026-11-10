@@ -144,7 +144,9 @@ class GlobalpingRecord:
 
 # ------------------------------------------------------------------ discovery
 def _probe_from_raw(raw: dict) -> Probe:
-    loc = raw.get("location") or {}
+    # Accept both the API shape (nested under "location") and our own cached
+    # flat shape (country/city/asn/network at the top level).
+    loc = raw.get("location") or raw
     return Probe(
         country=str(loc.get("country", "")),
         city=loc.get("city"),

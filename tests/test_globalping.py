@@ -36,6 +36,13 @@ class TestProbeParsing(unittest.TestCase):
         probes = [p for p in gp.parse_probes({"results": [{"location": {"country": "US"}}]}) if p.is_iran]
         self.assertEqual(probes, [])
 
+    def test_parse_flat_cached_shape(self):
+        # Our persisted registry stores flat probe dicts (no "location" wrapper).
+        cached = [{"country": "IR", "city": "Tehran", "asn": 202468, "network": "Arvan", "tags": []}]
+        probes = [p for p in gp.parse_probes(cached) if p.is_iran]
+        self.assertEqual(len(probes), 1)
+        self.assertEqual(probes[0].city, "Tehran")
+
 
 class TestTargetValidation(unittest.TestCase):
     def test_valid_targets(self):
