@@ -70,3 +70,5 @@ trojan://ffaac02033b3fd3458f2aec9386da59b@tyy129.magiclampcloud.com:59443?type=t
 trojan://dd135b010b5f8ec7ba4c4cc5a35f0efb@ja262.magiclampcloud.cn:59443?allowInsecure=1&sni=ja262.magiclampcloud.cn&type=tcp#CN
 trojan://2ddeb5f43bbb897b13db728b2dfbef92@ja304.magiclampcloud.cn:59443?type=tcp&sni=ja304.magiclampcloud.cn#CN
 trojan://3493ff930d879b214732f71d449538d6@ja304.magiclampcloud.cn:59443?allowInsecure=1&sni=ja304.magiclampcloud.cn&type=tcp#CN
+trojan://d7563108-615c-4338-a7bd-77f359869a4a@sclass-b1.catcat321.com:20028?allowInsecure=1&sni=hk.catxstar.com#%F0%9F%87%B9%F0%9F%87%B7TR_1%7C1005KB/s
+trojan://QzVKeGlc2qYRxyzWb3xZFjHbqY2JmOfZ@nava.zandix.ir:2087?allowInsecure=1&alpn=http/1.1&fp=chrome&host=astra.zandix.ir&path=/wss&security=tls&sni=astra.zandix.ir&type=ws#DE
