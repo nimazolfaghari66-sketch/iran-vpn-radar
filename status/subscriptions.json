@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-11T01:46:45Z",
+  "updated_at": "2026-11-11T08:52:51Z",
   "repository": "nimazolfaghari66-sketch/iran-vpn-radar",
   "branch": "main",
   "subscriptions": [
@@ -69,21 +69,21 @@
     {
       "name": "candidates/all",
       "protocol": "all",
-      "count": 304,
+      "count": 323,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/all",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/all.b64"
     },
     {
       "name": "candidates/vless",
       "protocol": "vless",
-      "count": 142,
+      "count": 146,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/vless",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/vless.b64"
     },
     {
       "name": "candidates/vmess",
       "protocol": "vmess",
-      "count": 11,
+      "count": 12,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/vmess",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/vmess.b64"
     },
@@ -97,7 +97,7 @@
     {
       "name": "candidates/shadowsocks",
       "protocol": "shadowsocks",
-      "count": 57,
+      "count": 69,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/shadowsocks",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/shadowsocks.b64"
     },
@@ -118,35 +118,35 @@
     {
       "name": "candidates/socks",
       "protocol": "socks",
-      "count": 9,
+      "count": 10,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/socks",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/socks.b64"
     },
     {
       "name": "candidates/http",
       "protocol": "http",
-      "count": 4,
+      "count": 5,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/http",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/http.b64"
     },
     {
       "name": "iran-priority/all",
       "protocol": "all",
-      "count": 214,
+      "count": 229,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/all",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/all.b64"
     },
     {
       "name": "iran-priority/vless",
       "protocol": "vless",
-      "count": 99,
+      "count": 101,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vless",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vless.b64"
     },
     {
       "name": "iran-priority/vmess",
       "protocol": "vmess",
-      "count": 9,
+      "count": 11,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vmess",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vmess.b64"
     },
@@ -160,7 +160,7 @@
     {
       "name": "iran-priority/shadowsocks",
       "protocol": "shadowsocks",
-      "count": 27,
+      "count": 38,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/shadowsocks",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/shadowsocks.b64"
     },
