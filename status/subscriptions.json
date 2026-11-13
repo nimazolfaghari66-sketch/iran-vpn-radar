@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-13T11:54:51Z",
+  "updated_at": "2026-11-13T19:09:00Z",
   "repository": "nimazolfaghari66-sketch/iran-vpn-radar",
   "branch": "main",
   "subscriptions": [
@@ -69,35 +69,35 @@
     {
       "name": "candidates/all",
       "protocol": "all",
-      "count": 619,
+      "count": 668,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/all",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/all.b64"
     },
     {
       "name": "candidates/vless",
       "protocol": "vless",
-      "count": 245,
+      "count": 256,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/vless",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/vless.b64"
     },
     {
       "name": "candidates/vmess",
       "protocol": "vmess",
-      "count": 31,
+      "count": 36,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/vmess",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/vmess.b64"
     },
     {
       "name": "candidates/trojan",
       "protocol": "trojan",
-      "count": 102,
+      "count": 113,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/trojan",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/trojan.b64"
     },
     {
       "name": "candidates/shadowsocks",
       "protocol": "shadowsocks",
-      "count": 214,
+      "count": 236,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/shadowsocks",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/candidates/shadowsocks.b64"
     },
@@ -132,35 +132,35 @@
     {
       "name": "iran-priority/all",
       "protocol": "all",
-      "count": 410,
+      "count": 445,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/all",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/all.b64"
     },
     {
       "name": "iran-priority/vless",
       "protocol": "vless",
-      "count": 153,
+      "count": 170,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vless",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vless.b64"
     },
     {
       "name": "iran-priority/vmess",
       "protocol": "vmess",
-      "count": 22,
+      "count": 28,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vmess",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/vmess.b64"
     },
     {
       "name": "iran-priority/trojan",
       "protocol": "trojan",
-      "count": 92,
+      "count": 94,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/trojan",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/trojan.b64"
     },
     {
       "name": "iran-priority/shadowsocks",
       "protocol": "shadowsocks",
-      "count": 134,
+      "count": 142,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/shadowsocks",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/shadowsocks.b64"
     },
@@ -181,14 +181,14 @@
     {
       "name": "iran-priority/socks",
       "protocol": "socks",
-      "count": 6,
+      "count": 7,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/socks",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/socks.b64"
     },
     {
       "name": "iran-priority/http",
       "protocol": "http",
-      "count": 3,
+      "count": 4,
       "url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/http",
       "base64_url": "https://raw.githubusercontent.com/nimazolfaghari66-sketch/iran-vpn-radar/main/subscriptions/iran-priority/http.b64"
     }

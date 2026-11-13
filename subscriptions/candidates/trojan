@@ -49,6 +49,7 @@ trojan://8ea984e1be9ce8206722eb08924039a2@ja304.magiclampcloud.cn:59443?allowIns
 trojan://53b0c468a3ef95de5ec22f517072bdcd@ja304.magiclampcloud.cn:59443?sni=ja304.magiclampcloud.cn&type=tcp#CN
 trojan://1c8c770339adb746416981873a96c423@ja304.magiclampcloud.cn:59443?allowInsecure=1&type=tcp#CN
 trojan://d9c8aa383174c25132e0df201ffab4e3@tyy129.magiclampcloud.com:59443?allowInsecure=0&type=tcp&sni=tyy129.magiclampcloud.com#CN
+trojan://7e70223b-f331-41d5-9313-02b8d2df2885@d3.catcat321.com:20077?type=raw&security=tls&sni=hk.catxstar.com&alpn=http/1.1&fp=chrome&headertype=none#v2go%20%7C%20%F0%9F%87%AD%F0%9F%87%B0%20HK%20%7C%20TROJAN%20%7C%20310
 trojan://d9064589-74af-432a-9390-5d8a9da281bf@157.254.38.210:20123?sni=hk.catxstar.com&allowInsecure=0#US
 trojan://d9064589-74af-432a-9390-5d8a9da281bf@sclass-00.catcat321.com:20123?security=tls&sni=hk.catxstar.com#%F0%9F%87%AD%F0%9F%87%B0HK-16.162.92.136-0498
 trojan://d7563108-615c-4338-a7bd-77f359869a4a@sclass-01.catcat321.com:20103?sni=hk.catxstar.com&type=tcp#US
@@ -69,6 +70,7 @@ trojan://QzVKeGlc2qYRxyzWb3xZFjHbqY2JmOfZ@nava.zandix.ir:2087?allowInsecure=1&al
 trojan://5t6i121em5lkmsmk@us007.zestapp778.com:42314?allowInsecure=1&type=tcp#US
 trojan://d9064589-74af-432a-9390-5d8a9da281bf@157.254.38.210:20086?security=tls&insecure=0&headerType=none&fp=chrome&type=tcp&allowInsecure=0&sni=hk.catxstar.com#US
 trojan://d9064589-74af-432a-9390-5d8a9da281bf@sclass-c2.catcat321.com:20051?allowInsecure=1&sni=hk.catxstar.com#US
+trojan://d7563108-615c-4338-a7bd-77f359869a4a@157.254.38.210:20028?sni=hk.catxstar.com&allowInsecure=1#v2go%20%7C%20%F0%9F%87%B9%F0%9F%87%B7%20TR%20%7C%20TROJAN%20%7C%20593
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@15.235.184.127:443?allowInsecure=0&sni=exploredigitaljobplatformandfindonlinework.com#%F0%9F%87%B8%F0%9F%87%AC%5Bwww.v2nodes.com%5D%20trojan-SG-
 trojan://d7563108-615c-4338-a7bd-77f359869a4a@sclass-b1.catcat321.com:20051?sni=hk.catxstar.com&allowInsecure=1&type=tcp#US
 trojan://5t6i121em5lkmsmk@us007.zestapp778.com:42314?sni=us007.zestapp778.com&type=tcp#US
@@ -93,10 +95,19 @@ trojan://ffaac02033b3fd3458f2aec9386da59b@tyy129.magiclampcloud.com:59443?type=t
 trojan://dd135b010b5f8ec7ba4c4cc5a35f0efb@ja262.magiclampcloud.cn:59443?allowInsecure=1&sni=ja262.magiclampcloud.cn&type=tcp#CN
 trojan://2ddeb5f43bbb897b13db728b2dfbef92@ja304.magiclampcloud.cn:59443?type=tcp&sni=ja304.magiclampcloud.cn#CN
 trojan://3493ff930d879b214732f71d449538d6@ja304.magiclampcloud.cn:59443?allowInsecure=1&sni=ja304.magiclampcloud.cn&type=tcp#CN
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@167.88.61.198:443?sni=cdn.browseseniorrolesandenhanceyourcareertoday.com&type=tcp#US
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@167.88.61.20:443?security=tls&insecure=0&headerType=none&type=tcp&allowInsecure=0&sni=api.browseseniorrolesandenhanceyourcareertoday.com#@v2ray313
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@167.88.61.193:443?security=tls&insecure=0&host=/?TELEGRAM---MARAMBASHI---MARAMBASHI---MARAMBASHI---MARAMBASHI&headerType=none&type=tcp&allowInsecure=0&sni=browseseniorrolesandenhanceyourcareertoday.com#Tel@MARAMBASHI
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@167.88.61.85:443?sni=resources.browseseniorrolesandenhanceyourcareertoday.com&type=tcp#US
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@167.88.61.52:443?security=tls&sni=courses.browseseniorrolesandenhanceyourcareertoday.com#%F0%9F%87%BA%F0%9F%87%B8US-167.88.61.52-0131
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@167.88.61.175:443?security=tls&sni=blog.browseseniorrolesandenhanceyourcareertoday.com#%F0%9F%87%BA%F0%9F%87%B8US-167.88.61.175-0132
 trojan://5t6i121em5lkmsmk@149.104.87.125:15083?sni=mx001.zestapp778.com#MX 🇲🇽 | @Raydikalx | 285F2D
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@169.197.140.218:443?security=tls&sni=learn.discoverfreshgraduatejobsstartyourprofessionaljourney.com#%F0%9F%87%BA%F0%9F%87%B8US-169.197.140.218-0081
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@169.197.140.169:443?allowInsecure=1&type=tcp#US
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@169.197.140.169:443?sni=api.discoverfreshgraduatejobsstartyourprofessionaljourney.com&type=tcp#US
 trojan://d7563108-615c-4338-a7bd-77f359869a4a@157.254.38.210:20027?sni=hk.catxstar.com#US 🇺🇸 | @Raydikalx | F97203
-trojan://7e70223b-f331-41d5-9313-02b8d2df2885@d3.catcat321.com:20077?type=raw&security=tls&sni=hk.catxstar.com&alpn=http/1.1&fp=chrome&headertype=none#v2go%20%7C%20%F0%9F%87%AD%F0%9F%87%B0%20HK%20%7C%20TROJAN%20%7C%20310
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@169.197.140.208:443?security=tls&sni=blog.discoverfreshgraduatejobsstartyourprofessionaljourney.com#🇺🇸US-🚀@VPNine1
 trojan://7e70223b-f331-41d5-9313-02b8d2df2885@d3.catcat321.com:20077?sni=hk.catxstar.com#HK 🇭🇰 | @Raydikalx | 9EA2CB
 trojan://d9064589-74af-432a-9390-5d8a9da281bf@sclass-00.catcat321.com:20103?sni=hk.catxstar.com#HK 🇭🇰 | @Raydikalx | 427561
 trojan://d7563108-615c-4338-a7bd-77f359869a4a@sclass-00.catcat321.com:20103?sni=hk.catxstar.com#HK 🇭🇰 | @Raydikalx | 83CC15
-trojan://d7563108-615c-4338-a7bd-77f359869a4a@157.254.38.210:20028?sni=hk.catxstar.com&allowInsecure=1#v2go%20%7C%20%F0%9F%87%B9%F0%9F%87%B7%20TR%20%7C%20TROJAN%20%7C%20593
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@170.101.101.131:443?security=tls&headerType=none&fp=chrome&type=tcp&allowInsecure=0&sni=blog.explorecreativejobsandenhanceyourcareerportfolio.com#@V2rayNGVPN
