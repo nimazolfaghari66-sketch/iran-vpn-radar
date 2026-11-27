@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-26T22:54:04Z",
+  "generated_at": "2026-11-27T06:09:41Z",
   "repository": "nimazolfaghari66-sketch/iran-vpn-radar",
   "protocols": [
     "vless",
@@ -13,37 +13,37 @@
   ],
   "sources_total": 821,
   "configs": {
-    "total": 65577,
+    "total": 66665,
     "working": 0,
     "degraded": 0,
     "pending_iran_test": 60,
     "by_protocol": {
       "http": {
-        "total": 799,
+        "total": 805,
         "publishable": 0
       },
       "vmess": {
-        "total": 7602,
+        "total": 7629,
         "publishable": 0
       },
       "trojan": {
-        "total": 6620,
+        "total": 6648,
         "publishable": 0
       },
       "vless": {
-        "total": 40377,
+        "total": 41133,
         "publishable": 0
       },
       "shadowsocks": {
-        "total": 9109,
+        "total": 9345,
         "publishable": 0
       },
       "hysteria2": {
-        "total": 1007,
+        "total": 1040,
         "publishable": 0
       },
       "socks": {
-        "total": 55,
+        "total": 57,
         "publishable": 0
       },
       "tuic": {
@@ -54,39 +54,39 @@
   },
   "candidates": {
     "available": true,
-    "total": 2549,
-    "iran_reachable": 2013,
+    "total": 2712,
+    "iran_reachable": 2053,
     "by_protocol": {
       "http": 21,
-      "shadowsocks": 1083,
-      "vless": 825,
-      "trojan": 259,
-      "vmess": 312,
+      "shadowsocks": 1166,
+      "vless": 895,
+      "trojan": 263,
+      "vmess": 315,
       "socks": 22,
-      "hysteria2": 27
+      "hysteria2": 30
     },
-    "priority": 1400,
+    "priority": 1428,
     "priority_by_protocol": {
       "shadowsocks": 497,
-      "vless": 486,
+      "vless": 514,
       "trojan": 186,
       "vmess": 216,
       "socks": 7,
       "http": 8
     },
     "evidence": {
-      "GLOBAL_TUNNEL_TESTED": 1149,
+      "GLOBAL_TUNNEL_TESTED": 1284,
       "IRAN_NETWORK_REACHABLE": 5,
-      "IRAN_PRIORITY_CANDIDATE": 1400,
+      "IRAN_PRIORITY_CANDIDATE": 1428,
       "IRAN_FULL_TUNNEL_VERIFIED": 0
     },
     "target_per_protocol": 100,
     "healthy_by_protocol": {
-      "vless": 825,
-      "vmess": 312,
-      "trojan": 259,
-      "shadowsocks": 1083,
-      "hysteria2": 27,
+      "vless": 895,
+      "vmess": 315,
+      "trojan": 263,
+      "shadowsocks": 1166,
+      "hysteria2": 30,
       "tuic": 0,
       "socks": 22,
       "http": 21
@@ -94,22 +94,22 @@
     "dashboard": [
       {
         "protocol": "vless",
-        "discovered": 40377,
-        "tested": 22757,
-        "successful": 825,
-        "healthy": 825,
+        "discovered": 41133,
+        "tested": 23267,
+        "successful": 895,
+        "healthy": 895,
         "target": 100,
         "shortage": 0,
-        "iran_priority": 486,
+        "iran_priority": 514,
         "subscription": "subscriptions/candidates/vless",
         "iran_priority_subscription": "subscriptions/iran-priority/vless"
       },
       {
         "protocol": "vmess",
-        "discovered": 7602,
-        "tested": 7601,
-        "successful": 312,
-        "healthy": 312,
+        "discovered": 7629,
+        "tested": 7628,
+        "successful": 315,
+        "healthy": 315,
         "target": 100,
         "shortage": 0,
         "iran_priority": 216,
@@ -118,10 +118,10 @@
       },
       {
         "protocol": "trojan",
-        "discovered": 6620,
-        "tested": 6610,
-        "successful": 259,
-        "healthy": 259,
+        "discovered": 6648,
+        "tested": 6638,
+        "successful": 263,
+        "healthy": 263,
         "target": 100,
         "shortage": 0,
         "iran_priority": 186,
@@ -130,10 +130,10 @@
       },
       {
         "protocol": "shadowsocks",
-        "discovered": 9109,
-        "tested": 8480,
-        "successful": 1083,
-        "healthy": 1083,
+        "discovered": 9345,
+        "tested": 8674,
+        "successful": 1166,
+        "healthy": 1166,
         "target": 100,
         "shortage": 0,
         "iran_priority": 497,
@@ -142,12 +142,12 @@
       },
       {
         "protocol": "hysteria2",
-        "discovered": 1007,
-        "tested": 1004,
-        "successful": 27,
-        "healthy": 27,
+        "discovered": 1040,
+        "tested": 1037,
+        "successful": 30,
+        "healthy": 30,
         "target": 100,
-        "shortage": 73,
+        "shortage": 70,
         "iran_priority": 0,
         "subscription": "subscriptions/candidates/hysteria2",
         "iran_priority_subscription": "subscriptions/iran-priority/hysteria2"
@@ -166,8 +166,8 @@
       },
       {
         "protocol": "socks",
-        "discovered": 55,
-        "tested": 55,
+        "discovered": 57,
+        "tested": 57,
         "successful": 22,
         "healthy": 22,
         "target": 100,
@@ -178,8 +178,8 @@
       },
       {
         "protocol": "http",
-        "discovered": 799,
-        "tested": 685,
+        "discovered": 805,
+        "tested": 691,
         "successful": 21,
         "healthy": 21,
         "target": 100,
@@ -190,41 +190,41 @@
       }
     ],
     "healthy": {
-      "vless": 825,
-      "vmess": 312,
-      "trojan": 259,
-      "shadowsocks": 1083,
-      "hysteria2": 27,
+      "vless": 895,
+      "vmess": 315,
+      "trojan": 263,
+      "shadowsocks": 1166,
+      "hysteria2": 30,
       "tuic": 0,
       "socks": 22,
       "http": 21
     },
     "discovered_by_protocol": {
-      "vless": 40377,
-      "vmess": 7602,
-      "trojan": 6620,
-      "shadowsocks": 9109,
-      "hysteria2": 1007,
+      "vless": 41133,
+      "vmess": 7629,
+      "trojan": 6648,
+      "shadowsocks": 9345,
+      "hysteria2": 1040,
       "tuic": 8,
-      "socks": 55,
-      "http": 799
+      "socks": 57,
+      "http": 805
     },
     "tested_by_protocol": {
-      "vless": 22757,
-      "vmess": 7601,
-      "trojan": 6610,
-      "shadowsocks": 8480,
-      "hysteria2": 1004,
+      "vless": 23267,
+      "vmess": 7628,
+      "trojan": 6638,
+      "shadowsocks": 8674,
+      "hysteria2": 1037,
       "tuic": 8,
-      "socks": 55,
-      "http": 685
+      "socks": 57,
+      "http": 691
     },
     "successful_by_protocol": {
-      "vless": 825,
-      "vmess": 312,
-      "trojan": 259,
-      "shadowsocks": 1083,
-      "hysteria2": 27,
+      "vless": 895,
+      "vmess": 315,
+      "trojan": 263,
+      "shadowsocks": 1166,
+      "hysteria2": 30,
       "tuic": 0,
       "socks": 22,
       "http": 21
@@ -234,13 +234,13 @@
       "vmess": 0,
       "trojan": 0,
       "shadowsocks": 0,
-      "hysteria2": 73,
+      "hysteria2": 70,
       "tuic": 100,
       "socks": 78,
       "http": 79
     },
     "priority_by_protocol_map": {
-      "vless": 486,
+      "vless": 514,
       "vmess": 216,
       "trojan": 186,
       "shadowsocks": 497,
@@ -264,53 +264,53 @@
   },
   "last_publish_ok": true,
   "cycle": {
-    "configs_added": 331,
+    "configs_added": 1088,
     "configs_removed": 0
   },
   "checkhost": {
     "available": true,
     "configs_tested": 12,
     "by_summary": {
-      "IRAN_TCP_REACHABLE": 6,
-      "IRAN_UNREACHABLE": 5,
-      "IRAN_DNS_OK": 1
+      "IRAN_TCP_REACHABLE": 4,
+      "IRAN_UNREACHABLE": 6,
+      "IRAN_DNS_OK": 2
     },
     "by_city": {
       "Isfahan": {
-        "reachable": 5,
-        "unreachable": 7
+        "reachable": 4,
+        "unreachable": 4
       },
       "Qom": {
-        "reachable": 7,
-        "unreachable": 5
+        "reachable": 6,
+        "unreachable": 2
       },
       "Shiraz": {
-        "reachable": 5,
-        "unreachable": 7
+        "reachable": 4,
+        "unreachable": 4
       },
       "Tehran": {
-        "reachable": 5,
-        "unreachable": 7
+        "reachable": 4,
+        "unreachable": 4
       }
     },
     "note": "Iranian Check-Host nodes measure reachability from Iran only. These results are diagnostic and never used to publish a configuration."
   },
   "globalping": {
     "available": true,
-    "probes": 11,
-    "configs_tested": 2222,
-    "tls_verified": 546,
+    "probes": 12,
+    "configs_tested": 2262,
+    "tls_verified": 565,
     "by_summary": {
-      "IRAN_HTTP_REACHABLE": 468,
+      "IRAN_HTTP_REACHABLE": 486,
       "IRAN_UNREACHABLE": 172,
-      "IRAN_DNS_OK": 625,
+      "IRAN_DNS_OK": 637,
       "IRAN_ICMP_REACHABLE": 20,
-      "IRAN_TCP_REACHABLE": 850,
-      "IRAN_TLS_OK": 87
+      "IRAN_TCP_REACHABLE": 859,
+      "IRAN_TLS_OK": 88
     },
     "by_city": {
       "Tehran": {
-        "reachable": 2044,
+        "reachable": 2084,
         "unreachable": 105
       },
       "Tabriz": {
